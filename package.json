@@ -2,6 +2,8 @@
   "name": "link-shortener",
   "version": "1.0.0",
   "main": "./dist/app.js",
+  "type": "module",
+  "module": "esnext",
   "scripts": {
     "start": "node .",
     "dev": "tsc-watch --noClear --onSuccess 'node .'",
