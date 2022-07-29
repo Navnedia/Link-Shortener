@@ -1,4 +1,3 @@
-import os from 'os';
 import express from 'express';
 import dotenv from 'dotenv';
 dotenv.config(); // Load environment variables.
@@ -10,4 +9,4 @@ app.use(express.json()); // Parse body as JSON.
 
 app.listen(PORT, () => {
     console.log(`Link Shortener App Listening on Port: ${PORT}`);
-})
+});
