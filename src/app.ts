@@ -1,4 +1,5 @@
 import express from 'express';
+import {errorHandler} from './middleware/error-handler.js';
 import connectDB from './db.js';
 import dotenv from 'dotenv';
 dotenv.config(); // Load environment variables.
@@ -13,3 +14,5 @@ app.use(express.json()); // Parse body as JSON.
 app.listen(PORT, () => {
     console.log(`Link Shortener App Listening on Port: ${PORT}`);
 });
+
+app.use(errorHandler); // Initialize error handler middleware.
