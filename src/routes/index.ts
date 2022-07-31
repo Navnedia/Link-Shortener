@@ -1,0 +1,1 @@
+export {default as redirects} from './redirects.js';

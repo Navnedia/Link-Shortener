@@ -1,8 +1,10 @@
 import express from 'express';
 import dotenv from 'dotenv';
-import connectDB from './db.js';
-import AppError from './utils/appError.js';
+
+import {redirects} from './routes/index.js';
 import {errorHandler} from './middleware/error-handler.js';
+import AppError from './utils/appError.js';
+import connectDB from './db.js';
 
 dotenv.config(); // Load environment variables.
 connectDB(); // Initalize connection to database.
@@ -15,6 +17,9 @@ app.use(express.json()); // Parse body as JSON.
 app.listen(PORT, () => {
     console.log(`Link Shortener App Listening on Port: ${PORT}`);
 });
+
+// Direct endpoints:
+app.use('', redirects); // Initialize redirect endpoints.
 
 // Show error for undefined endpoints:
 app.use('*', (req, res) => {
