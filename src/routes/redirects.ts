@@ -15,7 +15,7 @@ router.get('/:shortID', async (req, res) => {
     if (!shortLink || !shortLink.destination) {
         // In the future this might be a error page instead!
         return res.status(404).send(new AppError(404, 'Not Found', undefined, 
-        'Bad link or invalid url. Please ensure the casing is correct.'));
+            'Bad link or invalid url. Please ensure the casing is correct.'));
     }
 
     // Update click counter:
