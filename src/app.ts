@@ -1,7 +1,7 @@
 import express from 'express';
 import dotenv from 'dotenv';
 
-import {redirects} from './routes/index.js';
+import {api, redirects} from './routes/index.js';
 import {errorHandler} from './middleware/error-handler.js';
 import AppError from './utils/appError.js';
 import connectDB from './db.js';
@@ -19,6 +19,7 @@ app.listen(PORT, () => {
 });
 
 // Direct endpoints:
+app.use('/api', api); // Initialize endpoints under API.
 app.use('', redirects); // Initialize redirect endpoints.
 
 // Show error for undefined endpoints:
