@@ -84,27 +84,50 @@ export async function createLink(req: express.Request, res: express.Response) {
         return res.status(200).send(linkResponses);
     } catch (error) {
         // console.log(error);
-        res.status(500).send(new AppError(500, 'Something went wrong :('));
+        return res.status(500).send(new AppError(500, 'Something went wrong :('));
     }
 }
 
 /**
- * Returns a shortlink with the requested shortID
+ * Returns a shortlink with the specified shortID
  * @route (GET) api/shortlinks/{shortID}
  */
  export async function getOneShortLink(req: express.Request, res: express.Response) {
     try { 
-        const link = await ShortLink.findByShortID(req.params.shortID); // Get shortlink object for ID
+        const link = await ShortLink.findByShortID(req.params.shortID); // Get shortlink object for shortID.
 
+        // If the shortlink doesn't exist, we return an error:
         if (!link) {
             return res.status(404).send(new AppError(404, 'Not Found', undefined,
                 'No shortink was found with the requested shortID'));
         }
 
-        return res.status(200).send(link.getAPIResponse());
+        return res.status(200).send(link.getAPIResponse()); // Return formated shortlink object.
     } catch (error) {
         // console.log(error);
-        res.status(500).send(new AppError(500, 'Something went wrong :('));
+        return res.status(500).send(new AppError(500, 'Something went wrong :('));
+    }
+}
+
+/**
+ * Removes a shortlink with the specified shortID
+ * @route (DELETE) api/shortlinks/{shortID}
+ */
+ export async function removeShortLink(req: express.Request, res: express.Response) {
+    try { 
+        // Get shortlink object for shortID AND DELETE IT:
+        const link = await ShortLink.findOneAndDelete({shortID: req.params.shortID});
+
+        // If the shortlink doesn't exist, we return a 404 error because nothing was found or deleted:
+        if (!link) {
+            return res.status(404).send(new AppError(404, 'Not Found', undefined,
+                'No shortink was found with the requested shortID'));
+        }
+
+        return res.status(204).send(); // Successfully deleted (No Content).
+    } catch (error) {
+        // console.log(error);
+        return res.status(500).send(new AppError(500, 'Something went wrong :('));
     }
 }
 

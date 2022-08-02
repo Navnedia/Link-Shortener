@@ -1,5 +1,5 @@
 import express from 'express';
-import {createLink, getAllShortLinks, getOneShortLink} from '../../controllers/shortlink-controller.js';
+import {createLink, getAllShortLinks, getOneShortLink, removeShortLink} from '../../controllers/shortlink-controller.js';
 
 const router = express.Router();
 
@@ -11,7 +11,7 @@ router.post('/bulk');
 
 router.route('/:shortID')
       .get(getOneShortLink)
-      .delete()
+      .delete(removeShortLink)
       .patch();
 
 router.get('/:shortID/qrcode');
