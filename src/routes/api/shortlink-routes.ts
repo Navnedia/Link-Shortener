@@ -1,5 +1,5 @@
-import express from "express";
-import {createLink, getAllShortLinks, getOneShortLink} from "../../controllers/shortlink-controller.js";
+import express from 'express';
+import {createLink, getAllShortLinks, getOneShortLink} from '../../controllers/shortlink-controller.js';
 
 const router = express.Router();
 

@@ -1,4 +1,4 @@
-import ValidationError from "./validationError.js";
+import ValidationError from './validationError.js';
 
 export default class AppError extends Error {
 
@@ -40,10 +40,10 @@ export default class AppError extends Error {
 
 // try {
 //     let errors: ValidationError[] = [];
-//     errors.push(new ValidationError("Invalid", "shortID already exists", "shortID"));
-//     errors.push(new ValidationError("Missing", "destination cannot be blank", "destination"));
+//     errors.push(new ValidationError('Invalid', 'shortID already exists', 'shortID'));
+//     errors.push(new ValidationError('Missing', 'destination cannot be blank', 'destination'));
 
-//     throw new AppError(400, "Validation Failed", errors, "Invalid or missing properties");
+//     throw new AppError(400, 'Validation Failed', errors, 'Invalid or missing properties');
 // } catch (error) {
-//     console.log(JSON.stringify(error, null, "\t"));
+//     console.log(JSON.stringify(error, null, '\t'));
 // }

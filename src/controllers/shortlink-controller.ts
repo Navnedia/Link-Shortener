@@ -26,10 +26,12 @@ export async function createLink(req: express.Request, res: express.Response) {
         if (typeof destination !== 'string') {
             // Throw error if not a string:
             res.status(400);
-            throw new AppError(400, "Validation Failed", [
-                    new ValidationError("Invalid", "destination", 
-                        "Destination must be a string")
-                ], "Invalid or missing properties");
+            throw new AppError(400, 'Validation Failed', [
+
+                    new ValidationError('Invalid', 'destination', 
+                        'Destination must be a string')
+                        
+                ], 'Invalid or missing properties');
         }
         // If the destination url doesn't include a protocol, then add the http:// protocol by default:
         //! Temperary solution.
@@ -40,10 +42,10 @@ export async function createLink(req: express.Request, res: express.Response) {
         if (!validURL(destination)) {
             // Throw error if invalid:
             res.status(400);
-            throw new AppError(400, "Validation Failed", [
-                    new ValidationError("Invalid", "destination", 
-                        "Destination must be a valid URL")
-                ], "Invalid or missing properties");
+            throw new AppError(400, 'Validation Failed', [
+                    new ValidationError('Invalid', 'destination', 
+                        'Destination must be a valid URL')
+                ], 'Invalid or missing properties');
         }
 
 
