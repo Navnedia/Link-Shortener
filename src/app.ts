@@ -25,7 +25,7 @@ app.use('', redirects); // Initialize redirect endpoints.
 // Show error for undefined endpoints:
 app.use('*', (req, res) => {
     return res.status(404).send(new AppError(404, 'Not Found', undefined, 
-        `The endpoint ${req.baseUrl + req.path} could not be found`));
+        `The endpoint (${req.method}) ${req.baseUrl + req.path} could not be found`));
 });
 
 app.use(errorHandler); // Initialize error handler middleware.
