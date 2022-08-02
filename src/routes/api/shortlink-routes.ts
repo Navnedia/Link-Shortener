@@ -1,5 +1,5 @@
 import express from "express";
-import {createLink, getAllShortLinks} from "../../controllers/shortlink-controller.js";
+import {createLink, getAllShortLinks, getOneShortLink} from "../../controllers/shortlink-controller.js";
 
 const router = express.Router();
 
@@ -10,7 +10,7 @@ router.route('/')
 router.post('/bulk');
 
 router.route('/:shortID')
-      .get()
+      .get(getOneShortLink)
       .delete()
       .patch();
 

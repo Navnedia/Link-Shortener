@@ -1,10 +1,10 @@
 import express from 'express';
 import {nanoid} from 'nanoid';
-import {validURL, stringNotEmpty} from '../utils/validators.js';
-import {ShortLink} from '../models/ShortLink.js';
+
 import AppError from '../utils/appError.js';
 import ValidationError from '../utils/validationError.js';
-import { link } from 'fs';
+import {validURL, stringNotEmpty} from '../utils/validators.js';
+import {ShortLink} from '../models/ShortLink.js';
 
 /**
  * Create new shortlinks
@@ -80,6 +80,26 @@ export async function createLink(req: express.Request, res: express.Response) {
         links.forEach(link => linkResponses.push(link.getAPIResponse()));
 
         return res.status(200).send(linkResponses);
+    } catch (error) {
+        // console.log(error);
+        res.status(500).send(new AppError(500, 'Something went wrong :('));
+    }
+}
+
+/**
+ * Returns a shortlink with the requested shortID
+ * @route (GET) api/shortlinks/{shortID}
+ */
+ export async function getOneShortLink(req: express.Request, res: express.Response) {
+    try { 
+        const link = await ShortLink.findByShortID(req.params.shortID); // Get shortlink object for ID
+
+        if (!link) {
+            return res.status(404).send(new AppError(404, 'Not Found', undefined,
+                'No shortink was found with the requested shortID'));
+        }
+
+        return res.status(200).send(link.getAPIResponse());
     } catch (error) {
         // console.log(error);
         res.status(500).send(new AppError(500, 'Something went wrong :('));
