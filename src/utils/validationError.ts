@@ -11,7 +11,7 @@ export default class ValidationError extends Error {
      */
     public field: string;
 
-    constructor(code: string, message: string, field: string) {
+    constructor(code: string, field: string, message: string) {
         // Contains a quick message detailing what is wrong with this input field.
         // Useful for displaying errors on front end.
         super(message); 
