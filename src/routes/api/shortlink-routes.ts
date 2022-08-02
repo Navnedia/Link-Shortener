@@ -1,11 +1,11 @@
 import express from "express";
-import {createLink} from "../../controllers/shortlink-controller.js";
+import {createLink, getAllShortLinks} from "../../controllers/shortlink-controller.js";
 
 const router = express.Router();
 
 router.route('/')
       .post(createLink)
-      .get();
+      .get(getAllShortLinks);
 
 router.post('/bulk');
 

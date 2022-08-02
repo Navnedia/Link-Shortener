@@ -4,6 +4,7 @@ import {validURL, stringNotEmpty} from '../utils/validators.js';
 import {ShortLink} from '../models/ShortLink.js';
 import AppError from '../utils/appError.js';
 import ValidationError from '../utils/validationError.js';
+import { link } from 'fs';
 
 /**
  * Create new shortlinks
@@ -66,9 +67,28 @@ export async function createLink(req: express.Request, res: express.Response) {
     }
 }
 
+/**
+ * Returns an array of all shortlinks for the authenticated user
+ * @route (GET) api/shortlinks
+ */
+ export async function getAllShortLinks(req: express.Request, res: express.Response) {
+    try {
+        const links = await ShortLink.find(); // Get all shortlink objects.
+        const linkResponses: object[] = []; // Array to hold the formated responses.
+
+        // Format each object into a clean API response with only the nessasary details:
+        links.forEach(link => linkResponses.push(link.getAPIResponse()));
+
+        return res.status(200).send(linkResponses);
+    } catch (error) {
+        // console.log(error);
+        res.status(500).send(new AppError(500, 'Something went wrong :('));
+    }
+}
+
 // /**
 //  * @route () api/shortlinks
 //  */
-//  export async function name(req: Express.Request, res: Express.Response) {
+//  export async function name(req: express.Request, res: Express.eesponse) {
     
 // }
