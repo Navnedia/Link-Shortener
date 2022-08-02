@@ -115,16 +115,16 @@ export async function createLink(req: express.Request, res: express.Response) {
  */
  export async function removeShortLink(req: express.Request, res: express.Response) {
     try { 
-        // Get shortlink object for shortID AND DELETE IT:
-        const link = await ShortLink.findOneAndDelete({shortID: req.params.shortID});
-
-        // If the shortlink doesn't exist, we return a 404 error because nothing was found or deleted:
-        if (!link) {
-            return res.status(404).send(new AppError(404, 'Not Found', undefined,
-                'No shortink was found with the requested shortID'));
-        }
-
-        return res.status(204).send(); // Successfully deleted (No Content).
+        // Find shortlink object & DELETE it if it exists:
+        ShortLink.findOneAndDelete({shortID: req.params.shortID}, (err, link) => {
+            // If the shortlink doesn't exist, we return a 404 error because nothing was found or deleted:
+            if (!link) {
+                return res.status(404).send(new AppError(404, 'Not Found', undefined,
+                    'No shortink was found with the requested shortID'));
+            }
+    
+            return res.status(204).send(); // Successfully deleted (No Content).
+        });
     } catch (error) {
         // console.log(error);
         return res.status(500).send(new AppError(500, 'Something went wrong :('));
