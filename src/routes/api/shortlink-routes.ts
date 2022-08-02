@@ -16,7 +16,8 @@ router.route('/:shortID')
 
 router.get('/:shortID/qrcode');
 
-// router.post('/');
+
+// router.post('/', createLink);
 // router.get('/');
 // router.post('/bulk');
 // router.get('/:shortID');
