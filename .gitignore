@@ -117,3 +117,6 @@ dist
 
 # Built Visual Studio Code Extensions
 *.vsix
+
+# Ignore License
+LICENSE.txt
