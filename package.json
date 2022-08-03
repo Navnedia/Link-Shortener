@@ -14,7 +14,7 @@
     "url": "git+https://github.com/Navnedia/Link-Shortener.git"
   },
   "author": "Aiden V",
-  "license": "ISC",
+  "license": "AGPL",
   "bugs": {
     "url": "https://github.com/Navnedia/Link-Shortener/issues"
   },
