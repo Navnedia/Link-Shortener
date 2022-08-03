@@ -14,6 +14,20 @@ export function validURL(data): boolean {
 }
 
 /**
+ * Validates input data to see if it can saftly be used as
+ * the shortID, this means that it muay only include 
+ * capital/lowercase letters, numbers, underscores, and
+ * dashes. These restrictions make the shortID more url 
+ * friendly. 
+ * @param data - data to validate
+ * @returns boolean (true) if input is URl safe
+ */
+export function validShortID(data): boolean {
+    //? Should I deal with more than one of the same character?
+    return /^[a-zA-Z0-9_-]*$/.test(data);
+}
+
+/**
  * Checks if the input is a string
  * @param data - data to validated
  * @returns boolean (true) if input is string
