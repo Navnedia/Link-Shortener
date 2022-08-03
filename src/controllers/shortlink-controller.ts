@@ -4,14 +4,61 @@ import {nanoid} from 'nanoid';
 import AppError from '../utils/appError.js';
 import ValidationError from '../utils/validationError.js';
 import {validURL, stringNotEmpty, validShortID} from '../utils/validators.js';
-import {ShortLink} from '../models/ShortLink.js';
+import {ShortLink, IShortLink} from '../models/ShortLink.js';
 
 
 /**
- * Create new shortlinks
+ * Create a new shortlink
  * @route (POST) api/shortlinks
  */
-export async function createLink(req: express.Request, res: express.Response) {
+export async function createOneLink(req: express.Request, res: express.Response) {
+    try {
+        // Create new shortlink with helper method and get response:
+        var helperResponse = await createLink(req, res);
+
+        if (helperResponse instanceof AppError) { // If response is error send error body:
+            return res.status(helperResponse.statusCode).send(helperResponse);
+        }
+
+        // Format and return shortlink object response:
+        return res.status(200)
+                  .set('Location', `api/shortlinks/${(helperResponse as IShortLink).shortID}`)
+                  .send(helperResponse);
+    } catch (error) {
+        // console.log(error);
+        return res.status(500).send(new AppError(500, 'Something went wrong :('));
+    }
+}
+
+
+/**
+ * Create new shortlink(s)
+ * @route (POST) api/shortlinks/bulk
+ */
+ export async function createBulkLinks(req: express.Request, res: express.Response) {
+    try {
+
+        // Format and return shortlink object response:
+        // return res.status(200)
+        //           .send(shortLink.getAPIResponse());
+    } catch (error) {
+        // console.log(error);
+        return res.status(500).send(new AppError(500, 'Something went wrong :('));
+    }
+}
+
+
+//! We can't set the status code either because this would not work for the bulk, instead check for instance of error.
+/**
+ * Helper method for creating a new shortlink. This is used to help improve
+ * code reuseability for the diffrent post methods for creating one link, or
+ * links in bulk.
+ * 
+ * @returns If creation goes well, this will return the API response for the
+ * new shortlink, but if things don't go correctly it will return an AppError
+ * object.
+ */
+ export async function createLink(req: express.Request, res: express.Response): Promise<object | AppError> {
     try {
         // Pull paramerters the user is allowed to set:
         var {destination} = req.body;
@@ -25,13 +72,13 @@ export async function createLink(req: express.Request, res: express.Response) {
 
         // Make sure the the destination is a string:
         if (typeof destination !== 'string') {
-            // Send 400 error if not a string
-            return res.status(400).send(new AppError(400, 'Validation Failed', [
+            // Return 400 error if not a string
+            return new AppError(400, 'Validation Failed', [
 
                     new ValidationError('Invalid', 'destination', 
                         'Destination must be a string')
                         
-                ], 'Invalid or missing properties'));
+                ], 'Invalid or missing properties');
         }
         // If the destination url doesn't include a protocol, then add the http:// protocol by default:
         //! Temperary solution.
@@ -40,11 +87,11 @@ export async function createLink(req: express.Request, res: express.Response) {
         }
         // Validate destination as containing a valid URL:
         if (!validURL(destination)) {
-            // Send 400 error if not valid URL:
-            return res.status(400).send(new AppError(400, 'Validation Failed', [
+            // Return 400 error if not valid URL:
+            return new AppError(400, 'Validation Failed', [
                     new ValidationError('Invalid', 'destination', 
                         'Destination must be a valid URL')
-                ], 'Invalid or missing properties'));
+                ], 'Invalid or missing properties');
         }
 
 
@@ -59,15 +106,14 @@ export async function createLink(req: express.Request, res: express.Response) {
         // Create the new shortLink.
         const shortLink = await ShortLink.create({name, shortID, destination});
 
-        // Format and return shortlink object response:
-        return res.status(200)
-                  .set('Location', `api/shortlinks/${shortID}`)
-                  .send(shortLink.getAPIResponse());
+        // Set status code & return formated shortlink object response:
+        return shortLink.getAPIResponse();
     } catch (error) {
         // console.log(error);
-        return res.status(500).send(new AppError(500, 'Something went wrong :('));
+        return new AppError(500, 'Something went wrong :(');
     }
 }
+
 
 
 /**

@@ -1,13 +1,20 @@
 import express from 'express';
-import {createLink, getAllLinks, getOneLink, updateLink, removeLink} from '../../controllers/shortlink-controller.js';
+import {
+            createOneLink,
+            getAllLinks, 
+            getOneLink, 
+            updateLink, 
+            removeLink, 
+            createBulkLinks
+      } from '../../controllers/shortlink-controller.js';
 
 const router = express.Router();
 
 router.route('/')
-      .post(createLink)
+      .post(createOneLink)
       .get(getAllLinks);
 
-router.post('/bulk');
+router.post('/bulk', createBulkLinks);
 
 router.route('/:shortID')
       .get(getOneLink)

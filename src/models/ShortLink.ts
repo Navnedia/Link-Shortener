@@ -1,7 +1,7 @@
 import mongoose, {Model, HydratedDocument} from 'mongoose';
 
 // ShortLink data shape interface:
-interface IShortLink {
+export interface IShortLink {
     name?: string;
     shortID: string;
     destination: string;
