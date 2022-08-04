@@ -5,6 +5,7 @@ import AppError from '../utils/appError.js';
 import ValidationError from '../utils/validationError.js';
 import {validURL, stringNotEmpty, validShortID} from '../utils/validators.js';
 import {ShortLink, IShortLink} from '../models/ShortLink.js';
+import test from 'node:test';
 
 
 /**
@@ -14,7 +15,7 @@ import {ShortLink, IShortLink} from '../models/ShortLink.js';
 export async function createOneLink(req: express.Request, res: express.Response) {
     try {
         // Create new shortlink with helper method and get response:
-        var helperResponse = await createLink(req, res);
+        const helperResponse = await createLink(req.body);
 
         if (helperResponse instanceof AppError) { // If response is error send error body:
             return res.status(helperResponse.statusCode).send(helperResponse);
@@ -37,10 +38,26 @@ export async function createOneLink(req: express.Request, res: express.Response)
  */
  export async function createBulkLinks(req: express.Request, res: express.Response) {
     try {
+        const requestBody = req.body;
+        const linkResponses: object[] = [];
 
-        // Format and return shortlink object response:
-        // return res.status(200)
-        //           .send(shortLink.getAPIResponse());
+        // Validate that the body is an array with length greater that zero:
+        if (!Array.isArray(requestBody) || requestBody.length <= 0) {
+            // Return 400 error:
+            return res.status(400).send(new AppError(400, 'Bad Request', undefined,
+                'Request body must be an array of JSON objects with length greater than 0'));
+        }
+
+        // Loop through and create each link from the request:
+        for (const linkRequest of requestBody) {
+            const helperResponse = await createLink(linkRequest); // Attempt to create the new link.
+            // If the response was an error, then set the status code to 207 (i.e. Multi-Status):
+            if (helperResponse instanceof AppError) res.status(207);
+            linkResponses.push(helperResponse); // Add to responses array.
+        }
+
+        // Return & send created link responses:
+        return res.send(linkResponses);
     } catch (error) {
         // console.log(error);
         return res.status(500).send(new AppError(500, 'Something went wrong :('));
@@ -48,7 +65,7 @@ export async function createOneLink(req: express.Request, res: express.Response)
 }
 
 
-//! We can't set the status code either because this would not work for the bulk, instead check for instance of error.
+
 /**
  * Helper method for creating a new shortlink. This is used to help improve
  * code reuseability for the diffrent post methods for creating one link, or
@@ -58,12 +75,12 @@ export async function createOneLink(req: express.Request, res: express.Response)
  * new shortlink, but if things don't go correctly it will return an AppError
  * object.
  */
- export async function createLink(req: express.Request, res: express.Response): Promise<object | AppError> {
+ export async function createLink(linkRequest): Promise<object | AppError> {
     try {
         // Pull paramerters the user is allowed to set:
-        var {destination} = req.body;
-        const name = stringNotEmpty(req.body.name) 
-            ? req.body.name : undefined; // Should this be a default name?
+        const name = stringNotEmpty(linkRequest.name) 
+            ? linkRequest.name : undefined; // Should this be a default name?
+        var {destination} = linkRequest;
             
         /**
          * ! Validation will be refactored later to make it
@@ -76,7 +93,7 @@ export async function createOneLink(req: express.Request, res: express.Response)
             return new AppError(400, 'Validation Failed', [
 
                     new ValidationError('Invalid', 'destination', 
-                        'Destination must be a string')
+                        'Destination must be set and of type string')
                         
                 ], 'Invalid or missing properties');
         }
@@ -174,7 +191,7 @@ export async function createOneLink(req: express.Request, res: express.Response)
         // Pull paramerters the user is allowed to set:
         const name = stringNotEmpty(req.body.name) 
             ? req.body.name : undefined; // Get name from body if it exists.
-        var shortID = stringNotEmpty(req.body.shortID) 
+        const shortID = stringNotEmpty(req.body.shortID) 
             ? req.body.shortID : undefined; // Get shortID from body if it exists.
         var destination = stringNotEmpty(req.body.destination) 
             ? req.body.destination : undefined; // Get destination from body if it exists.
@@ -217,7 +234,9 @@ export async function createOneLink(req: express.Request, res: express.Response)
             // Check if the shortID already exists:
             if (await ShortLink.findByShortID(shortID)) {
                 return res.status(400).send(new AppError(400, "Bad Request", [
+
                     new ValidationError("Invalid", "shortID", "Custom shortID is unavaliable")
+
                 ], "Invalid or missing values")); // Return 400 error.
             }
             // Check if shortID contains characters not safe for url:
