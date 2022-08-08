@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="styles/shortlink-card.css">
+        <link rel="stylesheet" href="styles/index.css">
+        <title>Link Shortener</title>
+    </head>
+    <body>
+        <!-- Use semantic tags. -->
+
+        <!-- Link items: -->
+        <div id="linksContainer">
+            <div class="link-item">
+                <span class="created-date">08-04-2022</span>
+                <h1 class="link-title ellipsis">Rick Roll Video</h1>
+    
+                <span class="destination link ellipsis">
+                    <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" target="_blank">
+                        https://www.youtube.com/watch?v=dQw4w9WgXcQ</a>
+                </span>
+                <hr>
+                <span class="shortlink link ellipsis">
+                    <a href="https://sl.aiden-v.com/3LqNCVy" target="_blank">
+                        sl.aiden-v.com/3LqNCVy</a>
+                </span>
+
+                <span class="clicks">10 Clicks</span>
+    
+                <div class="item-option-buttons">
+                    <button id="btnCopy" type="button">Copy</button>
+                    <button id="btnShare" type="button">Share</button>
+                    <button id="btnQRCode" type="button">Qrcode</button>
+                    <button id="btnEdit" type="button">Edit</button>
+                    <button id="btnDel" type="button">Delete</button>
+                </div>
+            </div> <!-- End of link-item -->
+    
+
+
+            <div class="link-item">
+                <span class="created-date">08-04-2022</span>
+                <h1 class="link-title ellipsis">Rick Roll Video</h1>
+    
+                <span class="destination link ellipsis">
+                    <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" target="_blank"">
+                        https://www.youtube.com/watch?v=dQw4w9WgXcQ</a>
+                </span>
+    
+                <hr>
+    
+                <span class="shortlink link ellipsis">
+                    <a href="https://sl.aiden-v.com/3LqNCVy" target="_blank">
+                        sl.aiden-v.com/3LqNCVy</a>
+                </span>
+                <span class="clicks">10 Clicks</span>
+    
+                <div class="item-option-buttons">
+                    <button id="btnCopy" type="button">Copy</button>
+                    <button id="btnShare" type="button">Share</button>
+                    <button id="btnQRCode" type="button">Qrcode</button>
+                    <button id="btnEdit" type="button">Edit</button>
+                    <button id="btnDel" type="button">Delete</button>
+                </div>
+            </div> <!-- End of link-item -->
+        </div> <!-- End of linksContainer -->
+
+        <script type="module" src="./scripts/render.js"></script>
+    </body>
+</html>

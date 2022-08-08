@@ -1,0 +1,18 @@
+html, body {
+    height: 100%;
+    width: 100%;
+    padding: 0px;
+    margin: 0px;
+}
+
+body {
+    display: grid;
+    place-items: center;
+    background-color: #096691;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+#linksContainer {
+    display: grid;
+    gap: 20px;
+}
