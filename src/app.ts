@@ -3,6 +3,7 @@ import dotenv from 'dotenv';
 
 import {api, redirects} from './routes/index.js';
 import {errorHandler} from './middleware/error-handler.js';
+import {originAllowHeader} from './middleware/origin-allow.js';
 import AppError from './utils/appError.js';
 import connectDB from './db.js';
 
@@ -13,6 +14,8 @@ const PORT = process.env.PORT || 8080;
 const app = express(); // Initialize express app.
 
 app.use(express.json()); // Parse body as JSON.
+// Add origina allow header so this page can be acessed from other localhost ports:
+app.use(originAllowHeader);
 
 app.listen(PORT, () => {
     console.log(`Link Shortener App Listening on Port: ${PORT}`);
