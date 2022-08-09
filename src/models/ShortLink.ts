@@ -61,9 +61,9 @@ shortLinkSchema.method('getAPIResponse', function getAPIResponse() {
         name: this.name,
         shortID: this.shortID,
         destination: this.destination,
+        link: link,
         clicks: this.clicks,
-        created: this.created,
-        link: link
+        created: this.created
     };
 });
 
