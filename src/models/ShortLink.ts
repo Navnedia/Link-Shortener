@@ -1,4 +1,4 @@
-import mongoose, {Model, HydratedDocument} from 'mongoose';
+import mongoose, {Model, HydratedDocument, Date} from 'mongoose';
 
 // ShortLink data shape interface:
 export interface IShortLink {
@@ -6,6 +6,7 @@ export interface IShortLink {
     shortID: string;
     destination: string;
     clicks: number;
+    created: Date;
 }
 
 // Define ShortLink instance methods as interface:
@@ -25,7 +26,8 @@ const shortLinkSchema = new mongoose.Schema<IShortLink, ShortLinkModel, IShortLi
     name: String,
     shortID: {type: String, required: true},
     destination: {type: String, required: true},
-    clicks: {type: Number, default: 0}
+    clicks: {type: Number, default: 0},
+    created: {type: Date,  required: true}
 });
 
 /**
@@ -60,6 +62,7 @@ shortLinkSchema.method('getAPIResponse', function getAPIResponse() {
         shortID: this.shortID,
         destination: this.destination,
         clicks: this.clicks,
+        created: this.created,
         link: link
     };
 });
