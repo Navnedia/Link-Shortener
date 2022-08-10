@@ -1,13 +1,16 @@
 :root {
   --item-bg: #ffffff;
   --destination-link: #b1b1bb;
-  --shortlink: #2a63ce;
+  --link-icons: #2098ed;
+  /* --link-icons: #2a63ce; */
   --link-hover: #101015;
+  --button-active-bg: #2098ed36;
+  /* --button-active-bg: #2a63ce2f; */
 }
 
 .link-item {
   background-color: var(--item-bg);
-  border: 5px solid #000000;
+  /* border: 5px solid #000000; */
   border-radius: 20px;
   padding: 15px;
   /* Adjust width later. */
@@ -65,21 +68,103 @@ hr {
 }
 
 .shortlink > a {
-  color: var(--shortlink);
+  color: var(--link-icons);
   font-size: 18px;
 }
 
 .clicks {
   float: right;
+  font-size: 18px;
 }
 
-.item-option-buttons {
+.item-action-buttons {
   margin-top: 5px;
 }
 
-.item-option-buttons > button {
-  border: 3px solid #000000;
-  border-radius: 8px;
-  font-weight: bold;
+.action-btn {
+  /* border: 3px solid #000000; */
+  /* border-radius: 8px; */
+  border-radius: 100%;
+  padding: 0;
+  border: none;
+  background: none;
+  /* font-weight: bold; */
+  /* height: 30px; */
+  height: 48px;
+  width: 50px;
+  cursor: pointer;
+}
+
+.action-btn:active,
+.action-btn:hover {
+  background-color: var(--button-active-bg);
+}
+
+.action-btn > svg {
+  fill: var(--link-icons);
   height: 30px;
+  width: 25px;
+}
+
+/* #btnCopy > svg,
+#btnShare > svg,
+#btnEdit > svg,
+#btnQRCode > svg,
+#btnDel > svg {
+  height: 30px;
+  width: 25px;
+} */
+
+
+/* Tooltip Bubble Styles:*/
+[tooltip]:hover:before,
+[tooltip]:hover:after {
+    /* Makes the tooltip appear */
+    display: block;
+    opacity: 1;
+}
+[tooltip] {
+  position: relative;
+  cursor: pointer;
+}
+[tooltip]:before,
+[tooltip]:after {
+  line-height: 1;
+  font-size: .9em;
+  pointer-events: none;
+  position: absolute;
+  box-sizing: border-box;
+  display: none;
+  opacity: 0;
+}
+[tooltip]:after {
+  content: attr(tooltip);
+  text-align: center;
+  min-width: 3em;
+  max-width: 21em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding: 4px 12px;
+  border-radius: 9px;
+  background: var(--link-icons);
+  color: #FFFFFF;
+}
+
+/* Tooltip Arrow Styles: */
+[tooltip]:before {
+  content: "";
+  border: 5px solid transparent;
+}
+[tooltip]:before {
+  top: 100%;
+  border-top-width: 0;
+  border-bottom-color: var(--link-icons);
+}
+[tooltip]:after {
+  top: calc(100% + 5px);
+}
+[tooltip]:before, [tooltip]:after {
+  left: 50%;
+  transform: translate(-50%, 8px);
 }
