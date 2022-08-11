@@ -13,6 +13,15 @@
         <script type="module" src="./scripts/render.js" defer></script>
     </head>
     <body>
+        <form id="addLinkForm">
+            <p><label for="txtUrl" class="required-field">Full Destination Url</label>
+                    <input type="text" id="txtUrl" placeholder="https://example.com/cat-videos" required></p>
+            <p><label for="txtLinkName">Nickname</label>
+                    <input type="text" id="txtLinkName" placeholder="Cat Videos"></p>
+            
+            <button type="button" id="btnCreate">Create Link</button>
+        </form> 
+
         <!-- Link items: -->
         <div id="linksContainer"></div> 
         <!-- End of linksContainer -->

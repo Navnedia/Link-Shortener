@@ -122,8 +122,8 @@ hr {
 
 
 /* Tooltip Bubble Styles:*/
-[tooltip]:hover:before,
-[tooltip]:hover:after {
+[tooltip]:hover::before,
+[tooltip]:hover::after {
     /* Makes the tooltip appear */
     display: block;
     opacity: 1;
@@ -132,8 +132,8 @@ hr {
   position: relative;
   cursor: pointer;
 }
-[tooltip]:before,
-[tooltip]:after {
+[tooltip]::before,
+[tooltip]::after {
   line-height: 1;
   font-size: .9em;
   pointer-events: none;
@@ -142,7 +142,7 @@ hr {
   display: none;
   opacity: 0;
 }
-[tooltip]:after {
+[tooltip]::after {
   content: attr(tooltip);
   text-align: center;
   min-width: 3em;
@@ -157,19 +157,19 @@ hr {
 }
 
 /* Tooltip Arrow Styles: */
-[tooltip]:before {
+[tooltip]::before {
   content: "";
   border: 5px solid transparent;
 }
-[tooltip]:before {
+[tooltip]::before {
   top: 100%;
   border-top-width: 0;
   border-bottom-color: var(--link-icons);
 }
-[tooltip]:after {
+[tooltip]::after {
   top: calc(100% + 5px);
 }
-[tooltip]:before, [tooltip]:after {
+[tooltip]::before, [tooltip]::after {
   left: 50%;
   transform: translate(-50%, 8px);
 }

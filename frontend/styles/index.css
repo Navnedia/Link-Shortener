@@ -8,8 +8,16 @@ html, body {
 body {
     display: grid;
     place-items: center;
+
+    /* Alternate white gray color: #e4e5e5 */
     background-color: #096691;
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+.required-field::after {
+    content: " *";
+    color: red;
+    font-size: 80%;
 }
 
 #linksContainer {
