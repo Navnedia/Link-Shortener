@@ -14,5 +14,7 @@ body {
 
 #linksContainer {
     display: grid;
+    /* margin: 20x; */
+    padding: 20px;
     gap: 20px;
 }

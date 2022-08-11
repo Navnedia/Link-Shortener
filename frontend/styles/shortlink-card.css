@@ -8,7 +8,12 @@
   /* --button-active-bg: #2a63ce2f; */
 }
 
+:host([hidden]) {
+  display: none;
+}
+
 .link-item {
+  display: block;
   background-color: var(--item-bg);
   /* border: 5px solid #000000; */
   border-radius: 20px;
