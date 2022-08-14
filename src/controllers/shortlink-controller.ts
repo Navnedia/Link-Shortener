@@ -98,8 +98,7 @@ export async function createOneLink(req: express.Request, res: express.Response)
                 ], 'Invalid or missing properties');
         }
         // If the destination url doesn't include a protocol, then add the http:// protocol by default:
-        //! Temperary solution.
-        if (!(destination.startsWith('http://') || destination.startsWith('https://'))) {
+        if (!(/^(https?:\/\/)/.test(destination))) {
             destination = 'http://' + destination;
         }
         // Validate destination as containing a valid URL:
@@ -227,7 +226,7 @@ export async function createOneLink(req: express.Request, res: express.Response)
                 ], 'Invalid or missing properties'));
             }
             // If the destination url doesn't include a protocol, then add the http:// protocol by default:
-            if (!(destination.startsWith('http://') || destination.startsWith('https://'))) {
+            if (!(/^(https?:\/\/)/.test(destination))) {
                 destination = 'http://' + destination;
             }
             // Validate destination as containing a valid URL:
