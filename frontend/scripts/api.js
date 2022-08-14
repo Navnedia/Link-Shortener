@@ -5,7 +5,7 @@ export async function createLink(reqBody) {
     const response = await fetch(`${BASE_URL}/api/shortlinks/`, {
         method: 'POST',
         headers: {
-            'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
         },
         body: JSON.stringify(reqBody || '')
     }).catch(e => console.error(e));
@@ -18,11 +18,11 @@ export async function createLink(reqBody) {
             return data;
         } catch (e) {
             console.error(e);
-            return;
+            return {};
         }
     }
 
-    return;
+    return {};
 }
 
 export async function getAllLinks() {
