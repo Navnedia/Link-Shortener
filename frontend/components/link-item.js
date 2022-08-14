@@ -17,7 +17,7 @@ class LinkItem extends HTMLElement {
         <link rel="stylesheet" href="styles/shortlink-card.css">
         <div class="link-item">
             <span class="created-date">${this.created}</span>
-            <h1 class="link-title ellipsis" tabindex="0">${this.name ?? "Untitled"}</h1>
+            <h2 class="link-title ellipsis" tabindex="0">${this.name ?? "Untitled"}</h2>
         
             <span class="destination link ellipsis">
                 <a href="${this.destination}" target="_blank"">${this.destination}</a>
@@ -89,14 +89,22 @@ class LinkItem extends HTMLElement {
         </div> <!-- End of link-item -->`;
 
         this.shadowRoot.appendChild(linkItemTemplate.content);
+
+        // this.shadowRoot.getElementById('btnDel').addEventListener('click', () => {
+        //     //! We need to have a confirm, then we call the api.
+
+        //     this.parentNode.removeChild(this);
+        // });
     }
+
+    
 
     // updateContent() {
     //     this.shadowRoot.innerHTML = `
     //     <link rel="stylesheet" href="styles/shortlink-card.css">
     //     <div class="link-item">
     //         <span class="created-date">${this.created}</span>
-    //         <h1 class="link-title ellipsis" tabindex="0">${this.name ?? "Untitled"}</h1>
+    //         <h2 class="link-title ellipsis" tabindex="0">${this.name ?? "Untitled"}</h2>
         
     //         <span class="destination link ellipsis">
     //             <a href="${this.destination}" target="_blank"">${this.destination}</a>
@@ -171,10 +179,11 @@ class LinkItem extends HTMLElement {
     setData(properties) {
         this.name = properties.name || "Untitled";
         this.shortID = properties.shortID || "";
-        this.destination = properties.destination || "";
-        this.link = properties.link || "";
+        this.destination = properties.destination || " ";
+        this.link = properties.link || " ";
         this.clicks = properties.clicks || "0";
-        this.created = new Date(properties.created).toLocaleDateString() || "";
+        this.created = (new Date(properties.created).toString() !== "Invalid Date") 
+            ? new Date(properties.created).toLocaleDateString() : " ";
         // Format date consistent length with a staic helper method?
     }
 
