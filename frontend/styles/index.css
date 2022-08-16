@@ -1,3 +1,10 @@
+:root {
+    --primary-color: #096691;
+    --secondary-color: #e5e6e4;
+    --accent-color: #2098ed;
+    --dark-gray: #344f65;
+}
+
 html, body {
     height: 100%;
     width: 100%;
@@ -6,23 +13,150 @@ html, body {
 }
 
 body {
+    /*! Body grid might not be needed! */
     display: grid;
-    place-items: center;
+    /* place-items: center; */
 
     /* Alternate white gray color: #e4e5e5 */
-    background-color: #096691;
+    background-color: var(--primary-color);
+    /*! Add a better font */
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }
 
-.required-field::after {
+.flex-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.flex-column {
+    display: flex;
+    flex-direction: column;
+    /*? Adjust Size later? */
+    width: 615px;
+}
+
+.creation-panel {
+    position: sticky;
+    background-color: var(--secondary-color);
+    border-bottom: 10px solid var(--accent-color);
+    width: 100%;
+    top: 0px;
+    padding: 20px 0 20px 0;
+    z-index: 1;
+}
+
+.label-required::after {
     content: " *";
-    color: red;
-    font-size: 80%;
+    color: #dc143c;
+    font-size: 90%;
+}
+
+.fancy-input {
+    height: 40px;
+    border: 3px solid var(--dark-gray);
+    border-radius: 10px;
+    outline: none;
+    margin: 3px 0;
+    padding: 0 15px;
+    font-size: 90%;
+    text-overflow: ellipsis;
+}
+
+.url-bar {
+    width: 100%;
+    padding-right: 65px;
+}
+
+.fancy-input:focus {
+    border-color: var(--accent-color);
+}
+
+.invalid, .invalid:focus {
+    border-color: #dc143c;
+}
+
+#btnShorten {
+    height: 46px;
+    width: 20%;
+    background-color: var(--accent-color);
+    border: 3px solid var(--dark-gray);
+    border-radius: 0 10px 10px 0;
+    outline: none;
+    font-weight: bold;
+    font-size: 100%;
+    margin-left: -50px;
+    cursor: pointer;
+}
+
+#btnShorten:focus-visible {
+    background-color: var(--dark-gray);
+    border-color: var(--accent-color);
+    color: #ffffff;
+}
+
+#btnShorten:active {
+    filter: brightness(85%);
 }
 
 #linksContainer {
     display: grid;
-    /* margin: 20x; */
+    place-items: center;
     padding: 20px;
     gap: 20px;
+
+    /* Margin here makes the sticky panel end on full card: */
+    /* margin-bottom: 75px; */
+}
+  
+#linksContainer > link-item {
+    animation: fadeIn 1s;
+}
+
+/* .modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+} */
+
+.loading::after {
+    border: 2px solid #000000;
+    border-radius: 100px;
+    border-right-color: transparent;
+    border-top-color: transparent;
+    content: "";
+    display: block;
+    height: 1em;
+    width: 1em;
+    position: absolute;
+    top: 30%;  
+    left: 40%;
+    animation: spin 0.5s infinite linear;
+}
+
+.loading {
+    color: transparent !important;
+    pointer-events: none;
+    position: relative;
+}
+
+/* Animations: */
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(359deg);
+    }
 }

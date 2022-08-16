@@ -6,25 +6,40 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-        <link rel="stylesheet" href="styles/shortlink-card.css">
-        <link rel="stylesheet" href="styles/index.css">
+        <link rel="stylesheet" href="./styles/shortlink-card.css">
+        <link rel="stylesheet" href="./styles/index.css">
 
         <script type="module" src="./components/link-item.js" defer></script>
         <script type="module" src="./scripts/render.js" defer></script>
     </head>
     <body>
-        <form id="addLinkForm">
-            <p><label for="txtUrl" class="required-field">Full Destination Url</label>
-                    <input type="text" id="txtUrl" placeholder="https://example.com/cat-videos" required></p>
-            <p><label for="txtLinkName">Nickname</label>
-                    <input type="text" id="txtLinkName" placeholder="Cat Videos"></p>
-            
-            <button type="button" id="btnCreate">Create Link</button>
-        </form> 
+        <!--! Main tag makes sure the creation panel stays at the top the whole way. -->
+        <main>
+            <div class="creation-panel flex-center">
+                <form id="creationForm" class="flex-column">
+                    <label for="txtLinkName">Name</label>
+                        <input type="text" id="txtLinkName" class="fancy-input" placeholder="Cat Videos">
+                    
+                        <label for="txtUrl" class="label-required">Long URL</label>
+                        <div class="flex-center">    
+                            <input type="text"
+                                   id="txtLongUrl"
+                                   class="fancy-input url-bar"
+                                   placeholder="https://example.com/users/jack/posts/cat-videos"
+                                   maxlength="6144"
+                                   required>
+         
+                            <button type="button" id="btnShorten">Shorten</button>
+                        </div> <!-- End of url field group (flex-center) -->
+                </form> <!-- End of creation form -->
+            </div>  <!-- end of creation panel -->
 
-        <!-- Link items: -->
-        <div id="linksContainer"></div> 
-        <!-- End of linksContainer -->
+            <!-- Link items: -->
+            <div id="linksContainer">
+            </div>
+            <!-- End of linksContainer -->
 
+            <!-- <div class="modal">Modal Here</div> -->
+        </main>
     </body>
 </html>

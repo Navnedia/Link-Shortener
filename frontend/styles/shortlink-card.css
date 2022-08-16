@@ -1,15 +1,9 @@
 :root {
-  --item-bg: #ffffff;
-  --destination-link: #b1b1bb;
-  --link-icons: #2098ed;
-  /* --link-icons: #2a63ce; */
-  --link-hover: #101015;
+  --item-bg: var(--secondary-color);
+  --link-icons: var(--accent-color);
+  /* --link-hover: var(--dark-gray); */
+  --destination-link: #9797a0;
   --button-active-bg: #2098ed36;
-  /* --button-active-bg: #2a63ce2f; */
-}
-
-:host([hidden]) {
-  display: none;
 }
 
 .link-item {
@@ -19,7 +13,7 @@
   border-radius: 20px;
   padding: 15px;
   /* Adjust width later. */
-  min-width: 600px;
+  width: 600px;
 
   /* Shadows Options: */
   /* box-shadow: 10px 10px #0000002d; */
@@ -40,7 +34,7 @@
 
 .link-title {
   font-size: 150%;
-  margin: 0px;
+  margin: 0 0 5px 0;
 }
 
 hr {
@@ -52,19 +46,19 @@ hr {
 .ellipsis {
   text-overflow: ellipsis;
   white-space: nowrap;
-  display: block;
   overflow: hidden;
+  max-width: 80%;
 }
 
 .link > a {
-  margin-bottom: 5px;
   display: inline-block;
   text-decoration: none;
   transition: all 300ms;
 }
 
 .link > a:hover {
-  color: var(--link-hover);
+  /* color: var(--link-hover); */
+  filter: brightness(60%);
 }
 
 .destination > a {
@@ -84,6 +78,7 @@ hr {
 
 .item-action-buttons {
   margin-top: 5px;
+  user-select: none;
 }
 
 .action-btn {
@@ -100,9 +95,12 @@ hr {
   cursor: pointer;
 }
 
-.action-btn:active,
 .action-btn:hover {
   background-color: var(--button-active-bg);
+}
+
+.action-btn:active {
+  filter: brightness(85%);
 }
 
 .action-btn > svg {

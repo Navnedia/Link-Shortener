@@ -14,19 +14,19 @@ class LinkItem extends HTMLElement {
     connectedCallback() {
         const linkItemTemplate = document.createElement('template');
         linkItemTemplate.innerHTML = `
-        <link rel="stylesheet" href="styles/shortlink-card.css">
+        <link rel="stylesheet" href="./styles/shortlink-card.css">
         <div class="link-item">
             <span class="created-date">${this.created}</span>
             <h2 class="link-title ellipsis" tabindex="0">${this.name ?? "Untitled"}</h2>
         
-            <span class="destination link ellipsis">
-                <a href="${this.destination}" target="_blank"">${this.destination}</a>
+            <span class="destination link">
+                <a href="${this.destination}" target="_blank" class="ellipsis">${this.destination}</a>
             </span>
         
             <hr>
         
-            <span class="shortlink link ellipsis">
-                <a href="${this.link}" target="_blank">${this.link}</a>
+            <span class="shortlink link">
+                <a href="${this.link}" target="_blank" class="ellipsis">${this.link}</a>
             </span>
             <span class="clicks">${this.clicks} Clicks</span>
         
