@@ -95,6 +95,10 @@ body {
     color: #ffffff;
 }
 
+#btnShorten:hover {
+    filter: brightness(95%);
+}
+
 #btnShorten:active {
     filter: brightness(85%);
 }
