@@ -23,7 +23,7 @@
 }
 
 .created-date {
-    background-color: #c6c6ca;    
+    background-color: #c1c1c1;    
     border: 3px solid #000000;
     border-radius: 8px;
     margin-left: 15px;
@@ -170,4 +170,44 @@ hr {
 [tooltip]::before, [tooltip]::after {
     left: 50%;
     transform: translate(-50%, 8px);
+}
+
+
+.confirm-message {
+    float: right;
+    font-size: 110%;
+    margin-top: 10px;
+}
+
+.confirm-message > span {
+    margin-right: 5px;
+    /* color: var(--dark-gray); */
+}
+
+.confirm-message > button {
+    height: 30px;
+    width: 80px;
+    border: none;
+    border-radius: 10px;
+    font-weight: bold;
+    /* color: #ffffff; */
+    cursor: pointer;
+    transition: all 0.4s;
+}
+
+#btnCancel {
+    margin-right: 10px;
+    background-color: #c1c1c1;
+}
+
+#btnCancel:hover {
+    background-color: #a8a8a8;
+}
+
+#btnDelete {
+    background-color: #f15e5e;
+}
+
+#btnDelete:hover {
+    background-color: #dc143c;
 }
