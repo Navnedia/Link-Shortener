@@ -8,7 +8,18 @@ class LinkItem extends HTMLElement {
         this.link = "";
         this.clicks = 0;
         this.created = "";
-        this.attachShadow({mode: 'open'});
+        this.attachShadow({mode: 'open'}); // Create shadow root.
+    }
+
+    setData(properties) {
+        this.name = properties.name || "Untitled";
+        this.shortID = properties.shortID || "";
+        this.destination = properties.destination || " ";
+        this.link = properties.link || " ";
+        this.clicks = properties.clicks || "0";
+        this.created = (new Date(properties.created).toString() !== "Invalid Date") 
+            ? new Date(properties.created).toLocaleDateString() : " ";
+        // Format date consistent length with a staic helper method?
     }
 
     connectedCallback() {
@@ -90,14 +101,16 @@ class LinkItem extends HTMLElement {
 
         this.shadowRoot.appendChild(linkItemTemplate.content);
 
+        // Attach event listeners:
+        this.shadowRoot.getElementById('btnCopy')
+            .addEventListener('click', this.copyLinkToClipboard.bind(this));
+
         // this.shadowRoot.getElementById('btnDel').addEventListener('click', () => {
         //     //! We need to have a confirm, then we call the api.
 
         //     this.parentNode.removeChild(this);
         // });
     }
-
-    
 
     // updateContent() {
     //     this.shadowRoot.innerHTML = `
@@ -176,21 +189,9 @@ class LinkItem extends HTMLElement {
     //     </div> <!-- End of link-item -->`;
     // }
 
-    setData(properties) {
-        this.name = properties.name || "Untitled";
-        this.shortID = properties.shortID || "";
-        this.destination = properties.destination || " ";
-        this.link = properties.link || " ";
-        this.clicks = properties.clicks || "0";
-        this.created = (new Date(properties.created).toString() !== "Invalid Date") 
-            ? new Date(properties.created).toLocaleDateString() : " ";
-        // Format date consistent length with a staic helper method?
-    }
-
     disconnectedCallback() {
         
     }
-
 
     /* Methods below must be avalible if you want to be able to update links
        after creation without just deleting the card and readding it. */
@@ -203,8 +204,22 @@ class LinkItem extends HTMLElement {
         // this.updateContent();
     }
 
-    // Getter & Setter Methods: 
 
+    // Button listeners:
+    copyLinkToClipboard() {
+        navigator.clipboard.writeText(this.link); // Copy link to clipboard.
+        // Update to tool tip to show the link has been copied:
+        const copyBtn = this.shadowRoot.getElementById('btnCopy');
+        copyBtn.setAttribute('toolTip', 'Copied');
+        setTimeout(() => { // After a delay change the tool tip text back to copy.
+            copyBtn.setAttribute('toolTip', 'Copy');
+        }, 2500);
+    }
+
+    
+
+
+    // Getter & Setter Methods: 
     get name() {
         return this.getAttribute('name');
     }
