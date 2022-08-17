@@ -6,6 +6,23 @@
     --button-active-bg: #2098ed36;
 }
 
+.flex-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.hidden {
+    display: none;
+}
+
+.ellipsis {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    max-width: 80%;
+}
+
 .link-item {
     display: block;
     background-color: var(--item-bg);
@@ -20,6 +37,7 @@
     box-shadow: 8px 8px 6px #0000002d;
     /* box-shadow: 10px 8px 5px #0000002d; */
     /* box-shadow: 0 0 10px 3px #0000003f; */
+    transition: all 0.5s;
 }
 
 .created-date {
@@ -41,13 +59,6 @@ hr {
     border: none;
     height: 3px;
     background-color: #000000;
-}
-
-.ellipsis {
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    overflow: hidden;
-    max-width: 80%;
 }
 
 .link > a {
@@ -173,41 +184,49 @@ hr {
 }
 
 
+.confirmation-wrapper {
+    background-color: #ff000028;
+    flex-direction: column;
+    border-radius: 10px;
+    padding: 15px;
+}
+
 .confirm-message {
-    float: right;
     font-size: 110%;
-    margin-top: 10px;
+    color: var(--dark-gray);
 }
 
-.confirm-message > span {
-    margin-right: 5px;
-    /* color: var(--dark-gray); */
-}
-
-.confirm-message > button {
+.confirm-buttons > button {
     height: 30px;
     width: 80px;
+    margin-top: 5px;
     border: none;
     border-radius: 10px;
     font-weight: bold;
-    /* color: #ffffff; */
     cursor: pointer;
     transition: all 0.4s;
 }
 
-#btnCancel {
-    margin-right: 10px;
-    background-color: #c1c1c1;
+.delete-error-message {
+    margin-top: 10px;
+    font-size: 90%;
+    color: var(--red-color);
 }
 
-#btnCancel:hover {
+
+#btnConfirmCancel {
+    background-color: #c1c1c1;
+    margin-right: 10px;
+}
+
+#btnConfirmCancel:hover {
     background-color: #a8a8a8;
 }
 
-#btnDelete {
+#btnConfirmDelete {
     background-color: #f15e5e;
 }
 
-#btnDelete:hover {
-    background-color: #dc143c;
+#btnConfirmDelete:hover {
+    background-color: var(--red-color);
 }

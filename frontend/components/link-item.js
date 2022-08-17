@@ -1,3 +1,5 @@
+import {removeLink} from "../scripts/api.js";
+
 class LinkItem extends HTMLElement {
     constructor() {
         super();
@@ -97,19 +99,33 @@ class LinkItem extends HTMLElement {
                     </svg>
                 </button>
             </div> <!-- End of action buttons -->
-        </div> <!-- End of link-item -->`;
 
-        this.shadowRoot.appendChild(linkItemTemplate.content);
+            <div class="confirmation-wrapper flex-center hidden">
+                <span class="confirm-message">Are you sure you want to delete this link?</span>
+                <div class="confirm-buttons">
+                    <button type="button" id="btnConfirmCancel">Cancel</button>
+                    <button type="button" id="btnConfirmDelete">Delete</button>
+                </div>
+
+                <span class="delete-error-message hidden">Something went wrong, please try again later.</span>
+            </div> <!-- End of confirmation wrapper -->
+        </div> <!-- End of link-item -->`;
+        this.shadowRoot.appendChild(linkItemTemplate.content); // Add content to shadow.
 
         // Attach event listeners:
-        this.shadowRoot.getElementById('btnCopy')
+
+        this.shadowRoot.getElementById('btnCopy') // Add copy button listener.
             .addEventListener('click', this.copyLinkToClipboard.bind(this));
 
-        // this.shadowRoot.getElementById('btnDel').addEventListener('click', () => {
-        //     //! We need to have a confirm, then we call the api.
+        // Add listener to both the delete and cancel confirmation button:
+        this.shadowRoot.querySelectorAll('#btnDel, #btnConfirmCancel').forEach((e) => {
+            e.addEventListener('click', () => { // Toggle the delete confirm message:
+                this.shadowRoot.querySelector('.confirmation-wrapper').classList.toggle('hidden');
+            });
+        });
 
-        //     this.parentNode.removeChild(this);
-        // });
+        this.shadowRoot.getElementById('btnConfirmDelete') // Add Listener to fully delete link.
+            .addEventListener('click', this.deleteShortLink.bind(this));
     }
 
     // updateContent() {
@@ -186,6 +202,14 @@ class LinkItem extends HTMLElement {
     //                 </svg>
     //             </button>
     //         </div> <!-- End of action buttons -->
+    
+    //          <div class="message-wrapper hidden">
+    //             <div class="confirm-message">
+    //                 <span>Are you sure you want to delete this link?</span>
+    //                 <button type="button" id="btnConfirmCancel">Cancel</button>
+    //                 <button type="button" id="btnConfirmDelete">Delete</button>
+    //             </div> <!-- End of delete confirm message -->
+    //         </div> <!-- End of message wrapper -->
     //     </div> <!-- End of link-item -->`;
     // }
 
@@ -216,7 +240,27 @@ class LinkItem extends HTMLElement {
         }, 2500);
     }
 
-    
+    async deleteShortLink() {
+        /**
+         * In theory, if the user hits this event listener this means
+         * they needed to confirm their decision to delete. Unless of
+         * course they were messing around with the html.
+         */
+        const response = await removeLink(this.shortID);
+        if (Object.keys(response).length !== 0) {
+            //! Display the error here & hide it on close:
+            // Either append, innerHTML, or set hidden class.
+            return;
+        }
+
+        // Set item opacity to zero and allow css to smoothly transition.
+        this.shadowRoot.querySelector('.link-item').style.opacity = 0;
+        
+        // Wait for opacity transition to end before removing from DOM:
+        setTimeout(() => {
+            this.parentNode.removeChild(this);
+        }, 500);
+    }
 
 
     // Getter & Setter Methods: 
