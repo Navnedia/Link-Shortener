@@ -42,6 +42,7 @@ async function addLink() {
     //! Handle returned errors.
 
     if (!data.destination) {
+        longURL.classList.add('invalid'); // Set URL field invalid.
         return;
     }
     // If the destination url doesn't include a protocol, then add the http:// protocol by default:
@@ -49,10 +50,12 @@ async function addLink() {
         data.destination = 'http://' + data.destination;
     }
     if (!validURL(data.destination)) {
+        longURL.classList.add('invalid'); // Set URL field invalid.
         return;
     }
 
     shortenBtn.classList.add('loading'); // Add button loader style.
+    longURL.classList.remove('invalid'); // Set URL field valid because it passed validation checks.
 
     const linkRes = await createLink(data); // Send create request.
     if (Object.keys(linkRes).length !== 0) { // If non-empty data was recived, create and display the element:
