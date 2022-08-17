@@ -41,3 +41,12 @@ export async function getAllLinks() {
 
     return [];
 }
+
+export async function removeLink(shortID) {
+    const response = await fetch(`${BASE_URL}/api/shortlinks/${shortID || ''}`, {
+        method: 'DELETE'
+    }).catch(e => console.error(e));
+    if (response && response.ok) return {};
+
+    return {description: 'Something went wrong, please try again later.'};
+}
