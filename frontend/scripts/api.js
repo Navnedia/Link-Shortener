@@ -8,7 +8,7 @@ export async function createLink(reqBody) {
         'Content-Type': 'application/json',
         },
         body: JSON.stringify(reqBody || '')
-    }).catch(e => console.error(e));
+    }).catch(e => null);
     
     //! In this case we must still accept & handle failed validation responses. 
 
@@ -28,7 +28,7 @@ export async function createLink(reqBody) {
 export async function getAllLinks() {
     const response = await fetch(`${BASE_URL}/api/shortlinks/`, {
         method: 'GET'
-    }).catch(e => console.error(e));
+    }).catch(e => null);
     if (response && response.ok) {
         try {
             const data = await response.json();
@@ -43,9 +43,15 @@ export async function getAllLinks() {
 }
 
 export async function removeLink(shortID) {
+    // Temp solution for when if we try to remove without a shortID
+    // In the future I will handle this server side as well.
+    if (!shortID) {
+        return {description: 'Something went wrong, missing shortID.'};    
+    }
+
     const response = await fetch(`${BASE_URL}/api/shortlinks/${shortID || ''}`, {
         method: 'DELETE'
-    }).catch(e => console.error(e));
+    }).catch(e => null);
     if (response && response.ok) return {};
 
     return {description: 'Something went wrong, please try again later.'};

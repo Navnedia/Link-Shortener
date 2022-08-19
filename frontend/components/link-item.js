@@ -28,6 +28,7 @@ class LinkItem extends HTMLElement {
         const linkItemTemplate = document.createElement('template');
         linkItemTemplate.innerHTML = `
         <link rel="stylesheet" href="./styles/shortlink-card.css">
+        <link rel="stylesheet" href="./styles/utils.css">
         <div class="link-item">
             <span class="created-date">${this.created}</span>
             <h2 class="link-title ellipsis" tabindex="0">${this.name ?? "Untitled"}</h2>
@@ -107,7 +108,7 @@ class LinkItem extends HTMLElement {
                     <button type="button" id="btnConfirmDelete">Delete</button>
                 </div>
 
-                <span class="delete-error-message hidden">Something went wrong, please try again later.</span>
+                <span class="delete-error-message hidden"></span>
             </div> <!-- End of confirmation wrapper -->
         </div> <!-- End of link-item -->`;
         this.shadowRoot.appendChild(linkItemTemplate.content); // Add content to shadow.
@@ -119,7 +120,10 @@ class LinkItem extends HTMLElement {
 
         // Add listener to both the delete and cancel confirmation button:
         this.shadowRoot.querySelectorAll('#btnDel, #btnConfirmCancel').forEach((e) => {
-            e.addEventListener('click', () => { // Toggle the delete confirm message:
+            e.addEventListener('click', () => {
+                // Hide error field from any previous failed runs:
+                this.shadowRoot.querySelector('.delete-error-message').classList.add('hidden');
+                // Show delete confirmation:
                 this.shadowRoot.querySelector('.confirmation-wrapper').classList.toggle('hidden');
             });
         });
@@ -246,10 +250,18 @@ class LinkItem extends HTMLElement {
          * they needed to confirm their decision to delete. Unless of
          * course they were messing around with the html.
          */
-        const response = await removeLink(this.shortID);
+        let errorField = this.shadowRoot.querySelector('.delete-error-message');
+        let delBtn = this.shadowRoot.getElementById('btnConfirmDelete');
+        errorField.classList.add('hidden'); // Hide error fields from previous runs.
+
+        delBtn.classList.add('loading'); // Add loading to delete button.
+        const response = await removeLink(this.shortID); // Make request.
+        delBtn.classList.remove('loading'); // Remove loading.
+
+        // If the response isn't blank, then display the error & return:
         if (Object.keys(response).length !== 0) {
-            //! Display the error here & hide it on close:
-            // Either append, innerHTML, or set hidden class.
+            errorField.innerHTML = response.description || 'Something went wrong';
+            errorField.classList.remove('hidden');
             return;
         }
 
