@@ -24,19 +24,6 @@ body {
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }
 
-.flex-center {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.flex-column {
-    display: flex;
-    flex-direction: column;
-    /*? Adjust Size later? */
-    width: 615px;
-}
-
 .creation-panel {
     position: sticky;
     background-color: var(--secondary-color);
@@ -45,6 +32,11 @@ body {
     top: 0px;
     padding: 20px 0 20px 0;
     z-index: 1;
+}
+
+#creationForm {
+    /*? Adjust Size later? */
+    width: 615px;
 }
 
 .label-required::after {
