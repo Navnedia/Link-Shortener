@@ -163,14 +163,6 @@ hr {
     transform: translate(-50%, 8px);
 }
 
-
-.confirmation-wrapper {
-    background-color: #ff000028;
-    flex-direction: column;
-    border-radius: 10px;
-    padding: 15px;
-}
-
 .confirm-message {
     font-size: 110%;
     color: var(--dark-gray);

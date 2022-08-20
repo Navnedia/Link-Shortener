@@ -9,8 +9,8 @@
         <!-- Stylesheets: -->
         <link rel="stylesheet" href="./styles/index.css">
         <link rel="stylesheet" href="./styles/utils.css">
-        <link rel="stylesheet" href="./styles/icons.css">
         <link rel="stylesheet" href="./styles/shortlink-card.css">
+        <link rel="stylesheet" href="./styles/icons.css">
 
         <!-- Scripts: -->
         <script type="module" src="./components/link-item.js" defer></script>
@@ -24,17 +24,25 @@
                     <label for="txtLinkName">Name</label>
                         <input type="text" id="txtLinkName" class="fancy-input" placeholder="Cat Videos">
                     
-                        <label for="txtUrl" class="label-required">Long URL</label>
-                        <div class="flex-center">    
+                    <label for="txtUrl" class="label-required">Long URL</label>
+                        <div class="flex-center"> <!-- URL Bar field group -->
                             <input type="text"
-                                   id="txtLongUrl"
-                                   class="fancy-input url-bar"
-                                   placeholder="https://example.com/users/jack/posts/cat-videos"
-                                   maxlength="6144"
-                                   required>
-         
+                                    id="txtLongUrl"
+                                    class="fancy-input url-bar"
+                                    placeholder="https://example.com/users/jack/posts/cat-videos"
+                                    maxlength="6144"
+                                    required>
+            
                             <button type="button" id="btnShorten">Shorten</button>
                         </div> <!-- End of url field group (flex-center) -->
+
+                    <div class="warning-container">
+                        <i class="fa-solid fa-circle-exclamation"></i>
+                        <span id="createError">
+                            Please enter a valid URL address. For example, "https://example.com/food".
+                            The http:// protocol is the defualt if not specified.
+                        </span>
+                    </div> <!-- End of creation errors (warning-container) -->
                 </form> <!-- End of creation form -->
             </div>  <!-- end of creation panel -->
 

@@ -32,6 +32,7 @@ body {
     top: 0px;
     padding: 20px 0 20px 0;
     z-index: 1;
+    flex-direction: column;
 }
 
 #creationForm {
@@ -94,6 +95,13 @@ body {
 
 #btnShorten:active {
     filter: brightness(85%);
+}
+
+.warning-container {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+    color: #dc143c;
 }
 
 #linksContainer {

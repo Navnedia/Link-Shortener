@@ -1,3 +1,9 @@
+.warning-container {
+    background-color: #ff000028;
+    border-radius: 10px;
+    padding: 15px;
+}
+
 .flex-center {
     display: flex;
     justify-content: center;

@@ -64,7 +64,7 @@ class LinkItem extends HTMLElement {
                     </button>
                 </div> <!-- End of action buttons -->
 
-                <div class="confirmation-wrapper flex-center hidden">
+                <div class="warning-container flex-center flex-column hidden">
                     <span class="confirm-message">Are you sure you want to delete this link?</span>
                     <div class="confirm-buttons">
                         <button type="button" id="btnConfirmCancel">Cancel</button>
@@ -72,7 +72,7 @@ class LinkItem extends HTMLElement {
                     </div>
 
                     <span class="delete-error-message hidden"></span>
-                </div> <!-- End of confirmation wrapper -->
+                </div> <!-- End of warning container -->
             </div> <!-- End of link-item -->`;
         this.shadowRoot.appendChild(linkItemTemplate.content); // Add content to shadow.
 
@@ -87,7 +87,7 @@ class LinkItem extends HTMLElement {
                 // Hide error field from any previous failed runs:
                 this.shadowRoot.querySelector('.delete-error-message').classList.add('hidden');
                 // Show delete confirmation:
-                this.shadowRoot.querySelector('.confirmation-wrapper').classList.toggle('hidden');
+                this.shadowRoot.querySelector('.warning-container').classList.toggle('hidden');
             });
         });
 
@@ -134,7 +134,7 @@ class LinkItem extends HTMLElement {
     //                 </button>
     //             </div> <!-- End of action buttons -->
 
-    //             <div class="confirmation-wrapper flex-center hidden">
+    //             <div class="warning-container flex-center flex-column hidden">
     //                 <span class="confirm-message">Are you sure you want to delete this link?</span>
     //                 <div class="confirm-buttons">
     //                     <button type="button" id="btnConfirmCancel">Cancel</button>
@@ -142,7 +142,7 @@ class LinkItem extends HTMLElement {
     //                 </div>
 
     //                 <span class="delete-error-message hidden"></span>
-    //             </div> <!-- End of confirmation wrapper -->
+    //             </div> <!-- End of warning container -->
     //         </div> <!-- End of link-item -->`;
     // }
 
