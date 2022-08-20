@@ -29,9 +29,7 @@ class LinkItem extends HTMLElement {
         linkItemTemplate.innerHTML = `
             <link rel="stylesheet" href="./styles/shortlink-card.css">
             <link rel="stylesheet" href="./styles/utils.css">
-            <link rel="stylesheet" href="./assets/fontawesome/css/fontawesome.min.css">
-            <link rel="stylesheet" href="./assets/fontawesome/css/solid.min.css">
-            <link rel="stylesheet" href="./assets/fontawesome/css/regular.min.css">
+            <link rel="stylesheet" href="./styles/icons.css">
 
             <div class="link-item">
                 <span class="created-date">${this.created}</span>
@@ -101,9 +99,7 @@ class LinkItem extends HTMLElement {
     //     this.shadowRoot.innerHTML = `
     //         <link rel="stylesheet" href="./styles/shortlink-card.css">
     //         <link rel="stylesheet" href="./styles/utils.css">
-    //         <link rel="stylesheet" href="./assets/fontawesome/css/fontawesome.min.css">
-    //         <link rel="stylesheet" href="./assets/fontawesome/css/solid.min.css">
-    //         <link rel="stylesheet" href="./assets/fontawesome/css/regular.min.css">
+    //         <link rel="stylesheet" href="./styles/icons.css">
 
     //         <div class="link-item">
     //             <span class="created-date">${this.created}</span>
