@@ -91,7 +91,7 @@ hr {
     background: none;
     /* font-weight: bold; */
     /* height: 30px; */
-    height: 48px;
+    height: 50px;
     width: 50px;
     cursor: pointer;
 }
@@ -104,20 +104,11 @@ hr {
     filter: brightness(85%);
 }
 
-.action-btn > svg {
-    fill: var(--link-icons);
-    height: 30px;
-    width: 25px;
+.action-btn > i {
+    color: var(--link-icons);
+    font-size: 2em;
 }
 
-#btnCopy > svg,
-#btnShare > svg,
-#btnEdit > svg,
-#btnQRCode > svg,
-#btnDel > svg {
-    height: 30px;
-    width: 25px;
-}
 
 /* Tooltip Bubble Styles:*/
 [tooltip]:hover::before,
