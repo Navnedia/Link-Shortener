@@ -9,8 +9,8 @@
         <!-- Stylesheets: -->
         <link rel="stylesheet" href="./styles/index.css">
         <link rel="stylesheet" href="./styles/utils.css">
-        <link rel="stylesheet" href="./styles/shortlink-card.css">
         <link rel="stylesheet" href="./styles/icons.css">
+        <link rel="stylesheet" href="./styles/shortlink-card.css">
 
         <!-- Scripts: -->
         <script type="module" src="./components/link-item.js" defer></script>
@@ -36,12 +36,9 @@
                             <button type="button" id="btnShorten">Shorten</button>
                         </div> <!-- End of url field group (flex-center) -->
 
-                    <div class="warning-container">
+                    <div class="creationError warning-container hidden">
                         <i class="fa-solid fa-circle-exclamation"></i>
-                        <span id="createError">
-                            Please enter a valid URL address. For example, "https://example.com/food".
-                            The http:// protocol is the defualt if not specified.
-                        </span>
+                        <span id="creationErrorMsg"></span>
                     </div> <!-- End of creation errors (warning-container) -->
                 </form> <!-- End of creation form -->
             </div>  <!-- end of creation panel -->

@@ -97,12 +97,13 @@ body {
     filter: brightness(85%);
 }
 
-.warning-container {
+.creationError {
     display: flex;
     gap: 10px;
-    margin-top: 10px;
+    margin-top: 5px;
     color: #dc143c;
 }
+
 
 #linksContainer {
     display: grid;

@@ -18,11 +18,19 @@ export async function createLink(reqBody) {
             return data;
         } catch (e) {
             console.error(e);
-            return {};
+            return {
+                statusCode: 503,
+                message: 'Service Unavailable',
+                description: 'Something went wrong, please try again later.'
+            };
         }
     }
 
-    return {};
+    return {
+        statusCode: 503,
+        message: 'Service Unavailable',
+        description: 'Something went wrong, please try again later.'
+    };
 }
 
 export async function getAllLinks() {
