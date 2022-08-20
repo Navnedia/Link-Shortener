@@ -72,7 +72,7 @@ async function addLink() {
         longURL.value = '';
         linkName.value = '';
     } else {
-        setCreationError(true, linkRes.description); // Show error.
+        setCreationError(true, linkRes.description, 10000); // Show error.
     }
     
     shortenBtn.classList.remove('loading'); // Remove button loader style.
@@ -82,11 +82,18 @@ async function addLink() {
  * Set the state and content of the creation error message.
  * @param {boolean} shown - Dictates if the error box should be shown, or hidden.
  * @param {string} msg - The message to be displayed (optional).
+ * @param {integer} timeOut - The time in milliseconds that the message should last (optional).
  */
-async function setCreationError(shown, msg) {
+async function setCreationError(shown, msg, timeOut) {
     if (shown) {
         creationError.querySelector('#creationErrorMsg').innerHTML = msg || REQUEST_FAIL_MSG;
         creationError.classList.remove('hidden');
+
+        if (!!timeOut) {
+            setTimeout(async () => {
+                creationError.classList.add('hidden');
+            }, timeOut);
+        }
     } else {
         creationError.classList.add('hidden');
     }
