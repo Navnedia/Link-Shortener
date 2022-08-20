@@ -32,35 +32,35 @@ class LinkItem extends HTMLElement {
             <link rel="stylesheet" href="./styles/icons.css">
 
             <div class="link-item">
-                <span class="created-date">${this.created}</span>
-                <h2 class="link-title ellipsis" tabindex="0">${this.name ?? "Untitled"}</h2>
+                <span class="created-date" aria-label="Date Created">${this.created}</span>
+                <h2 class="link-title ellipsis" tabindex="0" aria-label="Link Name">${this.name ?? "Untitled"}</h2>
             
                 <span class="destination link">
-                    <a href="${this.destination}" target="_blank" class="ellipsis">${this.destination}</a>
+                    <a href="${this.destination}" target="_blank" class="ellipsis" aria-label="Long URL">${this.destination}</a>
                 </span>
             
                 <hr>
             
                 <span class="shortlink link">
-                    <a href="${this.link}" target="_blank" class="ellipsis">${this.link}</a>
+                    <a href="${this.link}" target="_blank" class="ellipsis" aria-label="Shortened Link">${this.link}</a>
                 </span>
                 <span class="clicks">${this.clicks} Clicks</span>
             
                 <div class="item-action-buttons">
-                    <button id="btnCopy" type="button" class="action-btn" tooltip="Copy">
-                        <i class="fa-regular fa-clipboard"></i>
+                    <button id="btnCopy" type="button" class="action-btn" arial-label="Copy Link" tooltip="Copy">
+                        <i class="fa-regular fa-clipboard" aria-hidden="true"></i>
                     </button>
-                    <button id="btnShare" type="button" class="action-btn" tooltip="Share">
-                        <i class="fa-solid fa-share"></i>
+                    <button id="btnShare" type="button" class="action-btn" aria-label="Share Link" tooltip="Share">
+                        <i class="fa-solid fa-share" aria-hidden="true"></i>
                     </button>
-                    <button id="btnQRCode" type="button" class="action-btn" tooltip="QRCode">
-                        <i class="fa-solid fa-qrcode"></i>
+                    <button id="btnQRCode" type="button" class="action-btn" aria-label="Generate QRCode" tooltip="QRCode">
+                        <i class="fa-solid fa-qrcode" aria-hidden="true"></i>
                     </button>
-                    <button id="btnEdit" type="button" class="action-btn" tooltip="Edit">
-                        <i class="fa-solid fa-pencil"></i>
+                    <button id="btnEdit" type="button" class="action-btn" aria-label="Edit" tooltip="Edit">
+                        <i class="fa-solid fa-pencil" aria-hidden="true"></i>
                     </button>
-                    <button id="btnDel" type="button" class="action-btn" tooltip="Delete">
-                        <i class="fa-solid fa-trash-can"></i>
+                    <button id="btnDel" type="button" class="action-btn" aria-label="Delete Link" tooltip="Delete">
+                        <i class="fa-solid fa-trash-can" aria-hidden="true"></i>
                     </button>
                 </div> <!-- End of action buttons -->
 
@@ -82,7 +82,7 @@ class LinkItem extends HTMLElement {
             .addEventListener('click', this.copyLinkToClipboard.bind(this));
 
         // Add listener to both the delete and cancel confirmation button:
-        this.shadowRoot.querySelectorAll('#btnDel, #btnConfirmCancel').forEach((e) => {
+        (this.shadowRoot.querySelectorAll('#btnDel, #btnConfirmCancel') || []).forEach((e) => {
             e.addEventListener('click', () => {
                 // Hide error field from any previous failed runs:
                 this.shadowRoot.querySelector('.delete-error-message').classList.add('hidden');
