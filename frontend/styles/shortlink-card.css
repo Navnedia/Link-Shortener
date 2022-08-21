@@ -1,7 +1,6 @@
 :root {
     --item-bg: var(--secondary-color);
     --link-icons: var(--accent-color);
-    /* --link-hover: var(--dark-gray); */
     --destination-link: #9797a0;
     --button-active-bg: #2098ed36;
 }
@@ -16,10 +15,9 @@
 .link-item {
     display: block;
     background-color: var(--item-bg);
-    /* border: 5px solid #000000; */
     border-radius: 20px;
     padding: 15px;
-    /* Adjust width later. */
+    /*! Adjust width later. */
     width: 600px;
 
     /* Shadows Options: */
@@ -33,9 +31,9 @@
 .created-date {
     background-color: #c1c1c1;    
     border: 3px solid #000000;
-    border-radius: 8px;
+    border-radius: var(--radius);
     margin-left: 15px;
-    padding: 3px;
+    padding: 4px;
     float: right;
     font-size: 15px;
 }
@@ -58,7 +56,6 @@ hr {
 }
 
 .link > a:hover {
-  /* color: var(--link-hover); */
     filter: brightness(60%);
 }
 
@@ -83,14 +80,10 @@ hr {
 }
 
 .action-btn {
-    /* border: 3px solid #000000; */
-    /* border-radius: 8px; */
     border-radius: 100%;
     padding: 0;
     border: none;
     background: none;
-    /* font-weight: bold; */
-    /* height: 30px; */
     height: 50px;
     width: 50px;
     cursor: pointer;
@@ -173,7 +166,7 @@ hr {
     width: 80px;
     margin-top: 5px;
     border: none;
-    border-radius: 10px;
+    border-radius: var(--radius);
     font-weight: bold;
     cursor: pointer;
     transition: all 0.4s;
