@@ -66,8 +66,8 @@ class LinkItem extends HTMLElement {
 
                 <div class="message-container warning flex-center flex-column hidden">
                     <span class="confirm-message">Are you sure you want to delete this link?</span>
-                    <div class="confirm-buttons">
-                        <button type="button" id="btnConfirmCancel">Cancel</button>
+                    <div class="fancy-buttons">
+                        <button type="button" id="btnDelCancel">Cancel</button>
                         <button type="button" id="btnConfirmDelete">Delete</button>
                     </div>
 
@@ -82,7 +82,7 @@ class LinkItem extends HTMLElement {
             .addEventListener('click', this.copyLinkToClipboard.bind(this));
 
         // Add listener to both the delete and cancel confirmation button:
-        (this.shadowRoot.querySelectorAll('#btnDel, #btnConfirmCancel') || []).forEach((e) => {
+        (this.shadowRoot.querySelectorAll('#btnDel, #btnDelCancel') || []).forEach((e) => {
             e.addEventListener('click', () => {
                 // Hide error field from any previous failed runs:
                 this.shadowRoot.querySelector('.delete-error-message').classList.add('hidden');

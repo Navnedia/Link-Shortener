@@ -161,30 +161,22 @@ hr {
     color: var(--dark-gray);
 }
 
-.confirm-buttons > button {
-    height: 30px;
-    width: 80px;
-    margin-top: 5px;
-    border: none;
-    border-radius: var(--radius);
-    font-weight: bold;
-    cursor: pointer;
-    transition: all 0.4s;
-}
-
 .delete-error-message {
     margin-top: 10px;
     font-size: 90%;
     color: var(--red-color);
 }
 
+.fancy-buttons {
+    margin-top: 5px;
+}
 
-#btnConfirmCancel {
+#btnDelCancel {
     background-color: #c1c1c1;
     margin-right: 10px;
 }
 
-#btnConfirmCancel:hover {
+#btnDelCancel:hover {
     background-color: #a8a8a8;
 }
 
