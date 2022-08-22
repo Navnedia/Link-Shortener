@@ -11,19 +11,6 @@
 }
 
 
-.message-container {
-    border-radius: var(--radius);
-    padding: 15px;
-}
-
-.warning {
-    background-color: var(--red-transparent);
-}
-
-.info {
-    background-color: var(--accent-transparent);
-}
-
 .flex-center {
     display: flex;
     justify-content: center;
@@ -43,9 +30,45 @@
     display: none !important;
 }
 
+.ellipsis {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    max-width: 80%;
+}
+
+
+.message-container {
+    border-radius: var(--radius);
+    padding: 15px;
+}
+
+.has-icon {
+    display: flex;
+    gap: 10px;
+}
+
+.warning {
+    color: var(--red-color);
+    background-color: var(--red-transparent);
+}
+
+.info {
+    color: var(--accent-color);
+    background-color: var(--accent-transparent);
+}
+
+/* Might not need this, well see... */
+.success {
+    color: #0e862e;
+    background-color: #06A77D3b;
+}
+
+
 
 label {
     padding-left: 8px;
+    margin-bottom: 3px;
 }
 
 .label-required::after {
