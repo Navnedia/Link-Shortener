@@ -1,11 +1,3 @@
-:root {
-    --primary-color: #096691;
-    --secondary-color: #e5e6e4;
-    --accent-color: #2098ed;
-    --dark-gray: #344f65;
-    --red-color: #dc143c;
-}
-
 html, body {
     height: 100%;
     width: 100%;
@@ -16,9 +8,6 @@ html, body {
 body {
     /*! Body grid might not be needed! */
     display: grid;
-    /* place-items: center; */
-
-    /* Alternate white gray color: #e4e5e5 */
     background-color: var(--primary-color);
     /*! Add a better font */
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
@@ -29,7 +18,7 @@ body {
     background-color: var(--secondary-color);
     border-bottom: 10px solid var(--accent-color);
     width: 100%;
-    top: 0px;
+    top: 0;
     padding: 20px 0 20px 0;
     z-index: 1;
     flex-direction: column;
@@ -40,21 +29,8 @@ body {
     width: 615px;
 }
 
-.label-required::after {
-    content: " *";
-    color: var(--red-color);
-    font-size: 90%;
-}
-
-.fancy-input {
-    height: 40px;
-    border: 3px solid var(--dark-gray);
-    border-radius: 10px;
-    outline: none;
+#txtLinkName, #txtLongUrl {
     margin: 3px 0;
-    padding: 0 15px;
-    font-size: 90%;
-    text-overflow: ellipsis;
 }
 
 .url-bar {
@@ -62,20 +38,12 @@ body {
     padding-right: 65px;
 }
 
-.fancy-input:focus {
-    border-color: var(--accent-color);
-}
-
-.invalid, .invalid:focus {
-    border-color: var(--red-color);
-}
-
 #btnShorten {
     height: 46px;
     width: 20%;
     background-color: var(--accent-color);
     border: 3px solid var(--dark-gray);
-    border-radius: 0 10px 10px 0;
+    border-radius: 0 var(--radius) var(--radius) 0;
     outline: none;
     font-weight: bold;
     font-size: 100%;
@@ -101,7 +69,7 @@ body {
     display: flex;
     gap: 10px;
     margin-top: 5px;
-    color: #dc143c;
+    color: var(--red-color);
 }
 
 
@@ -110,19 +78,107 @@ body {
     place-items: center;
     padding: 20px;
     gap: 20px;
-
-    /* Margin here makes the sticky panel end on full card: */
-    /* margin-bottom: 75px; */
 }
   
 #linksContainer > link-item {
     animation: fadeIn 1s;
 }
 
-/* .modal {
+
+/* Modal Styles: */
+/*! Add some kid of animation. */
+/*! Should it be a full screen overlay instead? */
+
+.modal-wrapper {
     position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    pointer-events: none;
-} */
+    top: 0;
+    bottom: 0;
+    height: 100%;
+    width: 100%;
+    background-color: #344f6575;
+    backdrop-filter: blur(10px);
+    overflow: hidden;
+    /* Place over top Everything! */
+    z-index: 10000;
+}
+
+.modal-body {
+    border-radius: var(--radius);
+    padding: 15px;
+    background-color: #ffffff;
+}
+
+.modal-content {
+    /*! Adjust width later. */
+    width: 600px;
+}
+
+.modal-header {
+    text-align: center;
+    position: relative;
+}
+
+#btnCloseModal {
+    position: absolute;
+    right: 0;
+    top: 0;
+    height: 35px;
+    width: 35px;
+    background-color: transparent;
+    border: none;
+}
+
+
+.modal-header > h2 {
+    font-size: 200%;
+    letter-spacing: 2.5px;
+    margin: 0;
+}
+
+.modal-header > hr {
+    height: 6px;
+    background-color: var(--accent-color);
+}
+
+#txtName, #txtDestination, .shortID-bar {
+    margin: 3px 0 25px 0;
+}
+
+.shortID-bar {
+    display: flex;
+    gap: 0;
+}
+
+.input-addon {
+    display: grid;
+    place-items: center;
+    height: 40px;
+    border: 3px solid var(--dark-gray);
+    border-radius: var(--radius);
+    outline: none;
+    padding: 0 15px;
+    font-size: 100%;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    background-color: var(--light-gray);
+}
+
+.prefix {
+    border-right: none !important;
+    border-top-right-radius: 0 !important;
+    border-bottom-right-radius: 0 !important;
+}
+
+.has-prefix {
+    border-top-left-radius: 0 !important;
+    border-bottom-left-radius: 0 !important;
+    width: 100%;
+}
+
+#btnEditCancel {
+    background-color: var(--light-gray);
+}
+
+#btnEditSave {
+    background-color: var(--accent-color);
+}

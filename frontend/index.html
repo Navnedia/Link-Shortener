@@ -24,7 +24,7 @@
                     <label for="txtLinkName">Name</label>
                         <input type="text" id="txtLinkName" class="fancy-input" placeholder="Cat Videos">
                     
-                    <label for="txtUrl" class="label-required">Long URL</label>
+                    <label for="txtLongUrl" class="label-required">Long URL</label>
                         <div class="flex-center"> <!-- URL Bar field group -->
                             <input type="text"
                                     id="txtLongUrl"
@@ -36,10 +36,10 @@
                             <button type="button" id="btnShorten">Shorten</button>
                         </div> <!-- End of url field group (flex-center) -->
 
-                    <div class="creationError warning-container hidden">
+                    <div class="creationError message-container warning hidden">
                         <i class="fa-solid fa-circle-exclamation" aria-hidden="true"></i>
                         <span id="creationErrorMsg" aria-label="Error Message"></span>
-                    </div> <!-- End of creation errors (warning-container) -->
+                    </div> <!-- End of creation errors (message-container) -->
                 </form> <!-- End of creation form -->
             </div>  <!-- end of creation panel -->
 
@@ -47,12 +47,38 @@
             <div id="linksContainer">
             </div>
             <!-- End of linksContainer -->
+                
+            <!-- Modal wrapper -->
+            <div class="modal-wrapper flex-center hidden">
+                <div class="modal-body">
+                    <div class="modal-content flex-column">
+                        <header class="modal-header">
+                            <button type="button" id="btnCloseModal" aria-label="Close Edit Panel">
+                                <i class="fa-solid fa-x fa-xl" aria-hidden="true"></i>
+                            </button>
+                            
+                            <h2 tabindex="0">Edit Panel</h2><hr>
+                        </header>
 
-            <!-- <div class="modal-wrapper flex-center">
-                <div>
-                    - - - This is a Modal - - -
-                </div>
-            </div> -->
+                        <form id="editForm" class="flex-column">
+                            <label for="txtName">Name</label>
+                                <input type="text" id="txtName" class="fancy-input" placeholder="">
+                            <label for="txtDestination">Long URL</label>
+                                <input type="text" id="txtDestination" class="fancy-input" placeholder=""> 
+                            <label for="txtShortName">URL Sufix</label>
+                                <div class="shortID-bar">
+                                    <span id="baseUrl" class="input-addon prefix">sl.aiden-v.com/</span>
+                                    <input type="text" id="txtShortName" class="fancy-input has-prefix" placeholder="">
+                                </div> <!-- End shortID-bar -->
+
+                            <div class="fancy-buttons">
+                                <button type="button" id="btnEditCancel">Cancel</button>
+                                <button type="button" id="btnEditSave">Update</button>
+                            </div>
+                        </form> <!-- End of edit form -->
+                    </div> <!-- End modal content -->
+                </div> <!-- End modal body -->
+            </div> <!-- End modal wrapper -->
         </main>
     </body>
 </html>

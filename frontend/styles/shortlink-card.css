@@ -159,6 +159,7 @@ hr {
 .confirm-message {
     font-size: 110%;
     color: var(--dark-gray);
+    margin-bottom: 10px;
 }
 
 .delete-error-message {
@@ -167,23 +168,10 @@ hr {
     color: var(--red-color);
 }
 
-.fancy-buttons {
-    margin-top: 5px;
-}
-
 #btnDelCancel {
     background-color: #c1c1c1;
-    margin-right: 10px;
-}
-
-#btnDelCancel:hover {
-    background-color: #a8a8a8;
 }
 
 #btnConfirmDelete {
     background-color: #f15e5e;
-}
-
-#btnConfirmDelete:hover {
-    background-color: var(--red-color);
 }
