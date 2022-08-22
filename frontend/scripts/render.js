@@ -5,7 +5,7 @@ const linkContainer = document.getElementById('linksContainer');
 const longURL = document.getElementById('txtLongUrl');
 const linkName = document.getElementById('txtLinkName');
 const shortenBtn = document.getElementById('btnShorten');
-const creationError = document.querySelector('.creationError');
+const creationError = document.getElementById('creationError');
 
 const BAD_URL_MSG = 'Please enter a valid URL. For example, "https://example.com/food".';
 const REQUEST_FAIL_MSG = 'Something went wrong.';

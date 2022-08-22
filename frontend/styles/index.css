@@ -19,7 +19,7 @@ body {
     border-bottom: 10px solid var(--accent-color);
     width: 100%;
     top: 0;
-    padding: 20px 0 20px 0;
+    padding: 10px 0 20px 0;
     z-index: 1;
     flex-direction: column;
 }
@@ -29,13 +29,13 @@ body {
     width: 615px;
 }
 
-#txtLinkName, #txtLongUrl {
-    margin: 3px 0;
+#txtLinkName {
+    margin-bottom: 4px;
 }
 
 .url-bar {
     width: 100%;
-    padding-right: 65px;
+    padding-right: 65px !important;
 }
 
 #btnShorten {
@@ -65,11 +65,8 @@ body {
     filter: brightness(85%);
 }
 
-.creationError {
-    display: flex;
-    gap: 10px;
+#creationError {
     margin-top: 5px;
-    color: var(--red-color);
 }
 
 
@@ -116,18 +113,8 @@ body {
 .modal-header {
     text-align: center;
     position: relative;
+    margin-bottom: 5px;
 }
-
-#btnCloseModal {
-    position: absolute;
-    right: 0;
-    top: 0;
-    height: 35px;
-    width: 35px;
-    background-color: transparent;
-    border: none;
-}
-
 
 .modal-header > h2 {
     font-size: 200%;
@@ -140,8 +127,18 @@ body {
     background-color: var(--accent-color);
 }
 
-#txtName, #txtDestination, .shortID-bar {
-    margin: 3px 0 25px 0;
+#btnCloseModal {
+    position: absolute;
+    right: 0;
+    top: 0;
+    height: 35px;
+    width: 35px;
+    background-color: transparent;
+    border: none;
+}
+
+.field-group {
+    margin-bottom: 10px;
 }
 
 .shortID-bar {
@@ -181,4 +178,16 @@ body {
 
 #btnEditSave {
     background-color: var(--accent-color);
+}
+
+#editPanelMessage {
+    margin-top: 15px;
+}
+
+.field-error {
+    height: 15px;
+    max-width: 90% !important;
+    font-size: 15px;
+    padding-left: 8px;
+    color: var(--red-color);
 }

@@ -36,7 +36,7 @@
                             <button type="button" id="btnShorten">Shorten</button>
                         </div> <!-- End of url field group (flex-center) -->
 
-                    <div class="creationError message-container warning hidden">
+                    <div id="creationError" class="message-container has-icon warning hidden">
                         <i class="fa-solid fa-circle-exclamation" aria-hidden="true"></i>
                         <span id="creationErrorMsg" aria-label="Error Message"></span>
                     </div> <!-- End of creation errors (message-container) -->
@@ -56,26 +56,56 @@
                             <button type="button" id="btnCloseModal" aria-label="Close Edit Panel">
                                 <i class="fa-solid fa-x fa-xl" aria-hidden="true"></i>
                             </button>
-                            
                             <h2 tabindex="0">Edit Panel</h2><hr>
                         </header>
 
                         <form id="editForm" class="flex-column">
-                            <label for="txtName">Name</label>
-                                <input type="text" id="txtName" class="fancy-input" placeholder="">
-                            <label for="txtDestination">Long URL</label>
-                                <input type="text" id="txtDestination" class="fancy-input" placeholder=""> 
-                            <label for="txtShortName">URL Sufix</label>
-                                <div class="shortID-bar">
-                                    <span id="baseUrl" class="input-addon prefix">sl.aiden-v.com/</span>
-                                    <input type="text" id="txtShortName" class="fancy-input has-prefix" placeholder="">
-                                </div> <!-- End shortID-bar -->
+                            <div class="field-group flex-column">
+                                <label for="txtName">Name</label>
+                                    <input type="text"
+                                        id="txtName" 
+                                        class="fancy-input" 
+                                        placeholder="Add a name" 
+                                        value="">
 
-                            <div class="fancy-buttons">
+                                <span id="nameErrorMsg" class="field-error ellipsis"></span>
+                            </div> <!-- End of name field group -->
+                            <div class="field-group flex-column">
+                                <label for="txtDestination">Long URL</label>
+                                    <input type="text" 
+                                        id="txtDestination" 
+                                        maxlength="6144" 
+                                        class="fancy-input" 
+                                        placeholder="Add a destination URL"
+                                        value="">
+
+                                <span id="destinationErrorMsg" class="field-error ellipsis"></span>
+                            </div> <!-- End of destination url field group -->
+                            <div class="field-group flex-column">
+                                <label for="txtShortName">URL Short ID</label>
+                                    <div class="shortID-bar">
+                                        <span id="baseUrl" class="input-addon prefix"></span>
+                                        <input type="text" 
+                                            id="txtShortName" 
+                                            class="fancy-input has-prefix" 
+                                            placeholder="Add a custom back-half" 
+                                            value="">
+                                    </div>
+                                    
+                                <div id="shortidErrorMsg" class="field-error ellipsis"></div>
+                            </div> <!-- End of shortID field group -->
+
+                            <div class="fancy-buttons flex-right">
                                 <button type="button" id="btnEditCancel">Cancel</button>
                                 <button type="button" id="btnEditSave">Update</button>
-                            </div>
-                        </form> <!-- End of edit form -->
+                            </div> <!-- End edit panel control buttons container -->
+                        </form> <!-- End edit form -->
+                        
+                        <div id="editPanelMessage" class="message-container has-icon info hidden">
+                            <i class="fa-solid fa-circle-check hidden" aria-hidden="true"></i>
+                            <i class="fa-solid fa-circle-exclamation hidden" aria-hidden="true"></i>
+                            <span id="editMsg" aria-label="Edit Message"></span>
+                        </div> <!-- End of update messages (message-container) -->
                     </div> <!-- End modal content -->
                 </div> <!-- End modal body -->
             </div> <!-- End modal wrapper -->

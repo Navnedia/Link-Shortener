@@ -5,13 +5,6 @@
     --button-active-bg: #2098ed36;
 }
 
-.ellipsis {
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    overflow: hidden;
-    max-width: 80%;
-}
-
 .link-item {
     display: block;
     background-color: var(--item-bg);
@@ -158,14 +151,13 @@ hr {
 
 .confirm-message {
     font-size: 110%;
-    color: var(--dark-gray);
+    color: var(--dark-gray) !important;
     margin-bottom: 10px;
 }
 
 .delete-error-message {
     margin-top: 10px;
     font-size: 90%;
-    color: var(--red-color);
 }
 
 #btnDelCancel {
