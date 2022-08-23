@@ -10,9 +10,8 @@ const creationError = document.getElementById('creationError');
 const BAD_URL_MSG = 'Please enter a valid URL. For example, "https://example.com/food".';
 const REQUEST_FAIL_MSG = 'Something went wrong.';
 
-
 document.addEventListener('DOMContentLoaded', renderLinks);
-shortenBtn.addEventListener('click', addLink);
+shortenBtn.addEventListener('click', addNewLink);
 
 
 async function renderLinks() {
@@ -23,15 +22,12 @@ async function renderLinks() {
 
     if (Array.isArray(links)) { 
         // Display each link in the response array:
-        for (const linkData of links) {
-            const linkItem = document.createElement('link-item');
-            linkItem.setData(linkData);
-            linkContainer.prepend(linkItem);
-        }
+        links.forEach((linkData) => displayLinkItem(linkData));
     }
 }
 
-async function addLink() {
+
+async function addNewLink() {
     const data = {};
     data['destination'] = longURL.value.trim() || null; 
     data['name'] = linkName.value.trim() || null;
@@ -61,9 +57,7 @@ async function addLink() {
     const linkRes = await createLink(data); // Send create request.
     // If non-empty data was recived, create and display the element:
     if (Object.keys(linkRes).length !== 0 && !linkRes.statusCode) {
-        const linkItem = document.createElement('link-item');
-        linkItem.setData(linkRes);
-        linkContainer.prepend(linkItem);
+        displayLinkItem(linkRes);
         
         // Scroll to the top to show the new link:
         window.scroll({top: 0, behavior: 'smooth'});
@@ -76,6 +70,16 @@ async function addLink() {
     }
     
     shortenBtn.classList.remove('loading'); // Remove button loader style.
+}
+
+/**
+ * Creates a link item component with the data and adds it to the DOM.
+ * @param {object} linkData - The link data for the item.
+ */
+function displayLinkItem(linkData) {
+    const linkItem = document.createElement('link-item');
+    linkItem.setData(linkData);
+    linkContainer.prepend(linkItem);
 }
 
 /**
