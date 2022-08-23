@@ -3,7 +3,6 @@ import {removeLink} from "../scripts/api.js";
 class LinkItem extends HTMLElement {
     constructor() {
         super();
-        
         this.name = "";
         this.shortID = "";
         this.destination = "";
@@ -95,7 +94,7 @@ class LinkItem extends HTMLElement {
             .addEventListener('click', this.deleteShortLink.bind(this));
     }
 
-    // updateContent() {
+    // render() {
     //     this.shadowRoot.innerHTML = `
     //         <link rel="stylesheet" href="./styles/shortlink-card.css">
     //         <link rel="stylesheet" href="./styles/utils.css">
@@ -158,7 +157,7 @@ class LinkItem extends HTMLElement {
 
         /* You would need to indivisually update properties here using the DOM
            with things like queryselector */
-        // this.updateContent();
+        // this.render();
     }
 
 
