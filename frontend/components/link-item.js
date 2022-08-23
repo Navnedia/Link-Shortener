@@ -1,4 +1,5 @@
 import {removeLink} from "../scripts/api.js";
+import {openModal} from "../scripts/modal.js";
 
 class LinkItem extends HTMLElement {
     constructor() {
@@ -24,8 +25,16 @@ class LinkItem extends HTMLElement {
     }
 
     connectedCallback() {
-        const linkItemTemplate = document.createElement('template');
-        linkItemTemplate.innerHTML = `
+        this.render(); // Render HTML with values to the shadow DOM.
+        this.attachListeners(); // Attach event listeners for buttons.
+    }
+
+    disconnectedCallback() {
+        
+    }
+
+    render() {
+        this.shadowRoot.innerHTML = `
             <link rel="stylesheet" href="./styles/shortlink-card.css">
             <link rel="stylesheet" href="./styles/utils.css">
             <link rel="stylesheet" href="./styles/icons.css">
@@ -73,12 +82,14 @@ class LinkItem extends HTMLElement {
                     <span class="delete-error-message hidden"></span>
                 </div> <!-- End of warning message container -->
             </div> <!-- End of link-item -->`;
-        this.shadowRoot.appendChild(linkItemTemplate.content); // Add content to shadow.
+    }
 
-        // Attach event listeners:
-
+    attachListeners() {
         this.shadowRoot.getElementById('btnCopy') // Add copy button listener.
             .addEventListener('click', this.copyLinkToClipboard.bind(this));
+
+        this.shadowRoot.getElementById('btnEdit') // Add Edit button listener to open the edit panel.
+            .addEventListener('click', () => {openModal('edit-panel', this)});
 
         // Add listener to both the delete and cancel confirmation button:
         (this.shadowRoot.querySelectorAll('#btnDel, #btnDelCancel') || []).forEach((e) => {
@@ -92,61 +103,6 @@ class LinkItem extends HTMLElement {
 
         this.shadowRoot.getElementById('btnConfirmDelete') // Add Listener to fully delete link.
             .addEventListener('click', this.deleteShortLink.bind(this));
-    }
-
-    // render() {
-    //     this.shadowRoot.innerHTML = `
-    //         <link rel="stylesheet" href="./styles/shortlink-card.css">
-    //         <link rel="stylesheet" href="./styles/utils.css">
-    //         <link rel="stylesheet" href="./styles/icons.css">
-
-    //         <div class="link-item">
-    //             <span class="created-date">${this.created}</span>
-    //             <h2 class="link-title ellipsis" tabindex="0">${this.name ?? "Untitled"}</h2>
-            
-    //             <span class="destination link">
-    //                 <a href="${this.destination}" target="_blank" class="ellipsis">${this.destination}</a>
-    //             </span>
-            
-    //             <hr>
-            
-    //             <span class="shortlink link">
-    //                 <a href="${this.link}" target="_blank" class="ellipsis">${this.link}</a>
-    //             </span>
-    //             <span class="clicks">${this.clicks} Clicks</span>
-            
-    //             <div class="item-action-buttons">
-    //                 <button id="btnCopy" type="button" class="action-btn" tooltip="Copy">
-    //                     <i class="fa-regular fa-clipboard"></i>
-    //                 </button>
-    //                 <button id="btnShare" type="button" class="action-btn" tooltip="Share">
-    //                     <i class="fa-solid fa-share"></i>
-    //                 </button>
-    //                 <button id="btnQRCode" type="button" class="action-btn" tooltip="QRCode">
-    //                     <i class="fa-solid fa-qrcode"></i>
-    //                 </button>
-    //                 <button id="btnEdit" type="button" class="action-btn" tooltip="Edit">
-    //                     <i class="fa-solid fa-pencil"></i>
-    //                 </button>
-    //                 <button id="btnDel" type="button" class="action-btn" tooltip="Delete">
-    //                     <i class="fa-solid fa-trash-can"></i>
-    //                 </button>
-    //             </div> <!-- End of action buttons -->
-
-    //             <div class="message-container warning flex-center flex-column hidden">
-    //                 <span class="confirm-message">Are you sure you want to delete this link?</span>
-    //                 <div class="confirm-buttons">
-    //                     <button type="button" id="btnConfirmCancel">Cancel</button>
-    //                     <button type="button" id="btnConfirmDelete">Delete</button>
-    //                 </div>
-
-    //                 <span class="delete-error-message hidden"></span>
-    //             </div> <!-- End of warning message container -->
-    //         </div> <!-- End of link-item -->`;
-    // }
-
-    disconnectedCallback() {
-        
     }
 
     /* Methods below must be avalible if you want to be able to update links
