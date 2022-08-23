@@ -122,6 +122,59 @@ label {
     border-color: var(--red-color);
 }
 
+/* Tooltip Bubble Styles:*/
+[tooltip]:hover::before,
+[tooltip]:hover::after {
+    /* Makes the tooltip appear */
+    display: block;
+    opacity: 1;
+}
+[tooltip] {
+    position: relative;
+    cursor: pointer;
+}
+[tooltip]::before,
+[tooltip]::after {
+    line-height: 1;
+    font-size: .9em;
+    pointer-events: none;
+    position: absolute;
+    box-sizing: border-box;
+    display: none;
+    opacity: 0;
+}
+[tooltip]::after {
+    content: attr(tooltip);
+    text-align: center;
+    min-width: 3em;
+    max-width: 21em;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding: 4px 12px;
+    border-radius: 9px;
+    background: var(--link-icons);
+    color: #FFFFFF;
+}
+
+/* Tooltip Arrow Styles: */
+[tooltip]::before {
+    content: "";
+    border: 5px solid transparent;
+}
+[tooltip]::before {
+    top: 100%;
+    border-top-width: 0;
+    border-bottom-color: var(--link-icons);
+}
+[tooltip]::after {
+    top: calc(100% + 5px);
+}
+[tooltip]::before, [tooltip]::after {
+    left: 50%;
+    transform: translate(-50%, 8px);
+}
+
 
 /* Animations: */
 
