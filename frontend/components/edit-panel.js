@@ -1,28 +1,20 @@
-import {closeModal} from "../scripts/test-modal.js";
+import { updateLink } from "../scripts/api.js";
+import {closeModal} from "../scripts/modal.js";
 
 class editPanel extends HTMLElement {
     constructor() {
         super();
-        // this.name = "";
-        // this.shortID = "";
-        // this.destination = "";
         this.linkItem = {};
         this.attachShadow({mode: 'open'}); // Create shadow root.
     }
 
     setData(linkItem) {
-        // this.name = properties.name || "Untitled";
-        // this.shortID = properties.shortID || "";
-        // this.destination = properties.destination || "";
         this.linkItem = linkItem || {};
     }
 
     connectedCallback() {
-        this.render();
-
-        (this.shadowRoot.querySelectorAll('#btnCloseModal, #btnEditCancel') || []).forEach((e => {
-            e.addEventListener('click', closeModal);
-        }));
+        this.render(); // Render HTML with values to the shadow DOM.
+        this.attachListeners(); // Attach event listeners for buttons.
     }
 
     disconnectedCallback() {
@@ -50,7 +42,7 @@ class editPanel extends HTMLElement {
                             id="txtName" 
                             class="fancy-input" 
                             placeholder="Add a name" 
-                            value="${this.linkItem.name}">
+                            value="${this.linkItem.name ?? 'Untitled'}">
 
                     <span id="nameErrorMsg" class="field-error ellipsis"></span>
                 </div> <!-- End of name field group -->
@@ -61,19 +53,19 @@ class editPanel extends HTMLElement {
                             maxlength="6144" 
                             class="fancy-input" 
                             placeholder="Add a destination URL"
-                            value="${this.linkItem.destination}">
+                            value="${this.linkItem.destination || ''}">
 
                     <span id="destinationErrorMsg" class="field-error ellipsis"></span>
                 </div> <!-- End of destination url field group -->
                 <div class="field-group flex-column">
                     <label for="txtShortName">URL Short ID</label>
                         <div class="shortID-bar">
-                            <span id="baseUrl" class="input-addon prefix">${"Domain Here"}</span>
+                            <span id="baseUrl" class="input-addon prefix">${"!!!!!!!Domain Here!!!!!!"}</span>
                             <input type="text" 
                                 id="txtShortName" 
                                 class="fancy-input has-prefix" 
                                 placeholder="Add a custom back-half" 
-                                value="${this.linkItem.shortID}">
+                                value="${this.linkItem.shortID || ''}">
                         </div>
 
                     <div id="shortidErrorMsg" class="field-error ellipsis"></div>
@@ -91,6 +83,37 @@ class editPanel extends HTMLElement {
                 <span id="editMsg" aria-label="Edit Message"></span>
             </div> <!-- End of update messages (message-container) -->
         </div> <!-- End modal content -->`;
+    }
+
+    attachListeners() {
+        // Add close model button listeners:
+        (this.shadowRoot.querySelectorAll('#btnCloseModal, #btnEditCancel') || []).forEach((e => {
+            e.addEventListener('click', closeModal);
+        }));
+
+        // Add save button listener:
+        this.shadowRoot.getElementById('btnEditSave').addEventListener('click', this.saveChanges.bind(this));
+    }
+
+    // Event listeners:
+    async saveChanges() {
+        //! This is a bit of a hack around, I plan to make this nicer.
+
+        const newName = this.shadowRoot.getElementById('txtName').value.trim();
+        const newDestination = this.shadowRoot.getElementById('txtDestination').value.trim();
+        const newShortID = this.shadowRoot.getElementById('txtShortName').value.trim();
+
+        const data = {
+            name: (newName !== this.linkItem.name) ? newName : null,
+            destination: (newDestination !== this.linkItem.destination) ? newDestination : null,
+            shortID: (newShortID !== this.linkItem.shortID) ? newShortID : null
+        };
+
+        const updatedLink = await updateLink(this.linkItem.shortID, data);
+
+        //! This is esspecially hacky, lol. Just trying want to get to bed for now.
+        this.linkItem.setData(updatedLink);
+        this.linkItem.render();
     }
 }
 

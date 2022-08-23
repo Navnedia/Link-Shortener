@@ -23,7 +23,3 @@ export async function closeModal() {
     modalWrapper.classList.add('hidden');    
     modalBody.innerHTML = "";
 }
-
-// Async??
-// Where to place these methods??
-// Make 
