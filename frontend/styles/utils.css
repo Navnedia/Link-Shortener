@@ -30,6 +30,10 @@
     display: none !important;
 }
 
+.no-scroll {
+    overflow: hidden;
+}
+
 .ellipsis {
     text-overflow: ellipsis;
     white-space: nowrap;

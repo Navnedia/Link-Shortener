@@ -86,7 +86,7 @@ body {
 /*! Add some kid of animation. */
 /*! Should it be a full screen overlay instead? */
 
-.modal-wrapper {
+#modalWrapper {
     position: fixed;
     top: 0;
     bottom: 0;
@@ -99,95 +99,8 @@ body {
     z-index: 10000;
 }
 
-.modal-body {
+#modalBody {
     border-radius: var(--radius);
     padding: 15px;
     background-color: #ffffff;
-}
-
-.modal-content {
-    /*! Adjust width later. */
-    width: 600px;
-}
-
-.modal-header {
-    text-align: center;
-    position: relative;
-    margin-bottom: 5px;
-}
-
-.modal-header > h2 {
-    font-size: 200%;
-    letter-spacing: 2.5px;
-    margin: 0;
-}
-
-.modal-header > hr {
-    height: 6px;
-    background-color: var(--accent-color);
-}
-
-#btnCloseModal {
-    position: absolute;
-    right: 0;
-    top: 0;
-    height: 35px;
-    width: 35px;
-    background-color: transparent;
-    border: none;
-}
-
-.field-group {
-    margin-bottom: 10px;
-}
-
-.shortID-bar {
-    display: flex;
-    gap: 0;
-}
-
-.input-addon {
-    display: grid;
-    place-items: center;
-    height: 40px;
-    border: 3px solid var(--dark-gray);
-    border-radius: var(--radius);
-    outline: none;
-    padding: 0 15px;
-    font-size: 100%;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    background-color: var(--light-gray);
-}
-
-.prefix {
-    border-right: none !important;
-    border-top-right-radius: 0 !important;
-    border-bottom-right-radius: 0 !important;
-}
-
-.has-prefix {
-    border-top-left-radius: 0 !important;
-    border-bottom-left-radius: 0 !important;
-    width: 100%;
-}
-
-#btnEditCancel {
-    background-color: var(--light-gray);
-}
-
-#btnEditSave {
-    background-color: var(--accent-color);
-}
-
-#editPanelMessage {
-    margin-top: 15px;
-}
-
-.field-error {
-    height: 15px;
-    max-width: 90% !important;
-    font-size: 15px;
-    padding-left: 8px;
-    color: var(--red-color);
 }
