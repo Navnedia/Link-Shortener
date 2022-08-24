@@ -53,12 +53,6 @@ class LinkItem extends HTMLElement {
                     <button id="btnCopy" type="button" class="action-btn" arial-label="Copy Link" tooltip="Copy">
                         <i class="fa-regular fa-clipboard" aria-hidden="true"></i>
                     </button>
-                    <button id="btnShare" type="button" class="action-btn" aria-label="Share Link" tooltip="Share">
-                        <i class="fa-solid fa-share" aria-hidden="true"></i>
-                    </button>
-                    <button id="btnQRCode" type="button" class="action-btn" aria-label="Generate QRCode" tooltip="QRCode">
-                        <i class="fa-solid fa-qrcode" aria-hidden="true"></i>
-                    </button>
                     <button id="btnEdit" type="button" class="action-btn" aria-label="Edit" tooltip="Edit">
                         <i class="fa-solid fa-pencil" aria-hidden="true"></i>
                     </button>
