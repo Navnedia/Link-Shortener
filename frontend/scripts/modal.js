@@ -14,12 +14,14 @@ export async function openModal(modalType, linkItem, callback) {
     closeModal(); // Close any existing modals.
     modalBody.append(modalElement);
     modalWrapper.classList.remove('hidden');
+    document.body.classList.add('no-scroll');
 }
 
 /**
  * Closes all open modals.
  */
 export async function closeModal() {
+    document.body.classList.remove('no-scroll');
     modalWrapper.classList.add('hidden');    
     modalBody.innerHTML = "";
 }
