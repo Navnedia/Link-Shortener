@@ -7,9 +7,9 @@ const modalBody = document.getElementById('modalBody');
  * @param {string} modalType - The string value of the modal element you wish to open.
  * @param {object} linkItem - The referece to the linkItem we are editing.
  */
-export async function openModal(modalType, linkItem) {
+export async function openModal(modalType, linkItem, callback) {
     const modalElement = document.createElement(modalType);
-    modalElement.setData(linkItem);
+    modalElement.setData(linkItem, callback);
 
     closeModal(); // Close any existing modals.
     modalBody.append(modalElement);

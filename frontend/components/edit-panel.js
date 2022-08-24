@@ -4,12 +4,14 @@ import {closeModal} from "../scripts/modal.js";
 class editPanel extends HTMLElement {
     constructor() {
         super();
-        this.linkItem = {};
+        this.linkData = {};
+        this.callback = null;
         this.attachShadow({mode: 'open'}); // Create shadow root.
     }
 
-    setData(linkItem) {
-        this.linkItem = linkItem || {};
+    setData(linkData, callback) {
+        this.linkData = linkData || {};
+        this.callback = callback || null;
     }
 
     connectedCallback() {
@@ -42,7 +44,7 @@ class editPanel extends HTMLElement {
                             id="txtName" 
                             class="fancy-input" 
                             placeholder="Add a name" 
-                            value="${this.linkItem.name ?? 'Untitled'}">
+                            value="${this.linkData.name || 'Untitled'}">
 
                     <span id="nameErrorMsg" class="field-error ellipsis"></span>
                 </div> <!-- End of name field group -->
@@ -53,7 +55,7 @@ class editPanel extends HTMLElement {
                             maxlength="6144" 
                             class="fancy-input" 
                             placeholder="Add a destination URL"
-                            value="${this.linkItem.destination || ''}">
+                            value="${this.linkData.destination || ''}">
 
                     <span id="destinationErrorMsg" class="field-error ellipsis"></span>
                 </div> <!-- End of destination url field group -->
@@ -65,7 +67,7 @@ class editPanel extends HTMLElement {
                                 id="txtShortName" 
                                 class="fancy-input has-prefix" 
                                 placeholder="Add a custom back-half" 
-                                value="${this.linkItem.shortID || ''}">
+                                value="${this.linkData.shortID || ''}">
                         </div>
 
                     <div id="shortidErrorMsg" class="field-error ellipsis"></div>
@@ -87,34 +89,51 @@ class editPanel extends HTMLElement {
 
     attachListeners() {
         // Add close model button listeners:
-        (this.shadowRoot.querySelectorAll('#btnCloseModal, #btnEditCancel') || []).forEach((e => {
+        this.getElements('#btnCloseModal, #btnEditCancel').forEach((e => {
             e.addEventListener('click', closeModal);
         }));
 
         // Add save button listener:
-        this.shadowRoot.getElementById('btnEditSave').addEventListener('click', this.saveChanges.bind(this));
+        this.getEl('#btnEditSave').addEventListener('click', this.saveChanges.bind(this));
     }
 
     // Event listeners:
     async saveChanges() {
         //! This is a bit of a hack around, I plan to make this nicer.
 
-        const newName = this.shadowRoot.getElementById('txtName').value.trim();
-        const newDestination = this.shadowRoot.getElementById('txtDestination').value.trim();
-        const newShortID = this.shadowRoot.getElementById('txtShortName').value.trim();
+        const newName = this.getEl('#txtName').value.trim();
+        const newDestination = this.getEl('#txtDestination').value.trim();
+        const newShortID = this.getEl('#txtShortName').value.trim();
 
         const data = {
-            name: (newName !== this.linkItem.name) ? newName : null,
-            destination: (newDestination !== this.linkItem.destination) ? newDestination : null,
-            shortID: (newShortID !== this.linkItem.shortID) ? newShortID : null
+            name: (newName !== this.linkData.name) ? newName : null,
+            destination: (newDestination !== this.linkData.destination) ? newDestination : null,
+            shortID: (newShortID !== this.linkData.shortID) ? newShortID : null
         };
 
-        const updatedLink = await updateLink(this.linkItem.shortID, data);
+        const updatedLink = await updateLink(this.linkData.shortID, data);
 
         //! This is esspecially hacky, lol. Just trying want to get to bed for now.
-        this.linkItem.setData(updatedLink);
-        this.linkItem.render();
+        if (this.callback instanceof Function) {
+            this.callback(updatedLink);
+        }
     }
+
+    // Helpers:
+    /**
+     * A simple helper method to simplify getting elements from shadow DOM.
+     * @param {string} selctor - The query to select the desired element.
+     * @returns The first element in the shadow DOM that matches selector.
+     */
+    getEl(selctor) {return this.shadowRoot.querySelector(selctor)}
+
+     /**
+     * A simple helper method to simplify getting all elements from shadow DOM
+     * for a given query.
+     * @param {string} selctors - The query to select the desired elements.
+     * @returns All elements in the shadow DOM that matches selector.
+     */
+    getElements(selctors) {return this.shadowRoot.querySelectorAll(selctors)}
 }
 
 customElements.define('edit-panel', editPanel);
