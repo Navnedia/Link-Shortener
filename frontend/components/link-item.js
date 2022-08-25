@@ -87,14 +87,7 @@ class LinkItem extends HTMLElement {
         });
 
         // Add listener to both the delete and cancel confirmation button:
-        this.getElements('#btnDel, #btnDelCancel').forEach((e) => {
-            e.addEventListener('click', () => {
-                // Hide error field from any previous failed runs:
-                this.getEl('.delete-error-message').classList.add('hidden');
-                // Show delete confirmation:
-                this.getEl('.message-container.warning').classList.toggle('hidden');
-            });
-        });
+        this.addListenerAll('#btnDel, #btnDelCancel', 'click', this.toggleDeleteConfirmation.bind(this));
 
         this.getEl('#btnConfirmDelete') // Add Listener to fully delete link.
             .addEventListener('click', this.deleteShortLink.bind(this));
@@ -141,6 +134,13 @@ class LinkItem extends HTMLElement {
         }, 500);
     }
 
+    toggleDeleteConfirmation() {
+        // Hide error field from any previous failed runs:
+        this.getEl('.delete-error-message').classList.add('hidden');
+        // Show delete confirmation:
+        this.getEl('.message-container.warning').classList.toggle('hidden');
+    }
+
 
     // Helpers Functions:
     /**
@@ -184,6 +184,32 @@ class LinkItem extends HTMLElement {
      * @returns All elements in the shadow DOM that matches selector.
      */
     getElements(selctors) {return this.shadowRoot.querySelectorAll(selctors)}
+
+    /**
+     * A helper to simplify the process of getting and adding an event
+     * listener to to an element.
+     * @param {string} selector - The query to select the desired element.
+     * @param {*} type - The type of event to listen for (ex: click, blur, etc.)
+     * @param {*} listenerCallback - The callback function to run on event.
+     * @param {*} options - Optional list of option paramaters for the listener.
+     */
+     addListener(selector, type, listenerCallback, options) {
+        this.getEl(selector).addEventListener(type, listenerCallback, options || undefined);
+    }
+
+    /**
+     * A helper to simplify the process of getting and adding the same event
+     * listener to multiple elements.
+     * @param {string} selectors - The query to select the desired elements.
+     * @param {*} type - The type of event to listen for (ex: click, blur, etc.)
+     * @param {*} listenerCallback - The callback function to run on event.
+     * @param {*} options - Optional list of option paramaters for the listener.
+     */
+    addListenerAll(selectors, type, listenerCallback, options) {
+        this.getElements(selectors).forEach((e) => {
+            e.addEventListener(type, listenerCallback, options || undefined);
+        });
+    }
 }
 
 customElements.define('link-item', LinkItem);
