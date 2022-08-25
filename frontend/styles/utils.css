@@ -98,9 +98,14 @@ label {
     transition: all 0.4s;
 }
 
-.fancy-buttons > button:hover,
-.fancy-buttons > button:focus-visible {
+.fancy-buttons > button:hover:not([disabled]),
+.fancy-buttons > button:focus-visible:not([disabled]) {
     filter: brightness(80%);
+}
+
+.fancy-buttons > button:disabled {
+    opacity: 0.6;
+    cursor: default;
 }
 
 
