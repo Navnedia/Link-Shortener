@@ -54,7 +54,7 @@ export async function removeLink(shortID) {
     // Temp solution for if we try to remove without a shortID
     // In the future I will handle this server side as well.
     if (!shortID) {
-        return {description: 'Something went wrong, missing shortID.'};    
+        return {description: 'Something went wrong, missing shortID'};    
     }
 
     const response = await fetch(`${BASE_URL}/api/shortlinks/${shortID || ''}`, {
@@ -72,7 +72,7 @@ export async function updateLink(shortID, reqBody) {
         return {
             statusCode: 400,
             message: 'Bad Request',
-            description: 'Missing shortID'
+            description: 'Something went wrong, missing shortID'
         };
     }
     // if (Object.keys(reqBody).length === 0) {} // Should I do something if the data is empty?
@@ -85,7 +85,7 @@ export async function updateLink(shortID, reqBody) {
         body: JSON.stringify(reqBody || '')
     }).catch(e => null);
 
-    if (response && response.ok) {
+    if (response) {
         try {
             const data = await response.json();
             return data;
