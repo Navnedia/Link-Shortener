@@ -99,10 +99,3 @@ async function setCreationError(shown, msg, timeOut) {
         creationError.classList.add('hidden');
     }
 }
-
-// // Real time url validation:
-// document.getElementById('txtLongUrl').addEventListener('input', (e) => {
-//     const element = e.target;
-//     (!validURL(element.value)) ? element.classList.add('invalid') 
-//         : element.classList.remove('invalid');
-// });
