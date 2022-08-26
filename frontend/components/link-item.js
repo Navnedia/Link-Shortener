@@ -12,20 +12,16 @@ class LinkItem extends HTMLElement {
         this.linkData = data || {};
     }
 
-    updateDisplay(newData) {
-        if (!newData || !(newData instanceof Object)) return;
-        this.linkData = newData || {};
-        this.renderUpdates();
-    }
-
-
     connectedCallback() {
         this.render(); // Render HTML with values to the shadow DOM.
         this.attachListeners(); // Attach event listeners for buttons.
     }
 
     disconnectedCallback() {
-
+        this.getEl('#btnCopy').removeEventListener('click', this.copyLinkToClipboard.bind(this));
+        this.getEl('#btnEdit').removeEventListener('click', this.launchEditPanel.bind(this));
+        this.removeListenerAll('#btnDel, #btnDelCancel', 'click', this.toggleDeleteConfirmation.bind(this));
+        this.getEl('#btnConfirmDelete').removeEventListener('click', this.deleteShortLink.bind(this));
     }
 
     render() {
@@ -78,13 +74,7 @@ class LinkItem extends HTMLElement {
             .addEventListener('click', this.copyLinkToClipboard.bind(this));
 
         // Add Edit button listener:
-        this.getEl('#btnEdit').addEventListener('click', () => {
-            /**
-             * Open the edit modal with the link data, and attach the callback function 
-             * to update this link item in the DOM.
-             */
-            openModal('edit-panel', this.linkData, this.updateDisplay.bind(this));
-        });
+        this.getEl('#btnEdit').addEventListener('click', this.launchEditPanel.bind(this));
 
         // Add listener to both the delete and cancel confirmation button:
         this.addListenerAll('#btnDel, #btnDelCancel', 'click', this.toggleDeleteConfirmation.bind(this));
@@ -134,19 +124,42 @@ class LinkItem extends HTMLElement {
         }, 500);
     }
 
-    toggleDeleteConfirmation() {
+    async toggleDeleteConfirmation() {
         // Hide error field from any previous failed runs:
         this.getEl('.delete-error-message').classList.add('hidden');
         // Show delete confirmation:
         this.getEl('.message-container.warning').classList.toggle('hidden');
     }
 
+    async launchEditPanel() {
+        /**
+         * Open the edit modal with the link data, and attach the callback function 
+         * to update this link item in the DOM.
+         */
+        openModal('edit-panel', this.linkData, this.updateLinkData.bind(this));
+    }
+
 
     // Helpers Functions:
     /**
-     * Updates values in the shadow DOM to reflect current property values.
+     * A helper method used to update the whole linkData object at once and request
+     * Updates to the content. Useful as a callback.
+     * @param {*} newData - The new data object to replace the existing link data.
+     * @param {boolean} refreshContent - Defines if the display contents should be updated to reflect new values (default true).
      */
-    renderUpdates() {
+    updateLinkData(newData, refreshContent = true) {
+        if (!newData || !(newData instanceof Object)) return;
+        this.linkData = newData || {};
+
+        if (refreshContent) this.renderContentUpdates();
+    }
+
+
+    /**
+     * Renders updates to content values in the shadow DOM to reflect current 
+     * property values.
+     */
+    renderContentUpdates() {
         let destinationLink = this.getEl(".destination.link > a");
         destinationLink.href = this.linkData.destination || ' '; 
         destinationLink.innerHTML = this.linkData.destination || ' ';
@@ -208,6 +221,19 @@ class LinkItem extends HTMLElement {
     addListenerAll(selectors, type, listenerCallback, options) {
         this.getElements(selectors).forEach((e) => {
             e.addEventListener(type, listenerCallback, options || undefined);
+        });
+    }
+
+    /**
+     * A helper to simplify the process of getting and removing the same event
+     * listener to multiple elements.
+     * @param {string} selectors - The query to select the desired elements.
+     * @param {*} type - The type of event listener (ex: click, blur, etc.)
+     * @param {*} listenerCallback - The callback function to remove.
+     */
+     removeListenerAll(selectors, type, listenerCallback) {
+        this.getElements(selectors).forEach((e) => {
+            e.removeEventListener(type, listenerCallback);
         });
     }
 }
