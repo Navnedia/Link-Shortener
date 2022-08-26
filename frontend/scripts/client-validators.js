@@ -14,3 +14,16 @@ const URL_PATTERN = new RegExp('^(https?:\\/\\/)?'+ // protocol
 export function validURL(data) {
   return !!URL_PATTERN.test(data);
 }
+
+/**
+* Validates input data to see if it can saftly be used as
+* the shortID, this means that it may only include 
+* capital/lowercase letters, numbers, underscores, and
+* dashes. These restrictions make the shortID more url 
+* friendly. 
+* @param data - data to validate
+* @returns boolean (true) if input is URl safe
+*/
+export function validShortID(data) {
+   return /^[a-zA-Z0-9_-]*$/.test(data);
+}
