@@ -1,4 +1,5 @@
 import {removeLink} from "../scripts/api.js";
+import {REDIRECT_URL, DEFAULT_NAME, GENERAL_ERROR} from "../scripts/config.js";
 import {openModal} from "../scripts/modal.js";
 
 class LinkItem extends HTMLElement {
@@ -32,16 +33,18 @@ class LinkItem extends HTMLElement {
 
             <div class="link-item">
                 <span class="created-date" aria-label="Date Created">${this.localDate(this.linkData.created)}</span>
-                <h2 class="link-title ellipsis" tabindex="0" aria-label="Link Name">${this.linkData.name || 'Untitled'}</h2>
+                <h2 class="link-title ellipsis" tabindex="0" aria-label="Link Name">${this.linkData.name || DEFAULT_NAME}</h2>
             
                 <span class="destination link">
-                    <a href="${this.linkData.destination || ' '}" target="_blank" class="ellipsis" aria-label="Long URL">${this.linkData.destination || ' '}</a>
+                    <a href="${this.linkData.destination || ' '}" target="_blank" class="ellipsis" aria-label="Long URL">
+                        ${this.linkData.destination || ' '}</a>
                 </span>
             
                 <hr>
             
                 <span class="shortlink link">
-                    <a href="${this.linkData.link || ' '}" target="_blank" class="ellipsis" aria-label="Shortened Link">${this.linkData.link || ' '}</a>
+                    <a href="${this.linkData.link || ' '}" target="_blank" class="ellipsis" aria-label="Shortened Link">
+                        ${REDIRECT_URL + (this.linkData.shortID || '')}</a>
                 </span>
                 <span class="clicks"><span id="linkClicks">${this.linkData.clicks || '0'}</span> Clicks</span>
             
@@ -110,7 +113,7 @@ class LinkItem extends HTMLElement {
 
         // If the response isn't blank, then display the error & return:
         if (Object.keys(response).length !== 0) {
-            errorField.innerHTML = response.description || 'Something went wrong';
+            errorField.innerHTML = response.description || GENERAL_ERROR;
             errorField.classList.remove('hidden');
             return;
         }
@@ -167,7 +170,7 @@ class LinkItem extends HTMLElement {
         shortLink.href = this.linkData.link || ' '; 
         shortLink.innerHTML = this.linkData.link || ' ';
 
-        this.getEl(".link-title").innerHTML = this.linkData.name || 'Untitled';
+        this.getEl(".link-title").innerHTML = this.linkData.name || DEFAULT_NAME;
         this.getEl(".created-date").innerHTML = this.localDate(this.linkData.created);
         this.getEl("#linkClicks").innerHTML = this.linkData.clicks || '0';
     }

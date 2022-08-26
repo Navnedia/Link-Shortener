@@ -1,0 +1,14 @@
+{
+    "DEFAULT_NAME": "Untitled",
+    "GENERAL_ERROR": "Something went wrong",
+    "VALIDATION_ERROR_MSG": "Invalid or missing parameter(s)",
+    "BAD_URL_MSG": "Please enter a valid URL. For example, 'https://example.com/videos'.",
+    "BAD_SHORTID_MSG": "The shortID cannot be blank, and must only include letters, numbers, underscores, and dashes.",
+    "SHORTID_CHANGE_WARNING": "Please be aware that changing the shortID will cause the old short link and QRCode to stop working.",
+    "EDIT_SUCCESS_MSG": "Saved Changes",
+    "UNAVALIABLE_RESPONSE": {
+        "statusCode": 503,
+        "message": "Service Unavailable",
+        "description": "Something went wrong, please try again later."
+    }
+}

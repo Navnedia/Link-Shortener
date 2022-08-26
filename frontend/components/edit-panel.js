@@ -1,5 +1,15 @@
 import {closeModal} from "../scripts/modal.js";
 import {updateLink} from "../scripts/api.js";
+import {
+    REDIRECT_URL,
+    DEFAULT_NAME,
+    GENERAL_ERROR,
+    VALIDATION_ERROR_MSG,
+    BAD_URL_MSG,
+    BAD_SHORTID_MSG,
+    SHORTID_CHANGE_WARNING,
+    EDIT_SUCCESS_MSG,
+} from "../scripts/config.js";
 import {validShortID, validURL} from "../scripts/client-validators.js";
 
 class editPanel extends HTMLElement {
@@ -48,7 +58,7 @@ class editPanel extends HTMLElement {
                             id="txtName" 
                             class="fancy-input" 
                             placeholder="Add a name" 
-                            value="${this.linkData.name || 'Untitled'}">
+                            value="${this.linkData.name || DEFAULT_NAME}">
 
                     <span id="nameErrorMsg" class="field-error"></span>
                 </div> <!-- End of name field group -->
@@ -67,7 +77,7 @@ class editPanel extends HTMLElement {
                 <div class="field-group flex-column">
                     <label for="txtshortID">URL Short ID</label>
                         <div class="shortID-bar">
-                            <span id="baseUrl" class="input-addon prefix">${"!!!!!!!Domain Here!!!!!!"}</span>
+                            <span id="baseUrl" class="input-addon prefix">${REDIRECT_URL}</span>
                             <input type="text" 
                                 id="txtshortID"
                                 name="shortID" 
@@ -108,20 +118,20 @@ class editPanel extends HTMLElement {
                     newDestination = 'http://' + newDestination;
                 }
             } else { // Send invalid error if destination is blank or not a url:
-                this.setInvalid('#txtdestination', true, 'Please enter a valid URL. For example, "https://example.com/videos".');
-                this.setEditMessage(true, true, 'Please fix errors first');
+                this.setInvalid('#txtdestination', true, BAD_URL_MSG);
+                this.setEditMessage(true, true, VALIDATION_ERROR_MSG);
                 return;
             }
 
             // Send invalid error if the shortID is null, or isn't URL safe:
             if (typeof newShortID !== 'string' || !validShortID(newShortID)) {
-                this.setInvalid('#txtshortID', true, 'The shortID cannot be blank, and must only include letters, numbers, underscores, and dashes.');
-                this.setEditMessage(true, true, 'Please fix errors first');
+                this.setInvalid('#txtshortID', true, BAD_SHORTID_MSG);
+                this.setEditMessage(true, true, VALIDATION_ERROR_MSG);
                 return;
             }
             
             const data = { // Package data in object, but only if it's diffrent than the current local value
-                name: (newName !== this.linkData.name && newName !== 'Untitled') ? newName : null,
+                name: (newName !== this.linkData.name && newName !== DEFAULT_NAME) ? newName : null,
                 destination: (newDestination !== this.linkData.destination) ? newDestination : null,
                 shortID: (newShortID !== this.linkData.shortID) ? newShortID : null
             };
@@ -150,17 +160,17 @@ class editPanel extends HTMLElement {
                 
                 this.callback(updatedLink); // Exucute callback to update the link item.
                 this.linkData = updatedLink; // Update data in this edit component.
-                this.setEditMessage(true, false, 'Saved Changes'); // Success message.
+                this.setEditMessage(true, false, EDIT_SUCCESS_MSG); // Success message.
             } else {
                 // Failed Request:
-                this.setEditMessage(true, true, updatedLink.description || 'Something went wrong');
+                this.setEditMessage(true, true, updatedLink.description || GENERAL_ERROR);
                 (updatedLink.errors || []).forEach((error) => { // Display field errors from response.
                     this.setInvalid(`#txt${error.field}`, true, error.message);
                 });
             } 
         } catch (e) {
             console.error(e);
-            this.setEditMessage(true, true, 'Something went wrong', 10000);
+            this.setEditMessage(true, true, GENERAL_ERROR, 10000);
         }
 
         this.setBtnLoading(false); // Remove loading button style.
@@ -180,7 +190,7 @@ class editPanel extends HTMLElement {
     async shortIDChange() {
         const shortIDField = this.getEl('#txtshortID');
         if (shortIDField.value !== this.linkData.shortID) { // When the shortID changes we let them know the implications.
-            this.setEditMessage(true, true, "Please be aware that changing the shortID will cause the old short link and QRCode to stop working.");
+            this.setEditMessage(true, true, SHORTID_CHANGE_WARNING);
         }
     }
 
@@ -233,7 +243,7 @@ class editPanel extends HTMLElement {
             messageTemplate.innerHTML = `
                 <div id="editPanelMessage" class="message-container has-icon ${(isWarning) ? 'warning' : 'info'}">
                     <i class="fa-solid ${(isWarning) ? 'fa-circle-exclamation' : 'fa-circle-check'}" aria-hidden="true"></i>
-                    <span id="editMsg" aria-label="Edit Message">${message || ((isWarning) ? 'Something went wrong' : 'All Set')}</span>
+                    <span id="editMsg" aria-label="Edit Message">${message || ((isWarning) ? GENERAL_ERROR : 'All Set')}</span>
                     <!-- End of update messages (message-container) -->
                 </div>`;
             modalContent.append(messageTemplate.content);

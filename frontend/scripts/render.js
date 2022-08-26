@@ -1,3 +1,4 @@
+import {BAD_URL_MSG, GENERAL_ERROR} from "./config.js";
 import {createLink, getAllLinks} from "./api.js";
 import {validURL} from "./client-validators.js";
 
@@ -7,21 +8,16 @@ const linkName = document.getElementById('txtLinkName');
 const shortenBtn = document.getElementById('btnShorten');
 const creationError = document.getElementById('creationError');
 
-const BAD_URL_MSG = 'Please enter a valid URL. For example, "https://example.com/videos".';
-const REQUEST_FAIL_MSG = 'Something went wrong.';
-
 document.addEventListener('DOMContentLoaded', renderLinks);
 shortenBtn.addEventListener('click', addNewLink);
 
 
 async function renderLinks() {
+    //! Maybe add an error message if the request fails, or a generic message if the user has no links.
+    //! Should I be doing any kind of validation here to make sure the response matches a format?
+    
     var links = await getAllLinks(); // Request all the links.
-
-    //! I should show something diffrent if the links are empty or if a backend error occurs.
-    //! Should I be doing any kind of validation here?
-
-    if (Array.isArray(links)) { 
-        // Display each link in the response array:
+    if (Array.isArray(links)) { // Display each link in the response array:
         links.forEach((linkData) => displayLinkItem(linkData));
     }
 }
@@ -31,9 +27,6 @@ async function addNewLink() {
     const data = {};
     data['destination'] = longURL.value.trim() || null; 
     data['name'] = linkName.value.trim() || null;
-    
-    //! Add form validation.
-    //! Better handle errors returned form server.
 
     // Check if the new destination is not null and is a valid URL:
     if (typeof data.destination === 'string' && validURL(data.destination)) {
@@ -52,6 +45,7 @@ async function addNewLink() {
     longURL.classList.remove('invalid'); // Remove URL field invalid because it passed validation checks.
     
     const linkRes = await createLink(data); // Send create request.
+    //! Add better handling for errors returned from backend server.
     // If non-empty data was recived, create and display the element:
     if (Object.keys(linkRes).length !== 0 && !linkRes.statusCode) {
         displayLinkItem(linkRes);
@@ -87,7 +81,7 @@ function displayLinkItem(linkData) {
  */
 async function setCreationError(shown, msg, timeOut) {
     if (shown) {
-        creationError.querySelector('#creationErrorMsg').innerHTML = msg || REQUEST_FAIL_MSG;
+        creationError.querySelector('#creationErrorMsg').innerHTML = msg || GENERAL_ERROR;
         creationError.classList.remove('hidden');
 
         if (!!timeOut) {
