@@ -34,17 +34,14 @@ async function addNewLink() {
     
     //! Add form validation.
     //! Better handle errors returned form server.
-    
-    if (!data.destination || typeof data.destination !== 'string') {
-        longURL.classList.add('invalid'); // Set URL field invalid.
-        setCreationError(true, BAD_URL_MSG); // Show error.
-        return;
-    }
-    // If the destination url doesn't include a protocol, then add the http:// protocol by default:
-    if (!(/^(https?:\/\/)/.test(data.destination))) {
-        data.destination = 'http://' + data.destination;
-    }
-    if (!validURL(data.destination)) {
+
+    // Check if the new destination is not null and is a valid URL:
+    if (typeof data.destination === 'string' && validURL(data.destination)) {
+        // If the url doesn't include a protocol, then add the http:// protocol by default:
+        if (!(/^(https?:\/\/)/.test(data.destination))) {
+            data.destination = 'http://' + data.destination;
+        }
+    } else { // Set an invalid error if destination is blank or not a url:
         longURL.classList.add('invalid'); // Set URL field invalid.
         setCreationError(true, BAD_URL_MSG); // Show error.
         return;
