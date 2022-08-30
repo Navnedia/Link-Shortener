@@ -27,7 +27,7 @@ const shortLinkSchema = new mongoose.Schema<IShortLink, ShortLinkModel, IShortLi
     shortID: {type: String, required: true},
     destination: {type: String, required: true},
     clicks: {type: Number, default: 0},
-    created: {type: Date,  required: true}
+    created: {type: Date,  default: new Date()}
 });
 
 /**

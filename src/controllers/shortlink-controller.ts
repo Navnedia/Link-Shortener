@@ -118,16 +118,11 @@ export async function createOneLink(req: express.Request, res: express.Response)
             if (!(await ShortLink.findByShortID(shortID))) break;
         }
 
-        /**
-         * Put properties into a data object so we can easily
-         * add all the data in one go, and so we can attach the
-         * date.
-         */
+        // Put properties into a data object:
          const data = {
             name: name,
             shortID: shortID,
-            destination: destination,
-            created: new Date()
+            destination: destination
         };
 
         // Create the new shortLink.
