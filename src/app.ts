@@ -5,7 +5,7 @@ import dotenv from 'dotenv';
 import {api, redirects} from './routes/index.js';
 import {errorHandler} from './middleware/error-handler.js';
 import AppError from './utils/appError.js';
-import connectDB from './db.js';
+import connectDB from './config/db.js';
 
 dotenv.config(); // Load environment variables.
 connectDB(); // Initalize connection to database.
