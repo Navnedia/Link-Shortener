@@ -1,4 +1,4 @@
-import mongoose, {Model, HydratedDocument, Date} from 'mongoose';
+import mongoose, {Model, HydratedDocument} from 'mongoose';
 
 // ShortLink data shape interface:
 export interface IShortLink {
