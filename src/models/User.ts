@@ -2,11 +2,34 @@ import {Schema, model} from 'mongoose';
 
 // Define the interface layout of the User:
 interface IUser {
+    /**
+     * The user's Google ID.
+     */
     googleId: string;
+
+    /**
+     * The user's account display name.
+     */
     displayName: string;
+
+    /**
+     * The user's first name.
+     */
     firstName: string;
+
+    /**
+     * The user's last name.
+     */
     lastName: string;
+
+    /**
+     * The user's profile image.
+     */
     image?: string;
+
+    /**
+     * The date & time this application user first registered.
+     */
     createdAt: Date;
 }
 
