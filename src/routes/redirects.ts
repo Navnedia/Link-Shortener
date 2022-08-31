@@ -7,6 +7,7 @@ const router = express.Router();
 /**
  * This route is incharge of redirecting all shortlink requests
  * to their appropirate destination url.
+ * @route (GET) /{shortID}
 */
 router.get('/:shortID', async (req, res) => {
     const shortLink = await ShortLink.findByShortID(req.params.shortID);
