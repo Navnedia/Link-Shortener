@@ -99,23 +99,6 @@ const shortLinkSchema = new mongoose.Schema<IShortLink, ShortLinkModel, IShortLi
     }
 });
 
-/**
- * ! The virtuals aproach has been set aside for now because it returns a
- * ! lot of unuseful data to the user like the internal object id, etc.
- */
-// /**
-//  * Add a virtual property to the schema. This link property contains the 
-//  * full shortlink including the domain name. This property has been 
-//  * virtualized to avoid storing unnessasary duplicate data in the database.
-//  */
-// shortLinkSchema.virtual('link').get(function() {
-//     return `${process.env.DOMAIN_NAME}/${this.shortID}`;
-// });
-
-// // Make sure the virtual link property is included in the API response:
-// shortLinkSchema.set('toJSON', {virtuals: true});
-// shortLinkSchema.set('toObject', {virtuals: true });
-
 
 // Define method implementations:
 
