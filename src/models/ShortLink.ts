@@ -1,6 +1,6 @@
 import mongoose, {Model, HydratedDocument} from 'mongoose';
 
-// ShortLink data shape interface:
+// ShortLink DATA shape interface:
 export interface IShortLink {
     name?: string;
     shortID: string;
@@ -9,10 +9,20 @@ export interface IShortLink {
     created: Date;
 }
 
+// ShortLink API RESPONSE shape interface:
+export interface IShortLinkAPIResponse {
+    name?: string;
+    shortID: string;
+    destination: string;
+    link: string;
+    clicks: number;
+    created: Date;
+}
+
 // Define ShortLink instance methods as interface:
 interface IShortLinkMethods {
     showRedirect(): string;
-    getAPIResponse(): object;
+    getAPIResponse(): IShortLinkAPIResponse;
 }
 
 // Create a new Model type that knows about the instance methods:
@@ -54,7 +64,7 @@ shortLinkSchema.method('showRedirect', function showRedirect() {
     return `shortID: ${this.shortID} --> destination: ${this.destination}`;
 });
 
-shortLinkSchema.method('getAPIResponse', function getAPIResponse() {
+shortLinkSchema.method('getAPIResponse', function getAPIResponse(): IShortLinkAPIResponse {
     const link = `${process.env.DOMAIN_NAME}/${this.shortID}`;
 
     return {
@@ -73,10 +83,3 @@ shortLinkSchema.static('findByShortID', async function findByShortID(shortID: st
 
 // Create and export the model:
 export const ShortLink = mongoose.model<IShortLink, ShortLinkModel>('ShortLink', shortLinkSchema);
-
-
-
-// Testing methods:
-
-// const shortLink = new ShortLink({shortID: '3UjfB7N', destination: 'http://example.com'});
-// console.log(shortLink.showRedirect());

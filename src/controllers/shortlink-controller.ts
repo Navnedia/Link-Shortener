@@ -4,7 +4,7 @@ import {nanoid} from 'nanoid';
 import AppError from '../utils/appError.js';
 import ValidationError from '../utils/validationError.js';
 import {validURL, stringNotEmpty, validShortID} from '../utils/validators.js';
-import {ShortLink, IShortLink} from '../models/ShortLink.js';
+import {ShortLink, IShortLinkAPIResponse} from '../models/ShortLink.js';
 
 
 /**
@@ -22,7 +22,7 @@ export async function createOneLink(req: express.Request, res: express.Response)
 
         // Format and return shortlink object response:
         return res.status(200)
-                  .set('Location', `api/shortlinks/${(helperResponse as IShortLink).shortID}`)
+                  .set('Location', `api/shortlinks/${(helperResponse as IShortLinkAPIResponse).shortID}`)
                   .send(helperResponse);
     } catch (error) {
         // console.log(error);
