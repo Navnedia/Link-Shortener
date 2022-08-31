@@ -34,10 +34,22 @@ interface ShortLinkModel extends Model<IShortLink, {}, IShortLinkMethods>{
 // Create the schema:
 const shortLinkSchema = new mongoose.Schema<IShortLink, ShortLinkModel, IShortLinkMethods>({
     name: String,
-    shortID: {type: String, required: true},
-    destination: {type: String, required: true},
-    clicks: {type: Number, default: 0},
-    created: {type: Date,  default: new Date()}
+    shortID: {
+        type: String,
+        required: true
+    },
+    destination: {
+        type: String,
+        required: true
+    },
+    clicks: {
+        type: Number,
+        default: 0
+    },
+    created: {
+        type: Date,
+        default: new Date()
+    }
 });
 
 /**
