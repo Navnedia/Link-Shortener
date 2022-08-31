@@ -1,4 +1,4 @@
-import {Schema, model} from 'mongoose';
+import mongoose from 'mongoose';
 
 // Define the interface layout of the User:
 interface IUser {
@@ -34,7 +34,7 @@ interface IUser {
 }
 
 // Define the mongoose schema:
-const userSchema = new Schema<IUser>({
+const userSchema = new mongoose.Schema<IUser>({
     googleId: {
         type: String,
         required: true
@@ -58,4 +58,4 @@ const userSchema = new Schema<IUser>({
     }
 });
 
-export const User = model<IUser>('User', userSchema); // Construct and export User model from schema.
+export const User = mongoose.model<IUser>('User', userSchema); // Construct and export User model from schema.
