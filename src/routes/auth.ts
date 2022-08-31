@@ -7,7 +7,7 @@ const router = express.Router();
  * Authenticate with google.
  * @route (GET) auth/google
  */
-router.get('/google', passport.authenticate('google', {scope: ['profile']}));
+router.get('/google', passport.authenticate('google', {scope: ['profile', 'email']}));
 
 /**
  * Google authentication callback.
