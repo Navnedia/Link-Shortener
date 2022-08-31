@@ -1,11 +1,16 @@
 import mongoose from 'mongoose';
 
 // Define the interface layout of the User:
-interface IUser {
+export interface IUser {
     /**
      * The user's Google ID.
      */
     googleId: string;
+
+    /**
+     * The user's Google email.
+     */
+     email: string;
 
     /**
      * The user's account display name.
@@ -36,6 +41,10 @@ interface IUser {
 // Define the mongoose schema:
 const userSchema = new mongoose.Schema<IUser>({
     googleId: {
+        type: String,
+        required: true
+    },
+    email: {
         type: String,
         required: true
     },
