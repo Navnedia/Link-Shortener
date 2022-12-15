@@ -10,5 +10,6 @@ The goal of this project was to learn more about building restful APIs, using da
 - [ ] Finish user authentication
 - [ ] Deploy active demo
 - [ ] Finish comprehensive documentation!
+- [ ] Add API Tokens to allow external applications to call the API
 
 Stay tuned :)
