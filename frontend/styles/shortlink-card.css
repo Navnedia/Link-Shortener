@@ -1,13 +1,11 @@
 :root {
-    --item-bg: var(--secondary-color);
-    --link-icons: var(--accent-color);
     --destination-link: #9797a0;
     --button-active-bg: #2098ed36;
 }
 
 .link-item {
     display: block;
-    background-color: var(--item-bg);
+    background-color: var(--secondary-color);
     border-radius: 20px;
     padding: 15px;
     /*! Adjust width later. */
@@ -58,7 +56,7 @@ hr {
 }
 
 .shortlink > a {
-    color: var(--link-icons);
+    color: var(--accent-color);
     font-size: 18px;
 }
 
@@ -91,7 +89,7 @@ hr {
 }
 
 .action-btn > i {
-    color: var(--link-icons);
+    color: var(--accent-color);
     font-size: 2em;
 }
 
