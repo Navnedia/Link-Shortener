@@ -5,8 +5,8 @@ import AppError from '../utils/appError.js';
 const router = express.Router();
 
 /**
- * This route is incharge of redirecting all shortlink requests
- * to their appropirate destination url.
+ * This route is in charge of redirecting all shortlink requests
+ * to their appropriate destination url.
  * @route (GET) /{shortID}
 */
 router.get('/:shortID', async (req, res) => {
