@@ -11,16 +11,16 @@ import configurePassport from './config/passport.js';
 import connectDB from './config/db.js';
 
 dotenv.config(); // Load environment variables.
-connectDB(); // Initalize connection to database.
+connectDB(); // Initialize connection to database.
 
-// Configure passport authentication stratigies:
+// Configure passport authentication strategies:
 configurePassport(passport);
 
 const PORT = process.env.PORT || 8080;
 const app = express(); // Initialize express app.
 
 app.use(express.json()); // Parse body as JSON.
-// Add origin allow header so this page can be acessed from other localhost ports:
+// Add origin allow header so this page can be accessed from other localhost ports:
 // Add content-type to allowed headers so we can send body in fetch request:
 app.use(cors({
     origin: "*",
