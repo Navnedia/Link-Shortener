@@ -35,7 +35,7 @@ export interface IUser {
     /**
      * The date & time this application user first registered.
      */
-    createdAt: Date;
+    createdAt?: Date;
 }
 
 // Define the mongoose schema:
