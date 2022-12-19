@@ -20,4 +20,13 @@ router.get('/google/callback',
         res.redirect('/');
 });
 
+/**
+ * Logout user.
+ * @route (GET) auth/logout
+ */
+router.get('/logout', (req, res) => {
+    req.logout(() => {});
+    res.redirect('/');
+});
+
 export default router;

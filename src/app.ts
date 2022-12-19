@@ -3,6 +3,7 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import session from 'express-session';
 import passport from 'passport';
+import MongoStore from 'connect-mongo';
 
 import {api, auth, redirects} from './routes/index.js';
 import {errorHandler} from './middleware/error-handler.js';
@@ -32,6 +33,7 @@ app.use(session({
     secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: false,
+    store: MongoStore.create({mongoUrl: process.env.MONGO_URI || ''})
     // cookie: { secure: true }
 }));
 

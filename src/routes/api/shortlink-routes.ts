@@ -1,4 +1,5 @@
 import express from 'express';
+import { ensureAuth } from '../../middleware/auth.js';
 import {
             createOneLink,
             getAllLinks, 
@@ -9,19 +10,20 @@ import {
       } from '../../controllers/shortlink-controller.js';
 
 const router = express.Router();
+router.use(ensureAuth);
 
 router.route('/')
       .post(createOneLink)
       .get(getAllLinks);
 
-router.post('/bulk', createBulkLinks);
-
+      
 router.route('/:shortID')
       .get(getOneLink)
       .patch(updateLink)
       .delete(removeLink);
-
-router.get('/:shortID/qrcode');
+      
+router.post('/bulk', createBulkLinks);
+// router.get('/:shortID/qrcode');
 
 
 // router.post('/', createLink);
