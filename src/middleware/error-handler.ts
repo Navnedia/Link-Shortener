@@ -1,5 +1,7 @@
+import { Request, Response, NextFunction } from "express";
+
 //! Is this needed?
-export const errorHandler = (error, req, res, next) => {
+export const errorHandler = (error, req: Request, res: Response, next: NextFunction) => {
     const statusCode = res.statusCode ? res.statusCode : 500;
     // console.log(error.stack!);
     // console.log("\n" + JSON.stringify(error, null, "\t"));

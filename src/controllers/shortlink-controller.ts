@@ -1,17 +1,17 @@
-import express from 'express';
+import { Request, Response } from "express";
 import {nanoid} from 'nanoid';
 
 import AppError from '../utils/appError.js';
 import ValidationError from '../utils/validationError.js';
 import {validURL, stringNotEmpty, validShortID} from '../utils/validators.js';
-import {ShortLink, IShortLinkAPIResponse} from '../models/ShortLink.js';
+import {ShortLink, IShortLinkAPIResponse, IShortLink} from '../models/ShortLink.js';
 
 
 /**
  * Create a new shortlink
  * @route (POST) api/shortlinks
  */
-export async function createOneLink(req: express.Request, res: express.Response) {
+export async function createOneLink(req: Request, res: Response) {
     try {
         // Create new shortlink with helper method and get response:
         const helperResponse = await createLink(req.body);
@@ -35,7 +35,7 @@ export async function createOneLink(req: express.Request, res: express.Response)
  * Create new shortlink(s)
  * @route (POST) api/shortlinks/bulk
  */
- export async function createBulkLinks(req: express.Request, res: express.Response) {
+ export async function createBulkLinks(req: Request, res: Response) {
     try {
         const requestBody = req.body;
         const linkResponses: object[] = [];
@@ -48,8 +48,8 @@ export async function createOneLink(req: express.Request, res: express.Response)
         }
 
         // Loop through and create each link from the request:
-        for (const linkRequest of requestBody) {
-            const helperResponse = await createLink(linkRequest); // Attempt to create the new link.
+        for (const linkData of requestBody) {
+            const helperResponse = await createLink(linkData); // Attempt to create the new link.
             // If the response was an error, then set the status code to 207 (i.e. Multi-Status):
             if (helperResponse instanceof AppError) res.status(207);
             linkResponses.push(helperResponse); // Add to responses array.
@@ -74,16 +74,16 @@ export async function createOneLink(req: express.Request, res: express.Response)
  * new shortlink, but if things don't go correctly it will return an AppError
  * object.
  */
- export async function createLink(linkRequest): Promise<object | AppError> {
+ export async function createLink(linkData: IShortLink): Promise<object | AppError> {
     try {
-        // Pull paramerters the user is allowed to set:
-        const name = stringNotEmpty(linkRequest.name) 
-            ? linkRequest.name : undefined; // Should this be a default name?
-        var {destination} = linkRequest;
+        // Pull parameters the user is allowed to set:
+        const name = stringNotEmpty(linkData.name) 
+            ? linkData.name : undefined; // Should this be a default name?
+        var {destination} = linkData;
             
         /**
          * ! Validation will be refactored later to make it
-         * ! more clean, reusable, and informitive to the end user.
+         * ! more clean, reusable, and informative to the end user.
          */
 
         // Make sure the the destination is a string:
@@ -110,8 +110,8 @@ export async function createOneLink(req: express.Request, res: express.Response)
         }
 
 
-        // Generate a unique shortID that hasn't already been asigned:
-        //! Temperary solution, might extract out.
+        // Generate a unique shortID that hasn't already been assigned:
+        //! Temporary solution, might extract out.
         var shortID;
         while (true) {
             shortID = nanoid(7);
@@ -142,12 +142,12 @@ export async function createOneLink(req: express.Request, res: express.Response)
  * Returns an array of all shortlinks for the authenticated user
  * @route (GET) api/shortlinks
  */
- export async function getAllLinks(req: express.Request, res: express.Response) {
+ export async function getAllLinks(req: Request, res: Response) {
     try {
         const links = await ShortLink.find(); // Get all shortlink objects.
         const linkResponses: object[] = []; // Array to hold the formated responses.
 
-        // Format each object into a clean API response with only the nessasary details:
+        // Format each object into a clean API response with only the necessary details:
         links.forEach(link => linkResponses.push(link.getAPIResponse()));
 
         return res.status(200).send(linkResponses); // Return formated shortlink object.
@@ -162,7 +162,7 @@ export async function createOneLink(req: express.Request, res: express.Response)
  * Returns a shortlink with the specified shortID
  * @route (GET) api/shortlinks/{shortID}
  */
- export async function getOneLink(req: express.Request, res: express.Response) {
+ export async function getOneLink(req: Request, res: Response) {
     try { 
         const link = await ShortLink.findByShortID(req.params.shortID); // Get shortlink object for shortID.
 
@@ -181,10 +181,10 @@ export async function createOneLink(req: express.Request, res: express.Response)
 
 
 /**
- * Updates an existing shortlinks with the spesified shortID
+ * Updates an existing shortlinks with the specified shortID
  * @route (PATCH) api/shortlinks/{shortID}
  */
- export async function updateLink(req: express.Request, res: express.Response) {
+ export async function updateLink(req: Request, res: Response) {
     try {
         // Make sure the requested shortlink exists first.
         const shortLink = await ShortLink.findByShortID(req.params.shortID); // Get shortlink by shortID.
@@ -193,18 +193,18 @@ export async function createOneLink(req: express.Request, res: express.Response)
                 'No shortink was found for the requested shortID'));
         }
 
-        // Pull paramerters the user is allowed to set:
+        // Pull parameters the user is allowed to set:
         const name = stringNotEmpty(req.body.name) 
             ? req.body.name : undefined; // Get name from body if it exists.
         const shortID = stringNotEmpty(req.body.shortID) 
             ? req.body.shortID : undefined; // Get shortID from body if it exists.
         var destination = stringNotEmpty(req.body.destination) 
             ? req.body.destination : undefined; // Get destination from body if it exists.
-        //! Is the string check here repetative. How can I improve this, or do I need to wait for validation?
+        //! Is the string check here repetitive. How can I improve this, or do I need to wait for validation?
 
         /**
          * ! Validation will be refactored later to make it
-         * ! more clean, reusable, and informitive to the end user.
+         * ! more clean, reusable, and informative to the end user.
          */
 
         // If the destination property was provided, run validation checks.
@@ -240,7 +240,7 @@ export async function createOneLink(req: express.Request, res: express.Response)
             if (await ShortLink.findByShortID(shortID)) {
                 return res.status(400).send(new AppError(400, "Bad Request", [
 
-                    new ValidationError("Invalid", "shortID", "Custom shortID is unavaliable")
+                    new ValidationError("Invalid", "shortID", "Custom shortID is unavailable")
 
                 ], "Invalid or missing values")); // Return 400 error.
             }
@@ -285,7 +285,7 @@ export async function createOneLink(req: express.Request, res: express.Response)
  * Removes a shortlink with the specified shortID
  * @route (DELETE) api/shortlinks/{shortID}
  */
- export async function removeLink(req: express.Request, res: express.Response) {
+ export async function removeLink(req: Request, res: Response) {
     try { 
         // Find shortlink object & DELETE it if it exists:
         ShortLink.findOneAndDelete({shortID: req.params.shortID}, (err, link) => {
@@ -305,8 +305,9 @@ export async function createOneLink(req: express.Request, res: express.Response)
 
 
 // /**
+//  * Function Template
 //  * @route () api/shortlinks
 //  */
-//  export async function name(req: express.Request, res: Express.eesponse) {
+//  export async function name(req: Request, res: Response) {
     
 // }
