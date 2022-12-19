@@ -11,10 +11,10 @@ export default (passport: PassportStatic) => {
         callbackURL: '/auth/google/callback'
     }, async (accessToken, refreshToken, profile, done) => {
         try {
-            let user = await User.findOne({googleId: profile.id})
+            let user = await User.findOne({googleId: profile.id});
 
             if (user) {
-                done(null, user)
+                done(null, user);
             } else {
                 const data: IUser = {
                     googleId: profile.id,
@@ -25,12 +25,12 @@ export default (passport: PassportStatic) => {
                     image: profile.photos![0].value
                 };
 
-                let newUser = await User.create(data)
-                done(null, newUser)
+                let newUser = await User.create(data);
+                done(null, newUser);
             }
         } catch (error) {
-            console.error(error)
-            done(error)
+            console.error(error);
+            done(error);
         }
     }));
 
