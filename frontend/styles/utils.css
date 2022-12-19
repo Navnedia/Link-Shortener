@@ -158,7 +158,7 @@ label {
     text-overflow: ellipsis;
     padding: 4px 12px;
     border-radius: 9px;
-    background: var(--link-icons);
+    background: var(--accent-color);
     color: #FFFFFF;
 }
 
@@ -170,7 +170,7 @@ label {
 [tooltip]::before {
     top: 100%;
     border-top-width: 0;
-    border-bottom-color: var(--link-icons);
+    border-bottom-color: var(--accent-color);
 }
 [tooltip]::after {
     top: calc(100% + 5px);
