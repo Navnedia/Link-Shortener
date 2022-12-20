@@ -8,7 +8,7 @@ export interface IShortLink {
     name?: string;
 
     /**
-     * The identifier used to refrence and redirect with the link.
+     * The identifier used to reference and redirect with the link.
      */
     shortID: string;
 
@@ -21,6 +21,11 @@ export interface IShortLink {
      * The number of clicks the shortlink has.
      */
     clicks: number;
+
+    /**
+     * The id of the user that owns this link.
+     */
+    user: mongoose.ObjectId
 
     /**
      * the date & time this link was created.
@@ -36,7 +41,7 @@ export interface IShortLinkAPIResponse {
     name?: string;
 
     /**
-     * The identifier used to refrence and redirect with the link.
+     * The identifier used to reference and redirect with the link.
      */
     shortID: string;
 
@@ -76,6 +81,7 @@ interface IShortLinkMethods {
 interface ShortLinkModel extends Model<IShortLink, {}, IShortLinkMethods>{
     // Define ShortLink static methods as interface:
     findByShortID(shortID: string): Promise<HydratedDocument<IShortLink, IShortLinkMethods>>;
+    findByUserID(userID: string): Promise<HydratedDocument<IShortLink, IShortLinkMethods>>;
 }
 
 // Create the schema:
@@ -92,6 +98,10 @@ const shortLinkSchema = new mongoose.Schema<IShortLink, ShortLinkModel, IShortLi
     clicks: {
         type: Number,
         default: 0
+    },
+    user: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
     },
     created: {
         type: Date,
@@ -121,6 +131,10 @@ shortLinkSchema.method('getAPIResponse', function getAPIResponse(): IShortLinkAP
 
 shortLinkSchema.static('findByShortID', async function findByShortID(shortID: string) {
     return this.findOne({ shortID }).exec();
+});
+
+shortLinkSchema.static('findByUserID', async function findByUserID(userID: string) {
+    return this.find({ user: userID }).exec();
 });
 
 // Create and export the model:

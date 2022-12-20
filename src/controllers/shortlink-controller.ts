@@ -14,7 +14,7 @@ import {ShortLink, IShortLinkAPIResponse, IShortLink} from '../models/ShortLink.
 export async function createOneLink(req: Request, res: Response) {
     try {
         // Create new shortlink with helper method and get response:
-        const helperResponse = await createLink(req.body);
+        const helperResponse = await createLink(req.body, req.user);
 
         if (helperResponse instanceof AppError) { // If response is error send error body:
             return res.status(helperResponse.statusCode).send(helperResponse);
@@ -49,7 +49,7 @@ export async function createOneLink(req: Request, res: Response) {
 
         // Loop through and create each link from the request:
         for (const linkData of requestBody) {
-            const helperResponse = await createLink(linkData); // Attempt to create the new link.
+            const helperResponse = await createLink(linkData, req.user); // Attempt to create the new link.
             // If the response was an error, then set the status code to 207 (i.e. Multi-Status):
             if (helperResponse instanceof AppError) res.status(207);
             linkResponses.push(helperResponse); // Add to responses array.
@@ -74,7 +74,7 @@ export async function createOneLink(req: Request, res: Response) {
  * new shortlink, but if things don't go correctly it will return an AppError
  * object.
  */
- export async function createLink(linkData: IShortLink): Promise<object | AppError> {
+ export async function createLink(linkData: IShortLink, userID): Promise<object | AppError> {
     try {
         // Pull parameters the user is allowed to set:
         const name = stringNotEmpty(linkData.name) 
@@ -118,11 +118,12 @@ export async function createOneLink(req: Request, res: Response) {
             if (!(await ShortLink.findByShortID(shortID))) break;
         }
 
-        // Put properties into a data object:
+        // Put properties into a data object and link to user:
          const data = {
             name: name,
             shortID: shortID,
-            destination: destination
+            destination: destination,
+            user: userID
         };
 
         // Create the new shortLink.
@@ -144,13 +145,10 @@ export async function createOneLink(req: Request, res: Response) {
  */
  export async function getAllLinks(req: Request, res: Response) {
     try {
-        const links = await ShortLink.find(); // Get all shortlink objects.
-        const linkResponses: object[] = []; // Array to hold the formated responses.
-
-        // Format each object into a clean API response with only the necessary details:
-        links.forEach(link => linkResponses.push(link.getAPIResponse()));
-
-        return res.status(200).send(linkResponses); // Return formated shortlink object.
+        const links = await ShortLink.find({user: req.user}); // Get all shortlinks for the user.
+        // Format each object into a clean API response with only the necessary details.
+        const linkResponses = links.map((link) => link.getAPIResponse());
+        return res.status(200).send(linkResponses); // Return formated shortlink objects.
     } catch (error) {
         // console.log(error);
         return res.status(500).send(new AppError(500, 'Something went wrong :('));
@@ -166,8 +164,8 @@ export async function createOneLink(req: Request, res: Response) {
     try { 
         const link = await ShortLink.findByShortID(req.params.shortID); // Get shortlink object for shortID.
 
-        // If the shortlink doesn't exist, we return an error:
-        if (!link) {
+        // If the shortlink doesn't exist or if the user isn't the owner, we return an error:
+        if (!link || link.user != req.user) {
             return res.status(404).send(new AppError(404, 'Not Found', undefined,
                 'No shortink was found for the requested shortID'));
         }
@@ -188,7 +186,7 @@ export async function createOneLink(req: Request, res: Response) {
     try {
         // Make sure the requested shortlink exists first.
         const shortLink = await ShortLink.findByShortID(req.params.shortID); // Get shortlink by shortID.
-        if (!shortLink) { // If we don't have a matching shortlink then we return a 404 error.
+        if (!shortLink || shortLink.user != req.user) { // If we don't have a matching shortlink then we return a 404 error.
             return res.status(404).send(new AppError(404, 'Not Found', undefined,
                 'No shortink was found for the requested shortID'));
         }
@@ -290,7 +288,7 @@ export async function createOneLink(req: Request, res: Response) {
         // Find shortlink object & DELETE it if it exists:
         ShortLink.findOneAndDelete({shortID: req.params.shortID}, (err, link) => {
             // If the shortlink doesn't exist, we return a 404 error because nothing was found or deleted:
-            if (!link) {
+            if (!link || link.user != req.user) {
                 return res.status(404).send(new AppError(404, 'Not Found', undefined,
                     'No shortink was found for the requested shortID'));
             }
