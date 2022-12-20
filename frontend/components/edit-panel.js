@@ -17,7 +17,6 @@ class editPanel extends HTMLElement {
         super();
         this.linkData = {};
         this.callback = null;
-        this.attachShadow({mode: 'open'}); // Create shadow root.
     }
 
     setData(linkData, callback) {
@@ -26,11 +25,11 @@ class editPanel extends HTMLElement {
     }
 
     connectedCallback() {
-        this.render(); // Render HTML with values to the shadow DOM.
+        this.render(); // Render HTML with values.
         this.attachListeners(); // Attach event listeners for buttons.
     }
 
-    disconnectedCallback() { // Detatch listeners:
+    disconnectedCallback() { // Detach listeners:
         this.removeListenerAll('#btnCloseModal, #btnEditCancel', 'click', closeModal);
         this.removeListenerAll('#txtdestination, #txtshortID', 'input', this.notBlank.bind(this));
         this.getEl('#txtshortID').removeEventListener('input', this.shortIDChange.bind(this), {once: true});
@@ -38,11 +37,7 @@ class editPanel extends HTMLElement {
     }
 
     render() {
-        this.shadowRoot.innerHTML = `
-            <link rel="stylesheet" href="./styles/edit-modal.css">
-            <link rel="stylesheet" href="./styles/utils.css">
-            <link rel="stylesheet" href="./styles/icons.css">
-
+        this.innerHTML = `
             <div class="modal-content flex-column">
             <header class="modal-header">
                 <button type="button" id="btnCloseModal" aria-label="Close Edit Panel">
@@ -158,7 +153,7 @@ class editPanel extends HTMLElement {
                     throw new Error('Bad callback');
                 }
                 
-                this.callback(updatedLink); // Exucute callback to update the link item.
+                this.callback(updatedLink); // Execute callback to update the link item.
                 this.linkData = updatedLink; // Update data in this edit component.
                 this.setEditMessage(true, false, EDIT_SUCCESS_MSG); // Success message.
             } else {
@@ -228,17 +223,17 @@ class editPanel extends HTMLElement {
 
     /**
      * Helper to easily display and remove the edit message.
-     * @param {boolean} setVisable - Defines if the message should be displayed or removed.
+     * @param {boolean} setVisible - Defines if the message should be displayed or removed.
      * @param {boolean} isWarning - Defines if the message should be in a warning style or info style.
      * @param {string} message - The message text content. 
      * @param {number} timeOut - The time in milliseconds that the message should last (optional).
      */
-    async setEditMessage(setVisable = false, isWarning = true, message = null, timeOut = null) {
+    async setEditMessage(setVisible = false, isWarning = true, message = null, timeOut = null) {
         const modalContent = this.getEl('.modal-content');
         let editMsg = this.getEl('#editPanelMessage');
         if (!!editMsg) modalContent.removeChild(editMsg); // Remove existing message if applicable.
 
-        if (setVisable) {
+        if (setVisible) {
             const messageTemplate = document.createElement('template');
             messageTemplate.innerHTML = `
                 <div id="editPanelMessage" class="message-container has-icon ${(isWarning) ? 'warning' : 'info'}">
@@ -270,19 +265,19 @@ class editPanel extends HTMLElement {
 
 
     /**
-     * A simple helper to simplify getting elements from shadow DOM.
-     * @param {string} selctor - The query to select the desired element.
-     * @returns The first element in the shadow DOM that matches selector.
+     * A simple helper to simplify getting elements from in the component
+     * @param {string} selector - The query to select the desired element.
+     * @returns The first element in the component that matches selector.
      */
-    getEl(selctor) {return this.shadowRoot.querySelector(selctor)}
+    getEl(selector) {return this.querySelector(selector)}
 
      /**
-     * A simple helper to simplify getting all elements from shadow DOM
+     * A simple helper to simplify getting all elements from the component
      * for a given query.
-     * @param {string} selctors - The query to select the desired elements.
-     * @returns All elements in the shadow DOM that matches selector.
+     * @param {string} selectors - The query to select the desired elements.
+     * @returns All elements in the component that matches selector.
      */
-    getElements(selctors) {return this.shadowRoot.querySelectorAll(selctors)}
+    getElements(selectors) {return this.querySelectorAll(selectors)}
 
     /**
      * A helper to simplify the process of getting and adding an event

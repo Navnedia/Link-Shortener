@@ -3,7 +3,7 @@
     --button-active-bg: #2098ed36;
 }
 
-.link-item {
+link-item {
     display: block;
     background-color: var(--secondary-color);
     border-radius: 20px;

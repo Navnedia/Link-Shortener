@@ -6,7 +6,6 @@ class LinkItem extends HTMLElement {
     constructor() {
         super();
         this.linkData = {};
-        this.attachShadow({mode: 'open'}); // Create shadow root.
     }
 
     setData(data) {
@@ -14,7 +13,7 @@ class LinkItem extends HTMLElement {
     }
 
     connectedCallback() {
-        this.render(); // Render HTML with values to the shadow DOM.
+        this.render(); // Render HTML with values.
         this.attachListeners(); // Attach event listeners for buttons.
     }
 
@@ -26,50 +25,44 @@ class LinkItem extends HTMLElement {
     }
 
     render() {
-        this.shadowRoot.innerHTML = `
-            <link rel="stylesheet" href="./styles/shortlink-card.css">
-            <link rel="stylesheet" href="./styles/utils.css">
-            <link rel="stylesheet" href="./styles/icons.css">
+        this.innerHTML = `
+            <span class="created-date" aria-label="Date Created">${this.localDate(this.linkData.created)}</span>
+            <h2 class="link-title ellipsis" tabindex="0" aria-label="Link Name">${this.linkData.name || DEFAULT_NAME}</h2>
+        
+            <span class="destination link">
+                <a href="${this.linkData.destination || ' '}" target="_blank" class="ellipsis" aria-label="Long URL">
+                    ${this.linkData.destination || ' '}</a>
+            </span>
+        
+            <hr>
+        
+            <span class="shortlink link">
+                <a href="${this.linkData.link || ' '}" target="_blank" class="ellipsis" aria-label="Shortened Link">
+                    ${REDIRECT_URL + (this.linkData.shortID || '')}</a>
+            </span>
+            <span class="clicks"><span id="linkClicks">${this.linkData.clicks || '0'}</span> Clicks</span>
+        
+            <div class="item-action-buttons">
+                <button id="btnCopy" type="button" class="action-btn" arial-label="Copy Link" tooltip="Copy">
+                    <i class="fa-regular fa-clipboard" aria-hidden="true"></i>
+                </button>
+                <button id="btnEdit" type="button" class="action-btn" aria-label="Edit" tooltip="Edit">
+                    <i class="fa-solid fa-pencil" aria-hidden="true"></i>
+                </button>
+                <button id="btnDel" type="button" class="action-btn" aria-label="Delete Link" tooltip="Delete">
+                    <i class="fa-solid fa-trash-can" aria-hidden="true"></i>
+                </button>
+            </div> <!-- End of action buttons -->
 
-            <div class="link-item">
-                <span class="created-date" aria-label="Date Created">${this.localDate(this.linkData.created)}</span>
-                <h2 class="link-title ellipsis" tabindex="0" aria-label="Link Name">${this.linkData.name || DEFAULT_NAME}</h2>
-            
-                <span class="destination link">
-                    <a href="${this.linkData.destination || ' '}" target="_blank" class="ellipsis" aria-label="Long URL">
-                        ${this.linkData.destination || ' '}</a>
-                </span>
-            
-                <hr>
-            
-                <span class="shortlink link">
-                    <a href="${this.linkData.link || ' '}" target="_blank" class="ellipsis" aria-label="Shortened Link">
-                        ${REDIRECT_URL + (this.linkData.shortID || '')}</a>
-                </span>
-                <span class="clicks"><span id="linkClicks">${this.linkData.clicks || '0'}</span> Clicks</span>
-            
-                <div class="item-action-buttons">
-                    <button id="btnCopy" type="button" class="action-btn" arial-label="Copy Link" tooltip="Copy">
-                        <i class="fa-regular fa-clipboard" aria-hidden="true"></i>
-                    </button>
-                    <button id="btnEdit" type="button" class="action-btn" aria-label="Edit" tooltip="Edit">
-                        <i class="fa-solid fa-pencil" aria-hidden="true"></i>
-                    </button>
-                    <button id="btnDel" type="button" class="action-btn" aria-label="Delete Link" tooltip="Delete">
-                        <i class="fa-solid fa-trash-can" aria-hidden="true"></i>
-                    </button>
-                </div> <!-- End of action buttons -->
+            <div class="message-container warning flex-center flex-column hidden">
+                <span class="confirm-message">Are you sure you want to delete this link?</span>
+                <div class="fancy-buttons">
+                    <button type="button" id="btnDelCancel">Cancel</button>
+                    <button type="button" id="btnConfirmDelete">Delete</button>
+                </div>
 
-                <div class="message-container warning flex-center flex-column hidden">
-                    <span class="confirm-message">Are you sure you want to delete this link?</span>
-                    <div class="fancy-buttons">
-                        <button type="button" id="btnDelCancel">Cancel</button>
-                        <button type="button" id="btnConfirmDelete">Delete</button>
-                    </div>
-
-                    <span class="delete-error-message hidden"></span>
-                </div> <!-- End of warning message container -->
-            </div> <!-- End of link-item -->`;
+                <span class="delete-error-message hidden"></span>
+            </div> <!-- End of warning message container -->`;
     }
 
     attachListeners() {
@@ -159,7 +152,7 @@ class LinkItem extends HTMLElement {
 
 
     /**
-     * Renders updates to content values in the shadow DOM to reflect current 
+     * Renders updates to content values in the component to reflect current 
      * property values.
      */
     renderContentUpdates() {
@@ -187,19 +180,19 @@ class LinkItem extends HTMLElement {
     }
 
     /**
-     * A simple helper method to simplify getting elements from shadow DOM.
-     * @param {string} selctor - The query to select the desired element.
-     * @returns The first element in the shadow DOM that matches selector.
+     * A simple helper method to simplify getting elements in the component.
+     * @param {string} selector - The query to select the desired element.
+     * @returns The first element in the component that matches selector.
      */
-     getEl(selctor) {return this.shadowRoot.querySelector(selctor)}
+     getEl(selector) {return this.querySelector(selector)}
 
      /**
-     * A simple helper method to simplify getting all elements from shadow DOM
+     * A simple helper method to simplify getting all elements in the component
      * for a given query.
-     * @param {string} selctors - The query to select the desired elements.
-     * @returns All elements in the shadow DOM that matches selector.
+     * @param {string} selectors - The query to select the desired elements.
+     * @returns All elements in the component that matches selector.
      */
-    getElements(selctors) {return this.shadowRoot.querySelectorAll(selctors)}
+    getElements(selectors) {return this.querySelectorAll(selectors)}
 
     /**
      * A helper to simplify the process of getting and adding an event
