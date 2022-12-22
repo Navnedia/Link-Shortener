@@ -10,6 +10,7 @@ import {errorHandler} from './middleware/error-handler.js';
 import AppError from './utils/appError.js';
 import configurePassport from './config/passport.js';
 import connectDB from './config/db.js';
+import { ensureGuest, ensureAuth } from './middleware/auth.js';
 
 dotenv.config(); // Load environment variables.
 connectDB(); // Initialize connection to database.
@@ -40,6 +41,12 @@ app.use(session({
 // Add passport middleware for auth:
 app.use(passport.initialize());
 app.use(passport.session());
+
+app.get('/', ensureGuest); // Only guests on the home/login page.
+app.get('/dashboard', ensureAuth); // Only authorized users on the dashboard page.
+
+// Host static frontend pages:
+app.use(express.static('./frontend'));
 
 // Direct endpoints:
 app.use('/api', api); // Initialize endpoints under API.

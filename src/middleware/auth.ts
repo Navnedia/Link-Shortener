@@ -1,7 +1,5 @@
 import { Request, Response, NextFunction } from "express";
 
-//! I will need to update the redirect routes for login and dashboard once I fix that.
-
 /**
  * Middleware for ensuring that a route is accessable visible by authenticated users.
  * If the user is NOT authenticted they will be redirected to the login page.
@@ -20,7 +18,7 @@ export function ensureAuth(req: Request, res: Response, next: NextFunction) {
  */
 export function ensureGuest(req: Request, res: Response, next: NextFunction) {
     if (req.isAuthenticated()) {
-        res.redirect('/'); // Redirect authenticated user to dashboard.
+        res.redirect('/dashboard'); // Redirect authenticated user to dashboard.
     } else {
         return next();
     }
