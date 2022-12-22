@@ -7,7 +7,7 @@
   "scripts": {
     "start": "node .",
     "dev": "tsc-watch --noClear --onSuccess 'node .'",
-    "build": "tsc -p ."
+    "build": "npm install && tsc"
   },
   "repository": {
     "type": "git",
