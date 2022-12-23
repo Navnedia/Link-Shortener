@@ -1,5 +1,5 @@
 import {removeLink} from "../scripts/api.js";
-import {REDIRECT_URL, DEFAULT_NAME, GENERAL_ERROR} from "../scripts/config.js";
+import {DEFAULT_NAME, GENERAL_ERROR} from "../scripts/config.js";
 import {openModal} from "../scripts/modal.js";
 
 class LinkItem extends HTMLElement {
@@ -37,8 +37,8 @@ class LinkItem extends HTMLElement {
             <hr>
         
             <span class="shortlink link">
-                <a href="${this.linkData.link || ' '}" target="_blank" class="ellipsis" aria-label="Shortened Link">
-                    ${REDIRECT_URL + (this.linkData.shortID || '')}</a>
+                <a href="${window.location.origin + '/' + (this.linkData.shortID || '')}" target="_blank" class="ellipsis" aria-label="Shortened Link">
+                    ${window.location.host + '/' + (this.linkData.shortID || '')}</a>
             </span>
             <span class="clicks"><span id="linkClicks">${this.linkData.clicks || '0'}</span> Clicks</span>
         
@@ -81,7 +81,7 @@ class LinkItem extends HTMLElement {
 
     // Button listeners:
     copyLinkToClipboard() {
-        navigator.clipboard.writeText(this.linkData.link); // Copy link to clipboard.
+        navigator.clipboard.writeText(`${window.location.origin}/${this.linkData.shortID || ''}`); // Copy link to clipboard.
         // Update to tool tip to show the link has been copied:
         const copyBtn = this.getEl('#btnCopy');
         copyBtn.setAttribute('toolTip', 'Copied');
@@ -160,8 +160,8 @@ class LinkItem extends HTMLElement {
         destinationLink.href = this.linkData.destination || ' '; 
         destinationLink.innerHTML = this.linkData.destination || ' ';
         let shortLink = this.getEl(".shortlink.link > a");
-        shortLink.href = this.linkData.link || ' '; 
-        shortLink.innerHTML = this.linkData.link || ' ';
+        shortLink.href = `${window.location.origin}/${this.linkData.shortID || ''}`; 
+        shortLink.innerHTML = `${window.location.host}/${this.linkData.shortID || ''}`;
 
         this.getEl(".link-title").innerHTML = this.linkData.name || DEFAULT_NAME;
         this.getEl(".created-date").innerHTML = this.localDate(this.linkData.created);

@@ -1,7 +1,6 @@
 import {closeModal} from "../scripts/modal.js";
 import {updateLink} from "../scripts/api.js";
 import {
-    REDIRECT_URL,
     DEFAULT_NAME,
     GENERAL_ERROR,
     VALIDATION_ERROR_MSG,
@@ -72,7 +71,7 @@ class editPanel extends HTMLElement {
                 <div class="field-group flex-column">
                     <label for="txtshortID">URL Short ID</label>
                         <div class="shortID-bar">
-                            <span id="baseUrl" class="input-addon prefix">${REDIRECT_URL}</span>
+                            <span id="baseUrl" class="input-addon prefix">${window.location.host + '/'}</span>
                             <input type="text" 
                                 id="txtshortID"
                                 name="shortID" 

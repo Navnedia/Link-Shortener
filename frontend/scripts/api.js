@@ -1,7 +1,9 @@
-import {API_URL, UNAVALIABLE_RESPONSE} from "./config.js";
+import {UNAVAILABLE_RESPONSE} from "./config.js";
+
+const SHORTLINK_ENDPOINT = `${window.location.origin}/api/shortlinks/`;
 
 export async function createLink(reqBody) {
-    const response = await fetch(`${API_URL}/shortlinks/`, {
+    const response = await fetch(SHORTLINK_ENDPOINT, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -15,15 +17,15 @@ export async function createLink(reqBody) {
             return data;
         } catch (e) {
             console.error(e);
-            return UNAVALIABLE_RESPONSE;
+            return UNAVAILABLE_RESPONSE;
         }
     }
 
-    return UNAVALIABLE_RESPONSE;
+    return UNAVAILABLE_RESPONSE;
 }
 
 export async function getAllLinks() {
-    const response = await fetch(`${API_URL}/shortlinks/`, {
+    const response = await fetch(SHORTLINK_ENDPOINT, {
         method: 'GET'
     }).catch(e => null);
 
@@ -50,12 +52,12 @@ export async function removeLink(shortID) {
             description: 'Something went wrong, missing shortID'
         }; 
     }
-    const response = await fetch(`${API_URL}/shortlinks/${shortID || ''}`, {
+    const response = await fetch(`${SHORTLINK_ENDPOINT}${shortID || ''}`, {
         method: 'DELETE'
     }).catch(e => null);
     if (response && response.ok) return {};
 
-    return UNAVALIABLE_RESPONSE;
+    return UNAVAILABLE_RESPONSE;
 }
 
 export async function updateLink(shortID, reqBody) {
@@ -69,7 +71,7 @@ export async function updateLink(shortID, reqBody) {
         };
     }
 
-    const response = await fetch(`${API_URL}/shortlinks/${shortID || ''}`, {
+    const response = await fetch(`${SHORTLINK_ENDPOINT}${shortID || ''}`, {
         method: 'PATCH',
         headers: {
             'Content-Type': 'application/json'
@@ -83,9 +85,9 @@ export async function updateLink(shortID, reqBody) {
             return data;
         } catch (e) {
             console.error(e);
-            return UNAVALIABLE_RESPONSE;       
+            return UNAVAILABLE_RESPONSE;       
         }
     }
 
-    return UNAVALIABLE_RESPONSE;
+    return UNAVAILABLE_RESPONSE;
 }

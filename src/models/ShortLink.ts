@@ -51,15 +51,6 @@ export interface IShortLinkAPIResponse {
     destination: string;
 
     /**
-     * The full shortlink made up of the protocol,
-     * the hostname, and the shortID as the path.
-     * Example: `https://example.com/3LqNCVy`
-     * Composed on request to avoid storing duplicate
-     * data.
-     */
-    link: string;
-
-    /**
      * The number of clicks the shortlink has.
      */
     clicks: number;
@@ -116,14 +107,12 @@ shortLinkSchema.method('showRedirect', function showRedirect() {
     return `shortID: ${this.shortID} --> destination: ${this.destination}`;
 });
 
+// Function to generate an API response with only the necessary information and nothing internal.
 shortLinkSchema.method('getAPIResponse', function getAPIResponse(): IShortLinkAPIResponse {
-    const link = `${process.env.DOMAIN_NAME}/${this.shortID}`;
-
     return {
         name: this.name,
         shortID: this.shortID,
         destination: this.destination,
-        link: link,
         clicks: this.clicks,
         created: this.created
     };
