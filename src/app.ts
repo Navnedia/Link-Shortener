@@ -1,5 +1,4 @@
 import express from 'express';
-import cors from 'cors';
 import dotenv from 'dotenv';
 import session from 'express-session';
 import passport from 'passport';
@@ -22,12 +21,6 @@ const PORT = process.env.PORT || 8080;
 const app = express(); // Initialize express app.
 
 app.use(express.json()); // Parse body as JSON.
-// Add origin allow header so this page can be accessed from other localhost ports:
-// Add content-type to allowed headers so we can send body in fetch request:
-app.use(cors({
-    origin: "*",
-    allowedHeaders: "Content-Type"
-}));
 
 // Initialize session middleware:
 app.use(session({
