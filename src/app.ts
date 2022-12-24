@@ -52,9 +52,11 @@ app.use('*', (req, res) => {
     `The endpoint (${req.method}) ${req.baseUrl + req.path} could not be found`));
 });
 
-// Start app listening on port:
-app.listen(PORT, () => {
-    console.log(`Link Shortener App Listening on Port: ${PORT}`);
+// Setup application:
+connectDB().then(() => {  // Initialize connection to database.
+    app.listen(PORT, () => {  // Start app listening on port.
+        console.log(`Link Shortener App Listening on Port: ${PORT}`);
+    });
 });
 
 app.use(errorHandler); // Initialize error handler middleware.
