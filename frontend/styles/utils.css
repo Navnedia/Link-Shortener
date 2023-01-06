@@ -181,8 +181,17 @@ label {
 }
 
 
-/* Animations: */
+/* Page Loader */
+.loader {
+    border: 4px solid;
+    border-radius: 100px;
+    border-color: #FFFFFF transparent transparent;
+    width: 2em;
+    height: 2em;
+    animation: spin 1s infinite;
+}
 
+/* Loading Button */
 .loading {
     color: transparent !important;
     pointer-events: none;

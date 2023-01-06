@@ -14,9 +14,9 @@ shortenBtn.addEventListener('click', addNewLink);
 
 async function renderLinks() {
     //! Maybe add an error message if the request fails, or a generic message if the user has no links.
-    //! Should I be doing any kind of validation here to make sure the response matches a format?
-    
-    var links = await getAllLinks(); // Request all the links.
+    //! Should I be doing any kind of validation here to make sure the response matches a format?    
+    let links = await getAllLinks(); // Request all the links.
+    document.querySelector('.loader').classList.add('hidden'); // Remove loader.
     if (Array.isArray(links)) { // Display each link in the response array:
         links.forEach((linkData) => displayLinkItem(linkData));
     }
@@ -46,7 +46,7 @@ async function addNewLink() {
     
     const linkRes = await createLink(data); // Send create request.
     //! Add better handling for errors returned from backend server.
-    // If non-empty data was recived, create and display the element:
+    // If non-empty data was received, create and display the element:
     if (Object.keys(linkRes).length !== 0 && !linkRes.statusCode) {
         displayLinkItem(linkRes);
         
@@ -68,7 +68,7 @@ async function addNewLink() {
  * @param {object} linkData - The link data for the item.
  */
 function displayLinkItem(linkData) {
-    const linkItem = document.createElement('link-item');
+    let linkItem = document.createElement('link-item');
     linkItem.setData(linkData);
     linkContainer.prepend(linkItem);
 }
