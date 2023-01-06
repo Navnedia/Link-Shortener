@@ -110,12 +110,8 @@ class LinkItem extends HTMLElement {
             errorField.classList.remove('hidden');
             return;
         }
-
-        // Set item opacity to zero and allow css to smoothly transition.
-        this.getEl('.link-item').style.opacity = 0;
-        
-        // Wait for opacity transition to end before removing from DOM:
-        setTimeout(() => {
+        this.style.opacity = 0; // Fade out element with css transition.
+        setTimeout(() => { // After fade remove the card from DOM.
             this.parentNode.removeChild(this);
         }, 500);
     }
