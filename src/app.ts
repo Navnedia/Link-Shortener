@@ -11,8 +11,8 @@ import configurePassport from './config/passport.js';
 import connectDB from './config/db.js';
 import { ensureGuest, ensureAuth } from './middleware/auth.js';
 
+
 dotenv.config(); // Load environment variables.
-connectDB(); // Initialize connection to database.
 
 // Configure passport authentication strategies:
 configurePassport(passport);
