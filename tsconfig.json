@@ -10,6 +10,7 @@
     "allowJs": true,                                  /* Allow JavaScript files to be a part of your program. Use the 'checkJS' option to get errors from these files. */
     "experimentalDecorators": true,
 		"emitDecoratorMetadata": true,
+    "sourceMap": true,
     // "forceConsistentCasingInFileNames": true,            /* Ensure that casing is correct in imports. */
 
     /* Type Checking */
