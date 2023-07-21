@@ -283,21 +283,19 @@ export async function createOneLink(req: Request, res: Response) {
  * @route (DELETE) api/shortlinks/{shortID}
  */
  export async function removeLink(req: Request, res: Response) {
-    try { 
-        // Find shortlink object & DELETE it if it exists:
-        ShortLink.findOneAndDelete({shortID: req.params.shortID, user: req.user}, (err, link) => {
-            // If the shortlink doesn't exist, we return a 404 error because nothing was found or deleted:
+    ShortLink.findOneAndDelete({shortID: req.params.shortID, user: req.user})
+        .then((link) => {
             if (!link) {
+                // If the shortlink doesn't exist, we return a 404 error because nothing was found or deleted:
                 return res.status(404).send(new AppError(404, 'Not Found', undefined,
                     'No shortink was found for the requested shortID'));
             }
-    
+
             return res.status(204).send(); // Successfully deleted (No Content).
+        }).catch((err) => {
+            // console.log(error);
+            return res.status(500).send(new AppError(500, 'Something went wrong :('));
         });
-    } catch (error) {
-        // console.log(error);
-        return res.status(500).send(new AppError(500, 'Something went wrong :('));
-    }
 }
 
 
