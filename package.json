@@ -22,7 +22,7 @@
   "homepage": "https://github.com/Navnedia/Link-Shortener#readme",
   "dependencies": {
     "connect-mongo": "^4.6.0",
-    "dotenv": "^16.0.1",
+    "dotenv": "^16.3.1",
     "express": "^4.18.1",
     "express-session": "^1.17.3",
     "mongoose": "^7.4.0",
