@@ -22,13 +22,18 @@ const app = express(); // Initialize express app.
 
 app.use(express.json()); // Parse body as JSON.
 
+app.set('trust proxy', 1); // Trust first proxy.
+
 // Initialize session middleware:
 app.use(session({
     secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: false,
-    store: MongoStore.create({mongoUrl: process.env.MONGO_URI || ''})
-    // cookie: { secure: true }
+    store: MongoStore.create({mongoUrl: process.env.MONGO_URI || ''}),
+    cookie: { 
+        maxAge: 1707109200, // Retain login session for 400 Days.
+        secure: app.get('env') === 'production' // Uses secure HTTPS cookie transfer when the NODE_ENV variable is set to production.
+    }
 }));
 
 // Add passport middleware for auth:
