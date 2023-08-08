@@ -162,7 +162,7 @@ export async function createOneLink(req: Request, res: Response) {
  */
  export async function getOneLink(req: Request, res: Response) {
     try { 
-        const link = await ShortLink.findOne({shortID: req.params.shortID, user: req.user}).exec(); // Get shortlink object for shortID.
+        const link = await ShortLink.findOne({ user: req.user, shortID: req.params.shortID }).exec(); // Get shortlink object for shortID.
         // If the shortlink doesn't exist or if the user isn't the owner, we return an error:
         if (!link) {
             return res.status(404).send(new AppError(404, 'Not Found', undefined,
@@ -184,7 +184,7 @@ export async function createOneLink(req: Request, res: Response) {
  export async function updateLink(req: Request, res: Response) {
     try {
         // Make sure the requested shortlink exists first.
-        const shortLink = await ShortLink.findOne({shortID: req.params.shortID, user: req.user}).exec(); // Get shortlink by shortID.
+        const shortLink = await ShortLink.findOne({ user: req.user, shortID: req.params.shortID }).exec(); // Get shortlink by shortID.
         if (!shortLink) { // If we don't have a matching shortlink then we return a 404 error.
             return res.status(404).send(new AppError(404, 'Not Found', undefined,
                 'No shortink was found for the requested shortID'));
@@ -283,7 +283,7 @@ export async function createOneLink(req: Request, res: Response) {
  * @route (DELETE) api/shortlinks/{shortID}
  */
  export async function removeLink(req: Request, res: Response) {
-    ShortLink.findOneAndDelete({shortID: req.params.shortID, user: req.user})
+    ShortLink.findOneAndDelete({ user: req.user, shortID: req.params.shortID })
         .then((link) => {
             if (!link) {
                 // If the shortlink doesn't exist, we return a 404 error because nothing was found or deleted:
