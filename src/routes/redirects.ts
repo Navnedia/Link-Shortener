@@ -1,6 +1,10 @@
 import express from 'express';
 import {ShortLink} from '../models/ShortLink.js';
-import AppError from '../utils/appError.js';
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const router = express.Router();
 
@@ -14,18 +18,11 @@ router.get('/:shortID', async (req, res) => {
 
     // Check if the shortLink or the destination are undefined:
     if (!shortLink || !shortLink.destination) {
-        // In the future this might be a error page instead!
-        return res.status(404).send(new AppError(404, 'Not Found', undefined, 
-            'Bad link or invalid url. Please ensure the casing is correct.'));
+        return res.status(404).sendFile(path.join(__dirname, `../../frontend/error/404/index.html`)); // Show 404 error page.
     }
 
-    // Update click counter:
-    await shortLink.set('clicks', shortLink.clicks + 1).save();
-    
+    await shortLink.set('clicks', shortLink.clicks + 1).save(); // Update click counter.
     return res.status(301).redirect(shortLink.destination); // Perform redirect.
 });
-
-// router.get('/api-docs');
-// router.get('/');
 
 export default router;

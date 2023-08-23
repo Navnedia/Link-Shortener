@@ -3,10 +3,14 @@ import dotenv from 'dotenv';
 import session from 'express-session';
 import passport from 'passport';
 import MongoStore from 'connect-mongo';
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 import {api, auth, redirects} from './routes/index.js';
 import {errorHandler} from './middleware/error-handler.js';
-import AppError from './utils/appError.js';
 import configurePassport from './config/passport.js';
 import connectDB from './config/db.js';
 import { ensureGuest, ensureAuth } from './middleware/auth.js';
@@ -51,10 +55,11 @@ app.use('/api', api); // Initialize endpoints under API.
 app.use('/auth', auth); // Initialize endpoints under auth.
 app.use('', redirects); // Initialize redirect endpoints.
 
-// Show error for undefined endpoints:
+// Show 404 error page for undefined endpoints:
 app.use('*', (req, res) => {
-    return res.status(404).send(new AppError(404, 'Not Found', undefined, 
-    `The endpoint (${req.method}) ${req.baseUrl + req.path} could not be found`));
+    // return res.status(404).send(new AppError(404, 'Not Found', undefined, 
+    // `The endpoint (${req.method}) ${req.baseUrl + req.path} could not be found`));
+    return res.status(404).sendFile(path.join(__dirname, `../frontend/error/404/index.html`));
 });
 
 // Setup application:
