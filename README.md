@@ -9,11 +9,12 @@ A simple open-source and self-hosted URL shortener to make sharing easy! Built f
 The goal of this project was to learn more about building restful APIs, using databases, and building projects that connect a front end and a back end. I built this project using NodeJS with Typescript, express for API routing, MongoDB as a database, and vanilla HTML, CSS, and javascript for the front-end web interface.
 
 **ToDo:**
-- [x] Finish user authentication
-- [x] Deploy active demo
+- [x] Finish user authentication.
+- [x] Deploy active demo.
+- [ ] Add a mechanism for moderation to catch and report abuse of the service.
 - [ ] Finish comprehensive documentation!
-- [ ] Add API Tokens to allow external applications to call the API
-- [ ] Add QR Codes
-- [ ] Add additional setting for short link customization
+- [ ] Add API Tokens to allow external applications to call the API easier.
+- [ ] Add QR Codes.
+- [ ] Add additional setting for short link customization.
 
 Stay tuned :)

@@ -27,6 +27,7 @@
     "express-session": "^1.17.3",
     "mongoose": "^7.4.0",
     "nanoid": "^4.0.0",
+    "node-fetch": "^3.3.2",
     "passport": "^0.6.0",
     "passport-google-oauth20": "^2.0.0",
     "request_trimmer": "^1.0.0"

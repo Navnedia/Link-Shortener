@@ -17,7 +17,7 @@ router.get('/:shortID', async (req, res) => {
     const shortLink = await ShortLink.findByShortID(req.params.shortID);
 
     // Check if the shortLink or the destination are undefined:
-    if (!shortLink || !shortLink.destination) {
+    if (!shortLink || !shortLink.destination || shortLink.isBlocked) {
         return res.status(404).sendFile(path.join(__dirname, `../../frontend/error/404/index.html`)); // Show 404 error page.
     }
 

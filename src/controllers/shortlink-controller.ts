@@ -1,10 +1,11 @@
 import { Request, Response } from "express";
-import {nanoid} from 'nanoid';
+import { nanoid } from 'nanoid';
 
 import AppError from '../utils/appError.js';
 import ValidationError from '../utils/validationError.js';
 import {validURL, stringNotEmpty, validShortID} from '../utils/validators.js';
 import {ShortLink, IShortLinkAPIResponse, IShortLink} from '../models/ShortLink.js';
+import { checkURL } from "../utils/urlScan.js";
 
 
 /**
@@ -128,6 +129,7 @@ export async function createOneLink(req: Request, res: Response) {
 
         // Create the new shortLink.
         const shortLink = await ShortLink.create(data);
+        checkURL(shortLink); // Scan URL to check for malicious or suspicious links.        
 
         // Set status code & return formated shortlink object response:
         return shortLink.getAPIResponse();
@@ -188,6 +190,10 @@ export async function createOneLink(req: Request, res: Response) {
         if (!shortLink) { // If we don't have a matching shortlink then we return a 404 error.
             return res.status(404).send(new AppError(404, 'Not Found', undefined,
                 'No shortink was found for the requested shortID'));
+        } else if (shortLink.isBlocked) { // Block ALL updates to link that have been flagged as bad.
+            return res.status(500).send(new AppError(405, 'Method Not Allowed', undefined,
+                `Could not perform update operation at this time: This link was flagged as potentially
+                 malicious. If you think this is a mistake, reach out to us at appeals@minil.app`));
         }
 
         // Pull parameters the user is allowed to set:
@@ -266,6 +272,10 @@ export async function createOneLink(req: Request, res: Response) {
 
         // Update and save the shortLink:
         shortLink.set(newData).save();
+        // If the destination url was changed, then Scan URL to check for malicious or suspicious links.
+        if (destination) { 
+            checkURL(shortLink); 
+        }
 
         // Format and return shortlink object response:
         return res.status(200)
