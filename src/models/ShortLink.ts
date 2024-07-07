@@ -25,12 +25,18 @@ export interface IShortLink {
     /**
      * The id of the user that owns this link.
      */
-    user: mongoose.ObjectId
+    user: mongoose.ObjectId;
 
     /**
-     * the date & time this link was created.
+     * The date & time this link was created.
      */
     created: Date;
+
+    /**
+     * Specifies if the shortlink has been blocked for any reason. This may mean
+     * the destination url, or the user has been flagged as malicious.
+     */
+    isBlocked: boolean;
 }
 
 // ShortLink API RESPONSE shape interface:
@@ -59,6 +65,12 @@ export interface IShortLinkAPIResponse {
      * the date & time this link was created.
      */
     created: Date;
+
+    /**
+     * Specifies if the shortlink has been blocked for any reason. This may mean
+     * the destination url, or the user has been flagged as malicious.
+     */
+    isBlocked: boolean;
 }
 
 
@@ -97,6 +109,10 @@ const shortLinkSchema = new mongoose.Schema<IShortLink, ShortLinkModel, IShortLi
     created: {
         type: Date,
         default: new Date()
+    },
+    isBlocked: {
+        type: Boolean,
+        default: false
     }
 });
 
@@ -114,7 +130,8 @@ shortLinkSchema.method('getAPIResponse', function getAPIResponse(): IShortLinkAP
         shortID: this.shortID,
         destination: this.destination,
         clicks: this.clicks,
-        created: this.created
+        created: this.created,
+        isBlocked: this.isBlocked
     };
 });
 
