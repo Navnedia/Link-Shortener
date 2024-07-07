@@ -1,0 +1,33 @@
+# Welcome robots to Mini Link (minil)!
+User-agent: *
+
+# Allow root domain (with and without www)
+Allow: /$
+
+# Allow specific paths
+Allow: /dashboard
+Allow: /auth
+Allow: /api
+
+# Allow resources
+Allow: /styles/
+Allow: /assets/
+Allow: /scripts/
+Allow: /components/
+Allow: /configs/
+Allow: /error/
+Allow: /*.html
+Allow: /*.css
+Allow: /*.js
+Allow: /*.json
+Allow: /*.png
+Allow: /*.jpg
+Allow: /*.webp
+Allow: /*.mp3
+Allow: /*.mp4
+Allow: /*.txt
+Allow: /*.md
+Allow: /*.xml
+
+# Disallow all other paths and short links
+Disallow: /*

@@ -30,14 +30,14 @@ class LinkItem extends HTMLElement {
             <h2 class="link-title ellipsis" tabindex="0" aria-label="Link Name">${this.linkData.name || DEFAULT_NAME}</h2>
         
             <span class="destination link">
-                <a href="${this.linkData.destination || ' '}" target="_blank" class="ellipsis" aria-label="Long URL">
+                <a href="${this.linkData.destination || ' '}" rel="ugc nofollow" target="_blank" class="ellipsis" aria-label="Long URL">
                     ${this.linkData.destination || ' '}</a>
             </span>
         
             <hr>
         
             <span class="shortlink link">
-                <a href="${window.location.origin + '/' + (this.linkData.shortID || '')}" target="_blank" class="ellipsis" aria-label="Shortened Link">
+                <a href="${window.location.origin + '/' + (this.linkData.shortID || '')}" rel="ugc nofollow" target="_blank" class="ellipsis" aria-label="Shortened Link">
                     ${window.location.host + '/' + (this.linkData.shortID || '')}</a>
             </span>
             <span class="clicks"><span id="linkClicks">${this.linkData.clicks || '0'}</span> Clicks</span>
