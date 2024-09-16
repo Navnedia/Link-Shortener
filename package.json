@@ -23,7 +23,7 @@
   "dependencies": {
     "connect-mongo": "^5.1.0",
     "dotenv": ">=16.4.5",
-    "express": "^4.19.2",
+    "express": "^4.21.0",
     "express-session": "^1.18.0",
     "mongoose": "^8.4.5",
     "nanoid": ">=5.0.7",
