@@ -56,7 +56,7 @@ app.use('/auth', auth); // Initialize endpoints under auth.
 app.use('', redirects); // Initialize redirect endpoints.
 
 // Show 404 error page for undefined endpoints:
-app.use('*', (req, res) => {
+app.use('/*errorPath', (req, res) => {
     // return res.status(404).send(new AppError(404, 'Not Found', undefined, 
     // `The endpoint (${req.method}) ${req.baseUrl + req.path} could not be found`));
     return res.status(404).sendFile(path.join(__dirname, `../frontend/error/404/index.html`));

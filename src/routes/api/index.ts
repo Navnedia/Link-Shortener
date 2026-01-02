@@ -37,7 +37,7 @@ export async function healthCheck(req, res) {
 router.get('/healthcheck', healthCheck);
 
 // Show 404 error page for undefined endpoints:
-router.use('*', (req, res) => {
+router.use('/*errorPath', (req, res) => {
     return res.status(404).send(new AppError(404, 'Not Found', undefined, 
     `The endpoint (${req.method}) ${req.baseUrl + req.path} could not be found`));
 });
